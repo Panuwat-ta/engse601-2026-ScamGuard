@@ -3,8 +3,8 @@
 | Input ID | Artifact | File path / URL | Version / date / commit | Owner | Status | Used by | Notes / change impact |
 |---|---|---|---|---|---|---|---|
 | IN-01 | Proposal | `INPUTS/proposal/` | [กรอก] | [กรอก] | Current | W01–W04 | [กรอก] |
-| IN-02 | Requirement/SRS | `INPUTS/requirements-srs/` | [กรอก] | [กรอก] | Current | W01–W04 | [กรอก] |
-| IN-03 | HLD/Detail Design | `INPUTS/design/` | [กรอก/Not Ready] | [กรอก] | [Draft/Not Ready] | W02, W04–W08 | [กรอก] |
+| IN-02 | Requirement/SRS | `INPUTS/requirements-srs/` | 1.0 / August 23, 2026 | Team ScamGuard | Current | W01–W04 | Baseline Source of Truth |
+| IN-03 | HLD/Detail Design | `INPUTS/design/` | 1.0 / 2026-08-24 | Team ScamGuard | Current | W02, W04–W08 | Baseline Design Documents |
 | IN-04 | ENGSE212 repository | [URL] | [branch + commit] | [กรอก] | Current | W02–W16 | [กรอก] |
 | IN-05 | Stakeholder/glossary/risk notes | [path/URL] | [กรอก] | [กรอก] | [Current/Draft] | W01–W04 | [กรอก] |
 
