@@ -15,7 +15,7 @@
 
 | Week | Output | Status | Submitted file/path | Tag | Commit hash | Submitted by/date | Feedback / revision |
 |---:|---|---|---|---|---|---|---|
-| 01 | Quality Risk Cards v1 | Not Started | `WEEKS/week-01/submission/` | — | — | — | — |
+| 01 | Quality Risk Cards v1 | In Progress | `WEEKS/week-01/submission/` | — | — | — | — |
 | 02 | Project Quality Route Map v1 | Not Started | `WEEKS/week-02/submission/` | — | — | — | — |
 | 03 | Revised Critical Requirements v1 | Not Started | `WEEKS/week-03/submission/` | — | — | — | — |
 | 04 | SRS Review and RTM v1 | Not Started | `WEEKS/week-04/submission/` | — | — | — | — |
