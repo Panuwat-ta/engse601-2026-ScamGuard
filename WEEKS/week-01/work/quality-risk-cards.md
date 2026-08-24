@@ -6,7 +6,7 @@
 - Proposal/SRS source + version: INPUTS/requirements-srs/05_Software_Requirement_Specification.md v1.0 (August 23, 2026)
 - Authors: Panuwat Takham
 - Peer reviewer: Ekkphan Thotsatisangsan
-- Review date/commit: [Pending]
+- Review date/commit: 2026-08-25 / faf6911
 
 > ทำ 3-5 cards โดยคัดลอกหัวข้อ Card เพิ่มตามจำนวนจริง
 
@@ -89,10 +89,10 @@
 
 | Check | Result / comment | Revision made / open action |
 |---|---|---|
-| ทุก card trace ไปยัง source จริงได้ | [รอ Peer Reviewer ตรวจสอบ] | [รอ Peer Reviewer กรอก] |
-| risk statement มี event/condition และ impact | [รอ Peer Reviewer ตรวจสอบ] | [รอ Peer Reviewer กรอก] |
-| V&V action ตอบ risk ไม่ใช่คำกว้าง | [รอ Peer Reviewer ตรวจสอบ] | [รอ Peer Reviewer กรอก] |
-| evidence status เป็นความจริง | [รอ Peer Reviewer ตรวจสอบ] | [รอ Peer Reviewer กรอก] |
+| ทุก card trace ไปยัง source จริงได้ | ผ่าน -- ทั้ง 5 cards อ้าง FR/NFR ID ที่ตรงกับ SRS v1.0 (FR-ANALYSIS-02, FR-XAI-01, NFR-01, NFR-02, FR-SCAN-03, FR-PDPA-01, NFR-04, FR-ANALYSIS-01, NFR-05, NFR-06) ตรวจสอบแล้วทุก ID มีอยู่จริงในเอกสาร | ไม่มี |
+| risk statement มี event/condition และ impact | ผ่าน -- ทุก card ใช้โครงสร้าง "เมื่อ...[condition]...อาจเกิด...[event]...ทำให้...[impact]" ไม่มีคำกว้างอย่าง "คุณภาพต่ำ" หรือ "ระบบไม่ดี" โดยไม่มีรายละเอียด | ไม่มี |
+| V&V action ตอบ risk ไม่ใช่คำกว้าง | ผ่าน -- Verification ระบุ artifact/process ที่ตรวจได้ (เช่น Confusion Matrix, Classification Report, consent_logs table fields) และ Validation ระบุสถานการณ์จริง (เช่น สลิป K-Bank/SCB, ผู้ทดสอบ 100 คน) | ไม่มี |
+| evidence status เป็นความจริง | ผ่าน -- ทั้ง 5 cards ระบุ Not Ready ซึ่งตรงกับสถานะจริง (โครงงานอยู่ในขั้น Requirements/SRS ยังไม่มี implementation) ไม่มี card ใดอ้างผลทดสอบหรือ log ที่ยังไม่เกิดขึ้น | ไม่มี |
 
 ## Team conclusion
 
