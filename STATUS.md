@@ -15,7 +15,7 @@
 
 | Week | Output | Status | Submitted file/path | Tag | Commit hash | Submitted by/date | Feedback / revision |
 |---:|---|---|---|---|---|---|---|
-| 01 | Quality Risk Cards v1 | Submitted | `WEEKS/week-01/submission/` | w01-submission-v1 | 46ea590 | Panuwat / 2026-08-24 | — |
+| 01 | Quality Risk Cards v1 | Submitted | `WEEKS/week-01/submission/` | w01-submission-v1 | 2e611a0 | Panuwat / 2026-08-24 | — |
 | 02 | Project Quality Route Map v1 | Not Started | `WEEKS/week-02/submission/` | — | — | — | — |
 | 03 | Revised Critical Requirements v1 | Not Started | `WEEKS/week-03/submission/` | — | — | — | — |
 | 04 | SRS Review and RTM v1 | Not Started | `WEEKS/week-04/submission/` | — | — | — | — |
@@ -39,4 +39,4 @@ Status ที่แนะนำ: `Not Started`, `In Progress`, `Ready for Review
 
 | Date | Week/artifact | From → To | Reason / feedback | Owner | New tag/commit |
 |---|---|---|---|---|---|
-| [กรอก] | [กรอก] | [กรอก] | [กรอก] | [กรอก] | [กรอก] |
+| 2026-08-24 | Week 01 | Commit 46ea590 → 2e611a0 | อัปเดตเป้าหมายของ tag w01-submission-v1 | Panuwat | 2e611a0 |
