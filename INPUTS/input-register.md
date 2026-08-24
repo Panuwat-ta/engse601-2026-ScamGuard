@@ -2,11 +2,11 @@
 
 | Input ID | Artifact | File path / URL | Version / date / commit | Owner | Status | Used by | Notes / change impact |
 |---|---|---|---|---|---|---|---|
-| IN-01 | Proposal | `INPUTS/proposal/` | [กรอก] | [กรอก] | Current | W01–W04 | [กรอก] |
+| IN-01 | Proposal | `INPUTS/proposal/` | 1.0 (รออนุมัติ) | Team ScamGuard | Draft | W01–W04 | แนบไฟล์ `SE02-แบบเสนอหัวข้อโครงงานวิศวกรรม.pdf` แล้ว |
 | IN-02 | Requirement/SRS | `INPUTS/requirements-srs/` | 1.0 / August 23, 2026 | Team ScamGuard | Current | W01–W04 | Baseline Source of Truth |
 | IN-03 | HLD/Detail Design | `INPUTS/design/` | 1.0 / 2026-08-24 | Team ScamGuard | Current | W02, W04–W08 | Baseline Design Documents |
-| IN-04 | ENGSE212 repository | [URL] | [branch + commit] | [กรอก] | Current | W02–W16 | [กรอก] |
-| IN-05 | Stakeholder/glossary/risk notes | [path/URL] | [กรอก] | [กรอก] | [Current/Draft] | W01–W04 | [กรอก] |
+| IN-04 | ENGSE212 repository | `https://github.com/Panuwat-ta/project` | branch: main | Team ScamGuard | Current | W02–W16 | Source code repository |
+| IN-05 | Stakeholder/glossary/risk notes | `PROJECT.md` | 2026-08-24 | ภานุวัฒน์ ต๋าคำ | Current | W01–W04 | Risk and constraints (Critical context) |
 
 ## Status meaning
 
