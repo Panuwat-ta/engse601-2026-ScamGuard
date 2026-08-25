@@ -17,7 +17,7 @@
 |---:|---|---|---|---|---|---|---|
 | 01 | Quality Risk Cards v1 | Submitted | `WEEKS/week-01/submission/` | w01-submission-v1 | 2e611a0 | Panuwat / 2026-08-24 | — |
 | 02 | Project Quality Route Map v1 | Submitted | `WEEKS/week-02/submission/` | w02-submission-v1 | 19b68f4 | Panuwat / 2026-08-25 | — |
-| 03 | Revised Critical Requirements v1 | Ready for Review | `WEEKS/week-03/submission/W03_ScamGuard_Revised-Critical-Requirements_v1.pdf` | — | — | Panuwat / 2026-08-25 | รอ peer review (เอกพันธ์) ก่อน merge/tag; open questions Q-01–Q-06 รอตัดสิน |
+| 03 | Revised Critical Requirements v1 | Submitted | `WEEKS/week-03/submission/W03_ScamGuard_Revised-Critical-Requirements_v1.pdf` | w03-submission-v1 | f001906 | Panuwat / 2026-08-25 | — |
 | 04 | SRS Review and RTM v1 | Not Started | `WEEKS/week-04/submission/` | — | — | — | — |
 | 05 | Component Test Case Set | Planned | `WEEKS/week-05/` | — | — | — | template รอประกาศ |
 | 06 | Integration Test Design | Planned | `WEEKS/week-06/` | — | — | — | template รอประกาศ |
