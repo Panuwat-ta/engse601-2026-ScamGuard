@@ -2,14 +2,14 @@
 
 ## Onboarding checklist
 
-- [ ] ตั้งชื่อ repository และกำหนด visibility เหมาะสม
+- [x] ตั้งชื่อ repository และกำหนด visibility เหมาะสม
 - [ ] เพิ่มสมาชิกทีมและอาจารย์ตามสิทธิ์ที่กำหนด
-- [ ] กรอก `PROJECT.md`
-- [ ] กรอก `TEAM.md` และ Team Working Agreement
-- [ ] เพิ่ม Proposal และ Requirement/SRS หรือ URL ที่เปิดตรวจได้
-- [ ] กรอก `INPUTS/input-register.md` พร้อม version/source of truth
-- [ ] ตรวจว่าไม่มี password, token, secret หรือข้อมูลส่วนบุคคลที่ไม่จำเป็น
-- [ ] สมาชิกทุกคน clone/pull/commit ได้
+- [x] กรอก `PROJECT.md`
+- [x] กรอก `TEAM.md` และ Team Working Agreement
+- [x] เพิ่ม Proposal และ Requirement/SRS หรือ URL ที่เปิดตรวจได้
+- [x] กรอก `INPUTS/input-register.md` พร้อม version/source of truth
+- [x] ตรวจว่าไม่มี password, token, secret หรือข้อมูลส่วนบุคคลที่ไม่จำเป็น
+- [x] สมาชิกทุกคน clone/pull/commit ได้
 
 ## Submission ledger
 
