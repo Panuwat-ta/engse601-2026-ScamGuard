@@ -2,7 +2,7 @@
 
 ## Peer review
 
-- Draft commit/version: [ระบุหลัง commit ครั้งแรก]
+- Draft commit/version: b794f10
 - Author(s): ภานุวัฒน์ ต๋าคำ (Panuwat Takham)
 - Reviewer(s): เอกพันธ์ ทศทิศรังสรรค์ — **[รอ review — ต้องขอ review ก่อนกำหนดส่งอย่างน้อย 24 ชั่วโมง ตาม Team Working Agreement]**
 - Date: [รอ review]
