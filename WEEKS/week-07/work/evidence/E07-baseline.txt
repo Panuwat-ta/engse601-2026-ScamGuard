@@ -1,0 +1,27 @@
+Week 07 - System/UAT Scenario Baseline
+ENGSE601 repository: https://github.com/Panuwat-ta/engse601-2026-ScamGuard
+Working branch: week07
+Date referenced: 2026-09-22
+
+Canonical Requirement/SRS:
+URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+Branch: main
+Path: Document/srs/05_Software_Requirement_Specification.md
+Version: 1.1 (audit A fixes, 2026-09-12)
+SHA-256: 99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a
+
+Frozen source baseline:
+URL: https://github.com/Panuwat-ta/project
+Branch: main
+Commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Evidence reused: WEEKS/week-05/work/evidence and WEEKS/week-06/work/evidence
+Reason for reuse: preserves the same reproducible main baseline and avoids Git commands in the ENGSE212 repository.
+
+Course scope available in this repository:
+Output: System/UAT Scenarios
+Official Week 07 template/file naming: pending announcement
+
+Execution state:
+System Test scenarios: 12 Not Executed
+UAT scenarios: 6 Not Ready
+Pass/Fail/UAT results claimed: 0

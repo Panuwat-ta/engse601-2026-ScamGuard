@@ -20,8 +20,8 @@
 | 03 | Revised Critical Requirements v1 | Submitted | `WEEKS/week-03/submission/W03_ScamGuard_Revised-Critical-Requirements_v1.pdf` | w03-submission-v1 | f001906 | Panuwat / 2026-08-25 | — |
 | 04 | SRS Review and RTM v1 | Submitted | `WEEKS/week-04/submission/W04_ScamGuard_SRS-Review-and-RTM_v1.pdf` | w04-submission-v1 | 4a2ac5f | Panuwat / 2026-08-26 | — |
 | 05 | Component Test Case Set | Submitted | `WEEKS/week-05/submission/W05_ScamGuard_Component-Test-Case-Set_v1.pdf` | w05-submission-v1 | ca354a8 | ภานุวัฒน์ / 2026-09-22 | v1 remains the submitted artifact; documentation revision candidate v2 is prepared under `week05-docs-revision` using the Week 04 evidence-package layout. Independent peer-review sign-off is still pending in `work/05-peer-review.md`. |
-| 06 | Integration Test Design | Ready for Review | `WEEKS/week-06/submission/W06_ScamGuard_Integration-Test-Design_v1.pdf` | — | — | ภานุวัฒน์ / 2026-09-22 | Author-side complete: 18 cases executed/designed = 6 Pass, 11 Fail, 1 Not Ready; raw evidence and findings F01-F09 stored; independent peer review pending |
-| 07 | System/UAT Scenarios | Planned | `WEEKS/week-07/` | — | — | — | template รอประกาศ |
+| 06 | Integration Test Design | Ready for Review | `WEEKS/week-06/submission/W06_ScamGuard_Integration-Test-Design_v1.pdf` | — | 0139d51 | — | PR #7 merged into `main`, but independent peer-review/sign-off and submission tag are absent; 18 cases = 6 Pass, 11 Fail, 1 Not Ready |
+| 07 | System/UAT Scenarios | Ready for Review | `WEEKS/week-07/submission/W07_ScamGuard_System-UAT-Scenarios_v1.pdf` | — | — | — | Author-side design complete: 12 System Test Not Executed + 6 UAT Not Ready; official template, human review, environment, execution and 100 real participants pending |
 | 08 | Test Case Suite v1 | Planned | `WEEKS/week-08/` | — | — | — | template รอประกาศ |
 | 09 | Midterm Examination | Planned | `WEEKS/week-09/` | — | — | — | ตามประกาศรายวิชา |
 | 10 | Test Data Sheet | Planned | `WEEKS/week-10/` | — | — | — | template รอประกาศ |
@@ -40,4 +40,6 @@ Status ที่แนะนำ: `Not Started`, `In Progress`, `Ready for Review
 | Date | Week/artifact | From → To | Reason / feedback | Owner | New tag/commit |
 |---|---|---|---|---|---|
 | 2026-09-22 | Week 05 / Component Test Case Set v1 | Ready for Review → Submitted | PR #5 merged into `main`; tagged submission commit. Peer-review evidence remains pending and is not claimed. | ภานุวัฒน์ | w05-submission-v1 / ca354a8 |
+| 2026-09-22 | Week 06 / Integration Test Design v1 | Ready for Review → Ready for Review | PR #7 merged into `main`, but merge is recorded only as a repository event; independent peer-review/sign-off and submission tag remain absent. | ภานุวัฒน์ | no tag / 0139d51 |
+| 2026-09-22 | Week 07 / System-UAT Scenarios v1 | Planned → Ready for Review | Author-side design/evidence package completed without claiming unexecuted System/UAT results; official template and human gates remain pending. | ภานุวัฒน์ | pending branch commit |
 | 2026-08-24 | Week 01 | Commit 46ea590 → 2e611a0 | อัปเดตเป้าหมายของ tag w01-submission-v1 | Panuwat | 2e611a0 |

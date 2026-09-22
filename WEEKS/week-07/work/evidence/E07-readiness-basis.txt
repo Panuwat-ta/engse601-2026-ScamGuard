@@ -1,0 +1,31 @@
+Week 07 - Readiness Basis from Frozen Source Evidence
+Source repository URL: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+
+Direct evidence reused:
+- WEEKS/week-05/work/evidence/E05-source-contract-snapshot.txt
+- WEEKS/week-05/work/evidence/E05-route-inventory.txt
+- WEEKS/week-05/work/evidence/E05-schema-contract.txt
+- WEEKS/week-06/work/evidence/E06-source-contract-snapshot.txt
+- WEEKS/week-06/work/evidence/E06-route-inventory.txt
+- WEEKS/week-06/work/evidence/E06-schema-contract.txt
+- WEEKS/week-06/work/evidence/E06-integration-probe.txt
+- WEEKS/week-06/work/evidence/E06-result-register.txt
+
+Confirmed readiness facts on the frozen baseline:
+1. Scan router exposes POST /scan/ and GET /scan/{id}; POST has no explicit 202 status code.
+2. Mobile consumer had a DELETE /scan/{id} cancel call while scan router lacked that route.
+3. Scan response contains id/status/progress fields suitable for polling.
+4. Cache/heatmap lifecycle had unusable-reference and serialization risks.
+5. Visual output lacked separate forgery_confidence and ai_gen_confidence fields.
+6. Production source-verification adapter was not available; default source scoring was used.
+7. Heatmap reference stored a filesystem path while media was served through /uploads.
+8. History/report contracts had filter/field differences that must be rechecked end to end.
+9. Consent enforcement and consent-management/log-access routes were not acceptance-ready.
+
+Use in Week 07:
+- These facts prioritize and gate scenarios; they are not counted as Week 07 end-to-end execution.
+- Any new build must be re-baselined and re-tested before a Pass/Fail claim.
+- Local ENGSE212 develop working-tree content is not used as the main acceptance baseline.

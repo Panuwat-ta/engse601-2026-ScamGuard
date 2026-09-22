@@ -1,0 +1,30 @@
+Week 07 PDF verification
+file: W07_ScamGuard_System-UAT-Scenarios_v1.pdf
+sha256: 2dac2c457fd28a1d6eb7fe14d616ee71dc7fad9795a32e28f90da641a8cf2d9d
+pages: 9
+page_size: 595.276 x 841.89 pts (A4)
+file_size: 52819 bytes
+encrypted: no
+
+Text extraction checks:
+- title present: W07 - System Testing and UAT
+- system sections present: ST-01 through ST-12
+- UAT sections present: UAT-01 through UAT-06
+- final status present: Ready for Review; Not Submitted, Accepted or Passed
+- text-bearing pages: 9/9
+- blank pages: none
+
+Geometry checks with pdfplumber:
+- all pages: width 595.3, height 841.9 points
+- minimum text x >= 40.0 points except centered cover content
+- maximum text x <= 558.0 points
+- maximum text bottom <= 826.4 points including footer
+
+Render QA:
+- rendered all 9 pages to PNG at 115 DPI with pdftoppm
+- inspected 3x3 contact sheet plus full-size cover, UAT questionnaire, findings and final review pages
+- first render exposed missing Latin glyphs; font embedding was corrected and the PDF regenerated
+- final render has no missing glyph boxes, blank pages, clipping, overlapping text or table overflow
+
+Verification date: 2026-09-22
+Result: PASS for artifact layout/structure only; this is not a System Test/UAT execution result.

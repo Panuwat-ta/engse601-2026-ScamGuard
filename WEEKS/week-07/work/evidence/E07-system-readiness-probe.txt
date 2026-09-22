@@ -1,0 +1,19 @@
+[CONFIRMED] canonical SRS hash: 99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a
+[CONFIRMED] frozen main commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+[CONFIRMED] POST scan route captured: POST /scan/
+[CONFIRMED] GET scan route captured: GET /scan/{id}
+[CONFIRMED] DELETE scan route absent: consumer cancel contract gap
+[CONFIRMED] scan status/progress schema: polling fields
+[CONFIRMED] source fallback gap: frozen baseline uses default score
+[CONFIRMED] heatmap path gap: filesystem path stored
+[CONFIRMED] history filter gap: date filters absent
+[CONFIRMED] report HTTP 201 captured: POST /reports
+[STATUS] System scenarios designed: 12; executed: 0
+[STATUS] UAT scenarios designed: 6; executed: 0; required participants: 100
+[STATUS] This probe establishes readiness facts only; it is not a System Test/UAT result.
+
+Command:
+PYTHONDONTWRITEBYTECODE=1 python3 WEEKS/week-07/work/probes/system_readiness_probe.py /home/panuwat/work/engse601-2026-ScamGuard /home/panuwat/project/Document/srs/05_Software_Requirement_Specification.md
+
+Execution date: 2026-09-22
+External writes: none
