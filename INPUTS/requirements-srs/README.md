@@ -1,21 +1,33 @@
-# Requirements and SRS (ScamGuard)
+# Requirements and SRS — Historical Snapshot
 
-**Version:** 1.0 (Baseline)
-**Date:** August 23, 2026
+**Snapshot version:** 1.0  
+**Snapshot date:** August 23, 2026  
+**Status:** Superseded for current development; retained as W01–W04 evidence
 
-## Source of Truth Documents
+## Canonical current source
 
-The documents in this directory represent the official Source of Truth for the ScamGuard project's requirements and specifications. 
+Requirement/SRS ที่ใช้จริงปัจจุบันอยู่ใน ENGSE212 repository:
 
-### Document Index:
+- URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- Branch: `main`
+- Current SRS: `05_Software_Requirement_Specification.md` v1.1 (September 12, 2026)
+- Current registered baseline/commit: ดู `../input-register.md` (IN-02)
 
-*   [**01 Project Overview**](01_Project_Overview.md): ข้อมูลภาพรวมของโปรเจกต์
-*   [**02 Project Scope**](02_Project_Scope.md): ขอบเขตของโปรเจกต์
-*   [**03 Software Architecture**](03_Software_Architecture.md): สถาปัตยกรรมซอฟต์แวร์
-*   [**04 Requirement Candidates**](04_Requirement_Candidates.md): Requirement Candidates (RC) ที่รวบรวมได้เบื้องต้น
-*   [**05 Software Requirement Specification (SRS)**](05_Software_Requirement_Specification.md): Functional/Non-Functional Requirements และ Acceptance Criteria **(หลัก)**
-*   [**06 Requirement Traceability**](06_Requirement_Traceability.md): การตรวจสอบย้อนกลับความต้องการ
-*   [**07 Appendix A Full Traceability Matrix**](07_Appendix_A_Full_Traceability_Matrix.md): Traceability Matrix ฉบับเต็ม
-*   [**07 Appendix B Key Design Decisions**](07_Appendix_B_Key_Design_Decisions.md): การตัดสินใจสำคัญในการออกแบบระบบ
+ไฟล์ใน directory นี้ห้ามใช้เป็น current Source of Truth สำหรับ W05 เป็นต้น หากข้อมูลใน snapshot v1.0 ขัดกับ canonical source ให้ยึดเอกสารใน `Document/srs` บน `main`.
 
-**Note:** All files in this directory (Version 1.0) are considered the active Source of Truth for Week 01-04 development. Please refer to specific Requirement IDs (e.g., FR-xxx, NFR-xxx) in [05_Software_Requirement_Specification.md](05_Software_Requirement_Specification.md) when tracking tasks.
+## Historical document index
+
+- `01_Project_Overview.md` — project overview snapshot
+- `02_Project_Scope.md` — project scope snapshot
+- `03_Software_Architecture.md` — architecture snapshot
+- `04_Requirement_Candidates.md` — Requirement Candidates snapshot
+- `05_Software_Requirement_Specification.md` — SRS v1.0 snapshot
+- `06_Requirement_Traceability.md` — traceability snapshot
+- `07_Appendix_A_Full_Traceability_Matrix.md` — full RTM snapshot
+- `07_Appendix_B_Key_Design_Decisions.md` — design-decision snapshot
+
+## Usage rule
+
+- W01–W04: ใช้ไฟล์ชุดนี้เพื่ออ่านหลักฐานตาม baseline ในเวลาที่งานเหล่านั้นถูกจัดทำ
+- W05 เป็นต้น: ใช้ canonical GitHub path ข้างต้นเป็น Requirement/SRS authority
+- ห้ามแก้ snapshot เก่าให้ดูเหมือนเป็น v1.1 เพราะจะทำลาย historical trace; การเปลี่ยน baseline ให้บันทึกใน `../input-register.md`

@@ -2,6 +2,13 @@
 
 โฟลเดอร์นี้เก็บหรือเชื่อมโยง artifact ที่ ENGSE601 นำมาใช้ตรวจสอบ ห้ามถือว่าไฟล์ล่าสุดคือ source of truth เพียงเพราะชื่อดูใหม่กว่า ให้กรอก version และสถานะใน `input-register.md`
 
+## Current source map
+
+- Requirement/SRS ปัจจุบัน: `https://github.com/Panuwat-ta/project/tree/main/Document/srs` (branch `main`)
+- SRS ปัจจุบัน: `05_Software_Requirement_Specification.md` v1.1, dated 2026-09-12
+- `INPUTS/requirements-srs/` เป็น historical snapshot v1.0 สำหรับหลักฐาน W01–W04 เท่านั้น ห้ามใช้ override canonical SRS ปัจจุบัน
+- เมื่ออ้าง Requirement/SRS ในงาน W05 เป็นต้น ให้ใช้อ้างอิง GitHub path ข้างต้น และระบุ version/commit ตาม `input-register.md`
+
 ## สิ่งที่ต้องมีอย่างน้อยก่อน Week 01
 
 - Proposal/แบบร่างโครงงานที่ผ่านการเสนอหัวข้อ
