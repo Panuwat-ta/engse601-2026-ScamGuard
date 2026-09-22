@@ -1,20 +1,30 @@
-# Week 05 — Component/Unit Testing
+# Week 05 — Component / Unit Testing
 
-สถานะ: โครงสร้างเตรียมล่วงหน้า — template และรายละเอียดการส่งจะเพิ่มเมื่อเริ่ม Phase 2
+สถานะ: In Progress
 
-## เป้าหมายตามแผน
+## เป้าหมาย
 
-อ่าน code/logic หรือ behavior ของ component/module เพื่อระบุ condition, input และ expected output รวมถึงเข้าใจบทบาทของ test doubles และ automated tests
+ออกแบบ Component Test Case Set จาก requirement, acceptance criteria และ code/logic จริงของ ScamGuard โดยเริ่มจาก critical slice ที่ Week 04 ส่งต่อมา และแยกให้ชัดระหว่าง test ที่รันได้แล้ว, test ที่วางแผนไว้ และ test ที่ยังถูก blocker ขวางอยู่
 
-## Input ที่ควรเตรียมจาก Week 04/ENGSE212
+## Test basis
 
-- Gate A และ Phase 2 Entry Pack
-- Requirement/Acceptance Criteria ที่ trace ไปยัง component/module ได้
-- HLD/detail design หรือ code/logic reference พร้อม commit/build
-- constraint/dependency ที่เกี่ยวข้อง
+- SRS Source of Truth: `INPUTS/requirements-srs/05_Software_Requirement_Specification.md` v1.0
+- Week 03: `WEEKS/week-03/work/critical-requirement-review.md`
+- Week 04: `03-rtm-lite.csv`, `04-gate-a-decision.md`, `05-phase-2-entry-pack.md`
+- Primary scope: REQ-01 / FR-ANALYSIS-02 และ REQ-05 / FR-PDPA-01
+- Supporting rule: FR-ANALYSIS-04 risk-grade boundary และ Visual Override
 
-## Output ที่คาดไว้
+## Source-code reference
 
-`Component Test Case Set` — ชื่อไฟล์ path และ template จะประกาศพร้อมเอกสาร Week 05
+- URL: https://github.com/Panuwat-ta/project
+- Branch: main
+- Baseline inspected: `origin/main` commit `66bc9e4a`
+- Date referenced: 2026-09-22
 
-อย่าใส่ผลทดสอบก่อนมี build/environment และการรันจริง ให้ใช้ `Planned/Not Executed` ตามสถานะ
+## Work artifacts
+
+- `work/01-component-scope.md`
+- `work/02-component-test-cases.md`
+- `work/03-existing-test-evidence.md`
+- `work/04-open-issues-and-decisions.md`
+- `work/ai-use-declaration.md`
