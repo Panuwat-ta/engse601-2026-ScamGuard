@@ -1,0 +1,14 @@
+Week 06 PDF verification
+file: W06_ScamGuard_Integration-Test-Design_v1.pdf
+pages: 7
+page_size: 595.92 x 841.92 pts (A4)
+file_size: 146600 bytes
+bbox_pages: 7
+page_1: left=69.47 right_margin=69.89 top=189.93 bottom_margin=403.94
+page_2: left=39.75 right_margin=49.23 top=58.88 bottom_margin=76.64
+page_3: left=39.75 right_margin=48.77 top=46.11 bottom_margin=509.39
+page_4: left=39.75 right_margin=48.94 top=58.88 bottom_margin=61.64
+page_5: left=39.75 right_margin=47.68 top=38.77 bottom_margin=731.22
+page_6: left=39.75 right_margin=49.53 top=58.88 bottom_margin=61.02
+page_7: left=39.75 right_margin=92.31 top=43.20 bottom_margin=595.06
+render_review: all 7 pages rendered and visually inspected; no blank pages, clipping, or overlapping text observed

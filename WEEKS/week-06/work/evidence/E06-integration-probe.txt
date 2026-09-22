@@ -1,0 +1,230 @@
+F..F.FF..FFF.FFFF                                                        [100%]
+=================================== FAILURES ===================================
+_______________________ test_it01_upload_status_contract _______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f011c685630>
+
+    @pytest.mark.asyncio
+    async def test_it01_upload_status_contract(monkeypatch):
+        """FR-SCAN-02 AC-1 requires HTTP 202; baseline returns HTTP 200."""
+        db = CreateDB()
+    
+        async def override_db():
+            yield db
+    
+        async def no_background(*_args, **_kwargs):
+            return None
+    
+        app.dependency_overrides[get_db] = override_db
+        monkeypatch.setattr(scan_api, "process_image_background", no_background)
+        files = {"file": ("w06.jpg", make_image_bytes(), "image/jpeg")}
+        response = await api_request("POST", "/api/v1/scan/", files=files)
+>       assert response.status_code == 202, response.text
+E       AssertionError: {"id":"e31a786b-9e8c-4293-a20f-f3b7b06f73ba","user_id":1,"image_hash":"e3790c3ec0364dd475891ab5b783d7da51156cd7a88cd433370dcd242e6c7ee2","raw_image_url":"","heatmap_image_url":null,"text_score":0,"visual_score":0,"source_score":0,"total_risk_score":0,"risk_grade":"low","exif_data":null,"ocr_text":null,"scam_keywords_found":null,"reverse_search_results":null,"ai_gen_probability":0.0,"xai_explanation":null,"status":"uploading","progress":0,"created_at":"2026-09-22T11:48:56.312001Z","completed_at":null}
+E       assert 200 == 202
+E        +  where 200 = <Response [200 OK]>.status_code
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:297: AssertionError
+___________________ test_it04_mobile_cancel_contract_exists ____________________
+
+    @pytest.mark.asyncio
+    async def test_it04_mobile_cancel_contract_exists():
+        scan_id = uuid.uuid4()
+        response = await api_request("DELETE", f"/api/v1/scan/{scan_id}")
+>       assert response.status_code != 405, response.text
+E       AssertionError: {"detail":"Method Not Allowed"}
+E       assert 405 != 405
+E        +  where 405 = <Response [405 Method Not Allowed]>.status_code
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:335: AssertionError
+____________________ test_it06_cache_miss_writes_30_day_ttl ____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f011c31ad70>
+tmp_path = PosixPath('/tmp/pytest-of-panuwat/pytest-110/test_it06_cache_miss_writes_300')
+
+    @pytest.mark.asyncio
+    async def test_it06_cache_miss_writes_30_day_ttl(monkeypatch, tmp_path):
+        scan, _db, redis = await run_background(monkeypatch, tmp_path, cached=None)
+        assert scan.status == "completed"
+        assert stub_inference.calls == 1
+>       assert len(redis.setex_calls) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+E        +    where [] = <integration_probe_test.FakeRedis object at 0x7f011c399ae0>.setex_calls
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:358: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Redis cache write error: Object of type bytes is not JSON serializable
+____________ test_it07_cache_hit_requires_usable_heatmap_reference _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f011c38ff40>
+tmp_path = PosixPath('/tmp/pytest-of-panuwat/pytest-110/test_it07_cache_hit_requires_u0')
+
+    @pytest.mark.asyncio
+    async def test_it07_cache_hit_requires_usable_heatmap_reference(monkeypatch, tmp_path):
+        cached = {
+            "visual_risk_score": 70,
+            "ai_gen_probability": 0.7,
+            "ocr_text": "",
+            "anomaly_region": "cached region",
+            "has_heatmap": True,
+        }
+        scan, _db, _redis = await run_background(monkeypatch, tmp_path, cached=cached)
+        assert scan.status == "completed"
+>       assert scan.heatmap_image_url, "cache hit completed without the expected heatmap reference"
+E       AssertionError: cache hit completed without the expected heatmap reference
+E       assert None
+E        +  where None = <app.models.scan.Scan object at 0x7f011c363a60>.heatmap_image_url
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:373: AssertionError
+________________ test_it10_visual_dual_signal_contract_present _________________
+
+    def test_it10_visual_dual_signal_contract_present():
+        worker = (BASELINE_ROOT / "server/app/services/onnx_worker.py").read_text(encoding="utf-8")
+>       assert '"forgery_confidence"' in worker
+E       assert '"forgery_confidence"' in 'import sys\nimport os\nimport json\nimport base64\nimport onnxruntime as ort\nimport numpy as np\nimport cv2\nfrom PI...tf-8\') if heatmap_bytes else ""\n    }\n\n    print(json.dumps(result))\n\n\nif __name__ == "__main__":\n    main()\n'
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:402: AssertionError
+_____________ test_it12_source_api_down_excludes_source_dimension ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f011c429b70>
+tmp_path = PosixPath('/tmp/pytest-of-panuwat/pytest-110/test_it12_source_api_down_excl0')
+
+    @pytest.mark.asyncio
+    async def test_it12_source_api_down_excludes_source_dimension(monkeypatch, tmp_path):
+        scan, _db, _redis = await run_background(monkeypatch, tmp_path)
+>       assert getattr(scan, "source_status", None) == "unavailable"
+E       AssertionError: assert None == 'unavailable'
+E        +  where None = getattr(<app.models.scan.Scan object at 0x7f011c39b9a0>, 'source_status', None)
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:409: AssertionError
+----------------------------- Captured stdout call -----------------------------
+Redis cache write error: Object of type bytes is not JSON serializable
+_____________ test_it13_heatmap_reference_is_canonical_upload_url ______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f011c38d060>
+tmp_path = PosixPath('/tmp/pytest-of-panuwat/pytest-110/test_it13_heatmap_reference_is0')
+
+    @pytest.mark.asyncio
+    async def test_it13_heatmap_reference_is_canonical_upload_url(monkeypatch, tmp_path):
+        result = {
+            "visual_risk_score": 80,
+            "ai_gen_probability": 0.8,
+            "heatmap_bytes": b"fake-jpeg-bytes",
+            "ocr_text": "",
+            "anomaly_region": "center",
+        }
+        scan, _db, _redis = await run_background(monkeypatch, tmp_path, predict_result=result)
+        assert scan.heatmap_image_url is not None
+>       assert scan.heatmap_image_url.startswith("/uploads/"), scan.heatmap_image_url
+E       AssertionError: /tmp/pytest-of-panuwat/pytest-110/test_it13_heatmap_reference_is0/heatmaps/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_heatmap.jpg
+E       assert False
+E        +  where False = <built-in method startswith of str object at 0x7f011c659480>('/uploads/')
+E        +    where <built-in method startswith of str object at 0x7f011c659480> = '/tmp/pytest-of-panuwat/pytest-110/test_it13_heatmap_reference_is0/heatmaps/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_heatmap.jpg'.startswith
+E        +      where '/tmp/pytest-of-panuwat/pytest-110/test_it13_heatmap_reference_is0/heatmaps/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_heatmap.jpg' = <app.models.scan.Scan object at 0x7f011c31bb80>.heatmap_image_url
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:424: AssertionError
+_________________ test_it15_history_lists_owned_completed_scan _________________
+
+    @pytest.mark.asyncio
+    async def test_it15_history_lists_owned_completed_scan():
+        scan = new_scan(status="completed", progress=100)
+        db = HistoryDB([scan])
+    
+        async def override_db():
+            yield db
+    
+        app.dependency_overrides[get_db] = override_db
+        response = await api_request("GET", "/api/v1/history")
+        assert response.status_code == 200
+        body = response.json()
+        assert body["total"] == 1
+        # Canonical FR-HISTORY-01 AC-1 names the collection `scans` and the grade field `risk_grade`.
+>       assert "scans" in body, body
+E       AssertionError: {'items': [{'scan_id': 'f2363d42-a65c-40df-9464-f3dcc82f7e9b', 'thumbnail_url': '/uploads/sample.png', 'risk_score': 60, 'risk_level': 'medium', ...}], 'total': 1, 'page': 1, 'limit': 20}
+E       assert 'scans' in {'items': [{'scan_id': 'f2363d42-a65c-40df-9464-f3dcc82f7e9b', 'thumbnail_url': '/uploads/sample.png', 'risk_score': 60, 'risk_level': 'medium', ...}], 'total': 1, 'page': 1, 'limit': 20}
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:451: AssertionError
+________________ test_it16_history_supports_srs_filter_contract ________________
+
+    def test_it16_history_supports_srs_filter_contract():
+        import inspect
+        from app.api.v1.history import get_history
+    
+        params = inspect.signature(get_history.__wrapped__ if hasattr(get_history, "__wrapped__") else get_history).parameters
+>       assert "start_date" in params
+E       assert 'start_date' in mappingproxy(OrderedDict([('request', <Parameter "request: starlette.requests.Request">), ('page', <Parameter "page: i....models.user.User = Depends(dependency=<function get_current_user at 0x7f011e633d00>, use_cache=True, scope=None)">)]))
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:462: AssertionError
+__________________ test_it17_report_creation_persists_pending __________________
+
+    @pytest.mark.asyncio
+    async def test_it17_report_creation_persists_pending():
+        scan = new_scan()
+        db = ReportDB(scan)
+    
+        async def override_db():
+            yield db
+    
+        app.dependency_overrides[get_db] = override_db
+        payload = {
+            "scan_id": str(scan.id),
+            "category": "fake_slip",
+            "description": "สลิปโอนเงินปลอม จำนวนเงินถูกแก้ไข",
+        }
+        response = await api_request("POST", "/api/v1/reports", json=payload)
+        assert response.status_code == 201, response.text
+        body = response.json()
+        assert body["scan_id"] == str(scan.id)
+        assert body["status"] == "pending"
+        assert len(db.added) == 1
+        # Canonical FR-HISTORY-02 AC-1 names the identifier `report_id`.
+>       assert body.get("report_id") is not None, body
+E       AssertionError: {'id': 501, 'scan_id': 'b0c4a4d7-5929-491f-a57d-3df561398e28', 'category': 'fake_slip', 'status': 'pending', ...}
+E       assert None is not None
+E        +  where None = <built-in method get of dict object at 0x7f011c372400>('report_id')
+E        +    where <built-in method get of dict object at 0x7f011c372400> = {'id': 501, 'scan_id': 'b0c4a4d7-5929-491f-a57d-3df561398e28', 'category': 'fake_slip', 'status': 'pending', ...}.get
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:488: AssertionError
+____________________ test_it18_duplicate_report_returns_409 ____________________
+
+    @pytest.mark.asyncio
+    async def test_it18_duplicate_report_returns_409():
+        scan = new_scan()
+        existing = ScamReport(id=9, user_id=1, scan_id=scan.id, category="fake_slip", reason="already reported", status="pending")
+        db = ReportDB(scan, existing=existing)
+    
+        async def override_db():
+            yield db
+    
+        app.dependency_overrides[get_db] = override_db
+        payload = {
+            "scan_id": str(scan.id),
+            "category": "fake_slip",
+            "description": "สลิปโอนเงินปลอม จำนวนเงินถูกแก้ไข",
+        }
+        response = await api_request("POST", "/api/v1/reports", json=payload)
+        assert response.status_code == 409
+        assert db.added == []
+>       assert response.json().get("detail") == "You have already reported this scan"
+E       AssertionError: assert 'This scan ha...been reported' == 'You have alr...ted this scan'
+E         
+E         - You have already reported this scan
+E         + This scan has already been reported
+
+/home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py:509: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it01_upload_status_contract
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it04_mobile_cancel_contract_exists
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it06_cache_miss_writes_30_day_ttl
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it07_cache_hit_requires_usable_heatmap_reference
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it10_visual_dual_signal_contract_present
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it12_source_api_down_excludes_source_dimension
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it13_heatmap_reference_is_canonical_upload_url
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it15_history_lists_owned_completed_scan
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it16_history_supports_srs_filter_contract
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it17_report_creation_persists_pending
+FAILED ../../../home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py::test_it18_duplicate_report_returns_409
+11 failed, 6 passed in 0.88s
+
+pytest_exit_code=1

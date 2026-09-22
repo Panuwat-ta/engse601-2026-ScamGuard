@@ -1,29 +1,41 @@
-# Week 06 — Integration / API Testing
+# Week 06 - Integration / API Testing
 
-สถานะ: In Progress
+สถานะ: Ready for Review
 
-## เป้าหมาย
+## วัตถุประสงค์
 
-ทำ Interface Risk Mapping และออกแบบ Integration Test Design จาก requirement, interface contract และ code จริงของ ScamGuard โดยเน้นจุดเชื่อมต่อที่ความผิดพลาดของ component หนึ่งสามารถส่งผลต่ออีก component ได้
+Week 06 ใช้กิจกรรม Interface/API Risk Mapping เพื่อระบุจุดเชื่อมต่อระหว่าง Mobile, API, service, Redis, inference, media storage, history และ report แล้วออกแบบและ execute integration probes บน baseline ที่ตรึงไว้ โดยแยก test double ออกจาก production dependency อย่างชัดเจน
 
 ## Test basis
 
 - Canonical Requirement/SRS: https://github.com/Panuwat-ta/project/tree/main/Document/srs
 - Branch: `main`
-- SRS: `05_Software_Requirement_Specification.md` v1.1 (2026-09-12)
+- SRS: `05_Software_Requirement_Specification.md` v1.1 ลงวันที่ 2026-09-12
+- SRS latest commit in `Document/srs`: `2b8a1fb0`
 - Source code: https://github.com/Panuwat-ta/project
 - Code baseline: branch `main`, commit `66bc9e4a`
 - Week 05 handoff: `WEEKS/week-05/work/04-open-issues-and-decisions.md`
-- Course activity: Interface Risk Mapping
+- Course activity: Workshop 3 - Interface/API Risk Mapping
 
-## Initial integration scope
+## Integration scope
 
-- Mobile client ↔ Scan API
-- ScanService ↔ Redis cache
-- ScanService ↔ InferenceService ↔ ONNX/OCR worker
-- ScanService ↔ Source Verification / Google Vision fallback
-- ScanService ↔ Heatmap storage ↔ API/Mobile result rendering
-- Scan ↔ History ↔ Report flow
+1. Mobile client <-> Scan API
+2. ScanService <-> Redis cache
+3. ScanService <-> InferenceService / ONNX / OCR
+4. Scan pipeline <-> Source Verification
+5. Heatmap storage <-> API <-> Mobile
+6. Scan <-> History <-> Report
+
+## Execution summary
+
+| Result | Count |
+|---|---:|
+| Pass | 6 |
+| Fail | 11 |
+| Not Ready | 1 |
+| Total | 18 |
+
+`Fail` เป็นผล V&V ที่เกิดจาก contract/behavior ไม่ตรง baseline และไม่ถูกแปลงเป็น Pass เพื่อให้เอกสารดูสมบูรณ์ ส่วน `Not Ready` ใช้เฉพาะกรณีที่ production interface ที่ requirement ต้องการยังไม่มีให้ทดสอบจริง
 
 ## Work artifacts
 
@@ -31,12 +43,16 @@
 - `work/02-integration-test-design.md`
 - `work/03-open-issues-and-entry-criteria.md`
 - `work/04-interface-contract-evidence.md`
+- `work/05-peer-review.md`
 - `work/ai-use-declaration.md`
+- `work/probes/integration_probe_test.py`
+- `work/evidence/E06-baseline.txt`
+- `work/evidence/E06-integration-probe.txt`
+- `work/evidence/E06-result-register.txt`
+- `work/evidence/E06-pdf-check.txt`
 
-## Status rule
+## Submission artifact
 
-Week 06 เป็นงานออกแบบ integration testing จึงไม่สร้างผล Pass/Fail ให้ case ที่ยังไม่ได้ execute จริง ใช้ `Planned`, `Not Ready` หรือ `Not Executed` ตามหลักฐานและ entry criteria ที่มีอยู่
+- `submission/W06_ScamGuard_Integration-Test-Design_v1.pdf`
 
-## Current handoff constraint
-
-ผล Fail/Not Ready จาก Week 05 ไม่ถูกซ่อนหรือแปลงเป็น Pass แต่ถูกใช้เป็น interface risk และ dependency ของ Integration Test Design โดยเฉพาะ visual contract, source verification, scan cancel และ cross-API contract gaps ที่เกี่ยวข้อง
+Author-side artifact preparation is complete and the PDF/result evidence is reproducible. Independent peer-review fields remain pending, so Week 06 is `Ready for Review` rather than `Submitted` until a real reviewer decision is recorded.

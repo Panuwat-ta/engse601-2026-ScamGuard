@@ -1,25 +1,57 @@
-# W06-04 — Interface Contract Evidence
+# W06-04 - Interface Contract and Execution Evidence
 
-หลักฐานนี้เป็นผลจาก code/SRS reading สำหรับออกแบบ Week 06 ยังไม่ใช่ execution result ของ integration tests
+## 1. Evidence classification
 
-| Evidence ID | Source | Observed contract / fact | Used by |
+- `Baseline record`: version/commit/hash ที่ใช้ freeze test basis
+- `Executed integration probe`: pytest/ASGI/service orchestration ที่ execute จริง
+- `Executed contract probe`: source/signature contract ถูกตรวจด้วย test harness และ assertion
+- `Static design source`: code/SRS reading ที่ใช้สร้าง expected result หรืออธิบาย blocker
+
+## 2. Evidence register
+
+| Evidence ID | Source | Observed fact / result | Used by |
 |---|---|---|---|
-| E06-01 | canonical SRS v1.1 FR-SCAN-02/03 | upload เป็น multipart; cache hit/miss ใช้ SHA-256 และ Redis TTL 30 วัน | I01, I02 |
-| E06-02 | `scam_image_mobile/lib/core/network/api_endpoints.dart` | mobile ใช้ `/scan/` และ GET `/scan/{id}` | I01 |
-| E06-03 | `scan_remote_datasource.dart` | submit scan ส่ง file + consent/clientRequestId/title; poll GET; cancel เรียก DELETE `/scan/{id}` | I01 |
-| E06-04 | `server/app/api/v1/scan.py` | baseline มี POST `/` และ GET `/{scan_id}`; ไม่พบ DELETE scan route | I01, W06-F01 |
-| E06-05 | `server/app/services/scan_service.py` | orchestration เชื่อม file validation, Redis, inference, scoring, DB, XAI และ websocket | I02–I05 |
-| E06-06 | `server/app/services/inference_service.py` | ONNX worker ถูกเรียกเป็น subprocess JSON ผ่าน stdin/stdout แล้วรวม OCR result | I03 |
-| E06-07 | canonical SRS v1.1 FR-ANALYSIS-03 AC-4 | source API down ต้อง `source_status="unavailable"` และตัด source จาก total score | I04 |
-| E06-08 | `scan_service.py` | baseline ใช้ `settings.DEFAULT_SOURCE_SCORE` และส่ง source score เข้า risk calculator | I04, W06-F03 |
-| E06-09 | canonical SRS v1.1 FR-XAI-01 AC-1 | heatmap expected URL คือ `/uploads/{filename}` | I05 |
-| E06-10 | `server/app/main.py` + mobile `AnalysisResultModel` | server mount `/uploads`; mobile normalize relative path เป็น `/uploads/...` | I05 |
-| E06-11 | canonical SRS v1.1 FR-HISTORY-01 | history กำหนด date range และ risk-grade filters | I06 |
-| E06-12 | `server/app/api/v1/history.py` | baseline รับ `page, limit, keyword, risk_level`; ยังไม่พบ `start_date/end_date` | I06, W06-F05 |
+| E06-01 | `work/evidence/E06-baseline.txt` | ENGSE212 main `66bc9e4a`; SRS v1.1 hash `99bb8d...d40a`; Python 3.10.21 | all cases |
+| E06-02 | `work/probes/integration_probe_test.py` | reproducible ASGI/service integration harness with explicit test doubles | IT-01..10, IT-12..18 |
+| E06-03 | `work/evidence/E06-integration-probe.txt` | final pytest execution: 11 failed / 6 passed; exit code 1 due expected product contract failures | IT-01..10, IT-12..18 |
+| E06-04 | `work/evidence/E06-result-register.txt` | per-case result/observed contract summary including IT-11 Not Ready | all cases |
+| E06-05 | canonical SRS FR-SCAN-02/03 | upload HTTP 202; cache hit/miss and TTL 30 days | I01/I02 |
+| E06-06 | mobile `scan_remote_datasource.dart` + backend `scan.py` | mobile calls DELETE scan; backend route exposes POST/GET only | IT-04 / F02 |
+| E06-07 | `scan_service.py` | Redis cache orchestration, heatmap file lifecycle, `DEFAULT_SOURCE_SCORE` | I02/I04/I05 |
+| E06-08 | `onnx_worker.py` + W05 evidence | no separate `forgery_confidence`/`ai_gen_confidence` | IT-10 / F05 |
+| E06-09 | canonical SRS FR-ANALYSIS-03 | API-down fallback must set unavailable and exclude source | IT-11/12 |
+| E06-10 | canonical SRS FR-XAI-01 + `main.py` | expected `/uploads/{filename}`; server has `/uploads` static mount | IT-13/14 |
+| E06-11 | canonical SRS FR-HISTORY-01 + `history.py`/schema | SRS `scans/risk_grade/start_date/end_date`; code `items/risk_level/keyword/risk_level` | IT-15/16 |
+| E06-12 | canonical SRS FR-HISTORY-02 + report schema/service | HTTP 201/409 work, but `report_id`/duplicate message contract drifts | IT-17/18 |
 
-## Baseline verification
+## 3. Execution command
 
-- ENGSE212 main: `66bc9e4af3747808ef45273d31b50dbc59ad91ab`
-- SRS latest commit touching file on main: `2b8a1fb095cea3e0fea28892f52d52a182840519`
-- SRS SHA-256 verified equal between working canonical file and `origin/main`: `99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a`
-- Date verified: 2026-09-22
+```text
+cd /tmp/scamguard-w06-main/server
+PYTHONPATH=/tmp/scamguard-w06-main/server \
+W06_BASELINE_ROOT=/tmp/scamguard-w06-main \
+/home/panuwat/project/server/venv/bin/python -m pytest -q \
+  /home/panuwat/work/engse601-2026-ScamGuard/WEEKS/week-06/work/probes/integration_probe_test.py
+```
+
+Test-only environment variables for DB/Redis/model paths were set to non-production dummy values. The harness does not connect to those external services; dependencies are replaced at the seam under test.
+
+## 4. Final execution result
+
+```text
+11 failed, 6 passed in 0.88s
+pytest_exit_code=1
+```
+
+The non-zero exit code represents deliberately asserted canonical contracts that the current implementation violates; it is not hidden as an infrastructure failure. W06-IT-11 is separately `Not Ready` because the production Google Vision adapter does not exist.
+
+## 5. Claims not made
+
+Week 06 does not claim:
+
+- real PostgreSQL or Redis production availability
+- real Google Vision success/failure behavior
+- GPU/model inference performance or model accuracy
+- full mobile-device UAT pass
+- stakeholder approval
+- independent peer-review approval

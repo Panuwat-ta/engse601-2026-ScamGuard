@@ -1,0 +1,26 @@
+Week 06 Integration Test Result Register
+Baseline: ENGSE212 main 66bc9e4a; SRS v1.1 2026-09-12
+Execution date: 2026-09-22
+Harness: work/probes/integration_probe_test.py
+Raw pytest: work/evidence/E06-integration-probe.txt
+
+W06-IT-01 FAIL - POST /api/v1/scan/ returns HTTP 200; FR-SCAN-02 AC-1 requires HTTP 202.
+W06-IT-02 PASS - GET /api/v1/scan/{id} returns id/status/progress for polling.
+W06-IT-03 PASS - cross-user GET /scan/{id} returns HTTP 403.
+W06-IT-04 FAIL - mobile DELETE /scan/{id} receives HTTP 405; backend cancel route absent.
+W06-IT-05 PASS - Redis cache hit skips inference and completes scan.
+W06-IT-06 FAIL - cache miss cannot write result when empty heatmap_bytes remains bytes; json.dumps raises and Redis setex is skipped.
+W06-IT-07 FAIL - cache hit with has_heatmap=true and missing heatmap file completes without usable heatmap reference.
+W06-IT-08 PASS - inference output maps into scan fields and completed state using explicit stub seam.
+W06-IT-09 PASS - forced inference exception is contained and scan is marked failed.
+W06-IT-10 FAIL - onnx_worker contract lacks separate forgery_confidence and ai_gen_confidence fields required by SRS.
+W06-IT-11 NOT READY - no production Google Vision source-verification adapter exists for successful reverse-image-search integration.
+W06-IT-12 FAIL - current pipeline has no source_status=unavailable fallback and still uses DEFAULT_SOURCE_SCORE.
+W06-IT-13 FAIL - stored heatmap reference is a filesystem path, not canonical /uploads/{filename} URL.
+W06-IT-14 PASS - /uploads mount serves a test media file when a canonical URL is used.
+W06-IT-15 FAIL - history endpoint returns items/risk_level rather than canonical scans/risk_grade response contract.
+W06-IT-16 FAIL - history route lacks start_date, end_date, and risk_grade query parameters.
+W06-IT-17 FAIL - report creation returns HTTP 201 and persists pending, but response uses id rather than canonical report_id.
+W06-IT-18 FAIL - duplicate report returns HTTP 409 and creates nothing, but error detail differs from canonical SRS message.
+
+Summary: PASS 6 / FAIL 11 / NOT READY 1 / TOTAL 18
