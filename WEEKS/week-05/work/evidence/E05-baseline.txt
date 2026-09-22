@@ -1,0 +1,10 @@
+ENGSE601 week05 branch:
+week05
+8dff725cbbc2223a7ac61b4a31085bc0d7b9f634
+ENGSE212 code baseline:
+66bc9e4af3747808ef45273d31b50dbc59ad91ab
+66bc9e4a 2026-09-16 Enhance documentation and update architecture for ScamGuard (#62)
+Canonical SRS:
+99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a  Document/srs/05_Software_Requirement_Specification.md
+**Version:** 1.1 (audit §A fixes, 2026-09-12)  
+**Date:** September 12, 2026

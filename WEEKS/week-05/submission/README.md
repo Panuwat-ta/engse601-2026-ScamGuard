@@ -1,15 +1,20 @@
 # Week 05 Submission
 
-สถานะ: Draft / ยังไม่พร้อมส่ง
+สถานะ: Ready for Review
 
-Expected artifact: `W05_ScamGuard_Component-Test-Case-Set_v1.pdf`
+Submission artifact:
 
-ก่อน export ต้อง:
+- `W05_ScamGuard_Component-Test-Case-Set_v1.pdf`
 
-- ปิดหรือ disposition findings W05-F01 ถึง W05-F07 เท่าที่จำเป็นต่อ test basis
-- รัน automated/component tests บน code baseline ที่ประกาศจริง
-- บันทึก Existing / Planned / Not Ready ให้ตรงกับหลักฐาน
-- ให้ Peer Reviewer ตรวจ test basis, expected result, trace และ execution evidence
-- อัปเดต `STATUS.md` เป็น Ready for Review ก่อนสร้าง submission package
+Verification completed:
 
-ห้ามสร้างผล Pass/Fail สำหรับ case ที่ยังไม่ได้ execute จริง
+- Canonical SRS v1.1 pinned to `Document/srs` on main
+- ENGSE212 code baseline pinned to main commit `66bc9e4a`
+- 18 component test cases with result status
+- Raw execution evidence stored under `../work/evidence/`
+- Reproducible probe stored at `../work/probes/component_probe.py`
+- Findings W05-F01–F08 have disposition/owner/next action
+- AI Use Declaration completed
+- PDF generated as A4, 4 pages; bbox check found no page-edge overflow
+
+Remaining team gate: human peer review by เอกพันธ์. Do not mark `Submitted`, merge to main, or create `w05-submission-v1` until that review/sign-off exists.

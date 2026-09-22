@@ -2,23 +2,20 @@
 
 | รายการ | บันทึก |
 |---|---|
-| Week / artifact | Week 05 / Component Test Case Set draft |
+| Week / artifact | Week 05 / Component Test Case Set v1 |
 | ใช้ AI หรือไม่ | Yes |
-| เครื่องมือ/รุ่นเท่าที่ทราบ | ChatGPT GPT-5.6 Sol + Remote Desktop Commander สำหรับอ่าน/แก้ไฟล์และรันคำสั่งที่ผู้ใช้อนุญาต |
-| ใช้เพื่อ | อ่าน SRS/W03/W04, ทำ Code & Logic Reading Clinic, สร้าง traceable component test cases, แยก Existing/Planned/Not Ready และบันทึก requirement-code mismatch |
-| Input ที่ให้ AI | `/home/panuwat/project/Document/srs/05_Software_Requirement_Specification.md` v1.1 และเอกสาร canonical ใน `Document/srs`, W03/W04 ในฐานะ historical evidence, ENGSE601 Week 05 course guide และ source code ที่ตรวจจาก ENGSE212 main |
-| การปกป้องข้อมูล | ไม่คัดลอก `.env`, password, token, API key หรือ secret ลง evidence repo; การรัน isolated archive ที่ไม่มี `.env` ถูกบันทึกเป็น Not Executed เมื่อ configuration ไม่ครบ |
-| ข้อเสนอที่ Accepted | 1) scope REQ-01 + REQ-05 และ FR-ANALYSIS-04 supporting rule 2) test-case IDs W05-CT-01 ถึง W05-CT-17 3) findings W05-F01 ถึง W05-F07 4) ใช้ `origin/main` commit `66bc9e4a` เป็น code baseline ตาม IN-04 |
-| ข้อเสนอที่ Modified | 1) boundary cases ปรับให้สะท้อน signature ของ `calculate_risk_score()` จริง 2) ผล test จาก branch `refactoring-admin` ลดสถานะเป็น supplementary เพราะไม่ใช่ baseline 3) auth test บน isolated main ระบุ Not Executed ไม่ใช่ Fail เพราะขาด runtime configuration |
-| ข้อเสนอที่ Rejected | 1) การตั้ง Q-01 threshold เอง 2) การตัดสิน Q-06 แทน owner/advisor 3) การถือว่า test เดิมผ่านแล้วเท่ากับ SRS ผ่าน 4) การแก้ source code ก่อนมี decision ต่อ algorithm mismatch |
-| วิธีตรวจสอบกับ artifact จริง | เทียบทุก case กับ canonical SRS v1.1 ใน `Document/srs`; ใช้ W03/W04 เป็น historical evidence เท่านั้น; ใช้ `git show`/`git grep` ที่ `origin/main`; รัน test/verification commands จริงและบันทึกเฉพาะ output ที่เกิดขึ้นจริง |
+| เครื่องมือ/รุ่นเท่าที่ทราบ | ChatGPT GPT-5.6 Sol + Remote Desktop Commander |
+| ใช้เพื่อ | อ่าน canonical SRS v1.1, ทำ Code & Logic Reading Clinic, สร้างและรัน component probes, สรุปผล Pass/Fail/Not Ready, จัด findings/handoff และเตรียม submission |
+| Input ที่ให้ AI | `/home/panuwat/project/Document/srs/` บน branch `main`, W03/W04 historical evidence, ENGSE601 Week 05 guide และ source code จาก ENGSE212 `origin/main` commit `66bc9e4a` |
+| การปกป้องข้อมูล | ไม่คัดลอก `.env`, password, token, API key หรือ secret ลง evidence repo; probe ใช้ test-only config และ fake DB ใน memory |
+| ข้อเสนอที่ Accepted | ใช้ SRS v1.1 เป็น authority; 18 component test cases; execution evidence 3 ชุด; findings W05-F01 ถึง W05-F08; เก็บ product defects เป็น Fail/Not Ready แทนการแต่งผล Pass |
+| ข้อเสนอที่ Modified | W03/W04 ถูกใช้เป็น historical handoff เท่านั้น; weighted-score finding เดิมถูกยกเลิกหลัง rebaseline; auth validation ตรวจผ่าน direct handler probe แทน full-app test เพื่อแยก component จาก unrelated model startup |
+| ข้อเสนอที่ Rejected | การตั้ง threshold เอง, การสร้าง model metric ที่ไม่ได้รัน, การถือ missing endpoint เป็น Pass, การปลอม human peer-review sign-off |
+| วิธีตรวจสอบ | เทียบทุก expected result กับ canonical SRS v1.1; extract `origin/main` แบบ isolated; รัน `pytest` และ `work/probes/component_probe.py`; เก็บ raw output ใน `work/evidence/` |
 | Verification owner/date | ภานุวัฒน์ / 2026-09-22 |
 
-คำยืนยัน: ไม่มีการสร้าง test result, screenshot, defect, approval หรือ stakeholder decision ที่ไม่ได้เกิดขึ้นจริง และ open questions ยังคงเป็น open ตามหลักฐานปัจจุบัน
+คำยืนยัน: ไม่มีการสร้าง test result, screenshot, approval, stakeholder decision หรือ peer-review approval ที่ไม่ได้เกิดขึ้นจริง
 
-Source-code reference used for verification:
-
-- **Canonical SRS URL**: https://github.com/Panuwat-ta/project/tree/main/Document/srs
-- **Source-code URL**: https://github.com/Panuwat-ta/project
-- **Branch**: main
-- **Date**: 2026-09-22
+- Canonical SRS: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- Source code: https://github.com/Panuwat-ta/project
+- Branch: main

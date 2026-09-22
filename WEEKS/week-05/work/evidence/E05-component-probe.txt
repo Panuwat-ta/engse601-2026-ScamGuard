@@ -1,0 +1,25 @@
+[RISK] canonical Hybrid max+bonus examples
+(50, 85, 0) -> 90 high visual True
+(100, 100, 100) -> 100 high visual True
+(10, 0, 0) -> 10 low textual False
+(30, 0, 0) -> 30 low textual False
+(55, 0, 0) -> 55 medium textual False
+(80, 0, 0) -> 80 high textual False
+(0, 39, 0) -> 39 low visual False
+(0, 40, 0) -> 40 medium visual False
+(0, 69, 0) -> 69 medium visual False
+(70, 0, 0) -> 70 high textual False
+[AUTH] register happy path
+{'response_type': 'UserResponse', 'response_keys': ['email', 'full_name', 'id', 'message', 'role'], 'added_types': ['User', 'ConsentLog'], 'consent': (True, False)}
+[AUTH] system_consent=false behavior
+{'response_type': 'UserResponse', 'response_keys': ['email', 'full_name', 'id', 'message', 'role'], 'added_types': ['User', 'ConsentLog'], 'consent': (False, False)}
+[CONSENT] route inventory
+PUT /consent/research present: False
+GET /consent/logs present: False
+GET /auth/me present: True
+users /me is DELETE: True
+[VISUAL] output-contract inventory
+max SegFormer probability assigned to ai_gen_prob: True
+same value converted to visual_risk_score: True
+separate forgery_confidence key present: False
+separate ai_gen_confidence key present: False

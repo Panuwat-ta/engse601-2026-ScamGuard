@@ -10,7 +10,7 @@ Week 05 เริ่มจาก critical slice ที่ Week 04 ส่งต�
 | C02 | FR-ANALYSIS-04 | `server/app/utils/risk_calculator.py` | เป็น logic Hybrid max+bonus, grade boundaries และ Visual Override |
 | C03 | FR-AUTH-01 + FR-PDPA-01 | `server/app/schemas/auth.py`, `server/app/api/v1/auth.py`, `server/app/models/consent.py` | registration, consent validation และ consent persistence มี code จริงบน main |
 
-## Requirement baseline frozen for this draft
+## Requirement baseline frozen for Week 05 v1
 
 - Local canonical source: `/home/panuwat/project/Document/srs/`
 - Canonical URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
@@ -32,7 +32,7 @@ Week 05 เริ่มจาก critical slice ที่ Week 04 ส่งต�
 
 1. SRS v1.1 กำหนด SegFormer forgery confidence ด้วย `Normalize(Confidence×Coverage)` และกำหนด AI-Gen Detection เป็นสัญญาณแยก แต่ `onnx_worker.py` บน main ใช้ `max(prob_map)` เป็น `visual_risk_score` และใส่ค่าเดียวกันเป็น `ai_gen_probability`; ยังไม่เห็น separate AI-Gen detector/output contract ตาม FR-ANALYSIS-02 AC-2
 2. `risk_calculator.py` บน main ใช้ Hybrid max+bonus และช่วง Low/Medium/High ซึ่งสอดคล้องกับ FR-ANALYSIS-04 v1.1; mismatch ที่เคยพบจาก SRS v1.0 ไม่ใช่ defect ของ baseline ปัจจุบัน
-3. FR-AUTH-01 AC-5 ต้อง reject `system_consent=false` ด้วย HTTP 400 แต่ `RegisterRequest` ยอมรับ false และ route `/auth/register` ไม่มี guard ที่ reject ก่อนสร้าง user
+3. FR-AUTH-01 AC-1 ต้องส่ง `status` และ `created_at` แต่ `UserResponse` ปัจจุบันไม่มีสอง field นี้; AC-5 ต้อง reject `system_consent=false` ด้วย HTTP 400 แต่ handler ยังยอมรับ false และสร้าง user/consent ได้
 4. FR-PDPA-01 AC-2/3/5 อธิบาย consent แบบ event/log (`consent_type`, `is_granted`, `created_at`, `updated_at`) แต่ model บน main เป็นหนึ่ง row ที่มี `system_consent` และ `research_consent` และยังไม่พบ GET/PUT consent-management endpoint
 5. FR-PDPA-01 AC-4 ระบุ `GET /users/me` แต่ main expose profile read ที่ `/api/v1/auth/me`; `/api/v1/users/me` บน main เป็น DELETE account จึงต้อง reconcile route contract
 
@@ -43,7 +43,7 @@ Week 05 เริ่มจาก critical slice ที่ Week 04 ส่งต�
 - Component adapter tests: ONNX worker contract โดยไม่อ้างว่า model accuracy ผ่าน จนกว่าจะมี model/dataset evidence จริง
 - Requirement ที่ไม่มี behavior ระบุใน SRS v1.1 จะไม่สร้าง expected result ขึ้นเอง; ให้บันทึกเป็น gap/open issue แทน
 
-## Out of scope for Week 05 draft
+## Out of scope for Week 05 v1
 
 - Dataset-level Accuracy/Precision/Recall/F1/mDice: ส่งต่อ model/system evaluation
 - System/UAT journey: Week 07
