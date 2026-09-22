@@ -1,0 +1,159 @@
+Week 05 - Source Contract Snapshot
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+[FILE] server/app/utils/risk_calculator.py
+SHA-256: 7dffd577cdbbf1f50c05361ba301afa291f508763eb4ad356e2fa3c845bc7955
+   1: def calculate_risk_score(text_score: int, visual_score: int, source_score: int) -> dict:
+   2:     """
+   3:     ระบบประเมินความเสี่ยงแบบ Hybrid Worst-Case & Multi-Factor Breakdown ตาม configs.md:
+   4:     1. ประเมินคะแนนแยกมิติอิสระเต็ม 100% (Visual, Textual, Source)
+   5:     2. ฐานคะแนนหลักอิงตามมิติที่พบความเสี่ยงสูงสุด (Worst-Case Dominance):
+   6:        S_base = max(visual_score, text_score, source_score)
+   7:     3. Multi-factor Compounding: หากพบความเสี่ยงระดับน่าสงสัยในมิติอื่น (>= 40)
+   8:        จะเพิ่มคะแนนความเสี่ยง +5 คะแนนต่อมิติ (สูงสุดไม่เกิน 100)
+   9:     """
+  10:     # ตรวจสอบขอบเขตค่าอินพุต (0 - 100)
+  11:     t = max(0, min(100, int(round(text_score))))
+  12:     v = max(0, min(100, int(round(visual_score))))
+  13:     s = max(0, min(100, int(round(source_score))))
+  14: 
+  15:     # 1. ฐานคะแนนสูงสุด (Worst-Case Base)
+  16:     scores = {"visual": v, "textual": t, "source": s}
+  17:     primary_factor = max(scores, key=scores.get)
+  18:     max_score = scores[primary_factor]
+  19: 
+  20:     if max_score == 0:
+  21:         primary_factor = "none"
+  22: 
+  23:     # 2. คำนวณ Multi-Factor Compounding (หากมีมิติอื่นที่มีความเสี่ยง >= 40)
+  24:     secondary_risks = [k for k, val in scores.items() if k != primary_factor and val >= 40]
+  25:     is_multi_risk = len(secondary_risks) > 0 and max_score >= 40
+  26: 
+  27:     compounding_bonus = len(secondary_risks) * 5 if is_multi_risk else 0
+  28:     total = min(100, max_score + compounding_bonus)
+  29: 
+  30:     # 3. คำนวณ Grade ตามเกณฑ์ 3 ระดับ (Low: 0-39, Medium: 40-69, High: 70-100)
+  31:     if total >= 70 or v >= 80:
+  32:         grade = "high"
+  33:         total = max(70, total)
+  34:     elif total >= 40:
+  35:         grade = "medium"
+  36:     else:
+  37:         grade = "low"
+  38: 
+  39:     return {
+  40:         "total_risk_score": total,
+  41:         "grade": grade,
+  42:         "primary_factor": primary_factor,
+  43:         "is_multi_risk": is_multi_risk,
+  44:         "breakdown": {
+  45:             "visual_score": v,
+  46:             "text_score": t,
+  47:             "source_score": s,
+  48:         },
+  49:     }
+
+[FILE] server/app/api/v1/auth.py
+SHA-256: e0b60909fb96cfd29c4e69d9b742dcac855acf94a9e15043f5850dca16df96ca
+  19: @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+  20: @limiter.limit(GUEST_LIMIT)
+  21: async def register(request: Request, body: RegisterRequest, db: AsyncSession = Depends(get_db)):
+  22:     # 1. Check if email exists
+  23:     result = await db.execute(select(User).where(User.email == body.email))
+  24:     existing_user = result.scalars().first()
+  25:     if existing_user:
+  26:         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+  27: 
+  28:     # 2. Create User + hash password
+  29:     hashed_pw = hash_password(body.password)
+  30:     new_user = User(
+  31:         email=body.email,
+  32:         hashed_password=hashed_pw,
+  33:         full_name=body.full_name,
+  34:         role="user"
+  35:     )
+  36:     db.add(new_user)
+  37:     await db.flush()
+  38: 
+  39:     # 3. Create consent logs
+  40:     consent = ConsentLog(
+  41:         user_id=new_user.id,
+  42:         system_consent=body.system_consent,
+  43:         research_consent=body.research_consent,
+  44:     )
+  45:     db.add(consent)
+  46:     await db.commit()
+  47:     await db.refresh(new_user)
+  48: 
+  49:     return UserResponse(
+  50:         id=new_user.id,
+  51:         email=new_user.email,
+  52:         full_name=new_user.full_name,
+  53:         role=new_user.role
+  54:     )
+ 121: @router.get("/me", response_model=UserResponse)
+ 122: @limiter.limit(USER_LIMIT)
+ 123: async def get_me(request: Request, current_user: User = Depends(get_current_user)):
+ 124:     return UserResponse(
+ 125:         id=current_user.id,
+ 126:         email=current_user.email,
+ 127:         full_name=current_user.full_name,
+ 128:         role=current_user.role,
+ 129:         message="Current user profile"
+ 130:     )
+ 131: 
+ 132: 
+ 133: @router.post("/logout")
+ 134: @limiter.limit(USER_LIMIT)
+ 135: async def logout(request: Request, current_user: User = Depends(get_current_user)):
+ 136:     # With stateless JWTs, logout is primarily handled client-side.
+ 137:     # To implement server-side logout, we would need to maintain a token blocklist
+ 138:     # or use stateful sessions like we do for the Admin portal.
+ 139:     return {"message": "Successfully logged out"}
+
+[FILE] server/app/services/onnx_worker.py
+SHA-256: 0229be199f2e0adfff9b2cc00b6e15536263a9c2b83accb418cb3d644a4d095c
+ 147:     heatmap_bytes = generate_heatmap(prob_map_visual, np.array(image))
+ 148: 
+ 149:     # Real visual risk score based on maximum forgery probability in the image
+ 150:     ai_gen_prob = float(prob_map_true.max())
+ 151:     visual_risk_score = int(round(ai_gen_prob * 100))
+ 152: 
+ 153:     h, w = prob_map_true.shape[:2]
+ 154:     threshold = max(0.35, float(prob_map_true.mean() + 0.10))
+ 155:     tampered_pixels = np.argwhere(prob_map_true >= threshold)
+ 156:     if len(tampered_pixels) > 0 and ai_gen_prob >= 0.35:
+ 157:         mean_y, mean_x = tampered_pixels.mean(axis=0)
+ 158:         v = "บน" if mean_y < h * 0.38 else ("ล่าง" if mean_y > h * 0.62 else "กลาง")
+ 159:         h_pos = "ซ้าย" if mean_x < w * 0.38 else ("ขวา" if mean_x > w * 0.62 else "กลาง")
+ 160:         
+ 161:         if v == "กลาง" and h_pos == "กลาง":
+ 162:             region = "บริเวณกึ่งกลางของภาพ"
+ 163:         elif v == "กลาง":
+ 164:             region = f"บริเวณด้าน{h_pos}ของภาพ"
+ 165:         elif h_pos == "กลาง":
+ 166:             region = f"บริเวณส่วน{v}ของภาพ"
+ 167:         else:
+ 168:             region = f"บริเวณมุม{h_pos}{v}ของภาพ"
+ 169:     else:
+ 170:         region = "ทั่วทั้งภาพอยู่ในเกณฑ์ปกติ"
+ 171:     
+ 172:     result = {
+ 173:         "visual_risk_score": visual_risk_score,
+ 174:         "ai_gen_probability": ai_gen_prob,
+ 175:         "anomaly_region": region,
+ 176:         "heatmap_b64": base64.b64encode(heatmap_bytes).decode('utf-8') if heatmap_bytes else ""
+ 177:     }
+ 178: 
+ 179:     print(json.dumps(result))
+
+Observed contract facts:
+- Risk calculation uses max-score base plus +5 per secondary dimension >=40, capped at 100.
+- Registration persists one ConsentLog row with system_consent/research_consent values and does not reject system_consent=false before persistence.
+- GET current profile is exposed under auth /me in this baseline.
+- ONNX worker derives ai_gen_probability and visual_risk_score from the same max SegFormer probability; separate forgery_confidence and ai_gen_confidence fields are absent from the returned result.

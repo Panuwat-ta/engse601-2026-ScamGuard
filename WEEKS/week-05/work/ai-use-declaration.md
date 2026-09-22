@@ -31,7 +31,7 @@ AI assisted with:
 
 ## Human verification and safeguards
 
-All expected results were checked against canonical SRS v1.1. Actual results were accepted only when supported by stored execution output or direct source/schema/route inspection on the frozen baseline.
+All expected results were checked against canonical SRS v1.1. Actual results were accepted only when supported by stored execution output or direct source/schema/route inspection on the frozen baseline. Source/schema/route facts are now persisted as `E05-source-contract-snapshot.txt`, `E05-route-inventory.txt` and `E05-schema-contract.txt`, generated from `/home/panuwat/project` via `origin/main` commit `66bc9e4a` with path/line/hash provenance.
 
 The following AI-generated or AI-suggested actions were explicitly rejected:
 

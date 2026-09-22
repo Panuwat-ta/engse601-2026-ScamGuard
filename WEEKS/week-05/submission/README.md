@@ -34,6 +34,9 @@ The Week 05 evidence set contains:
 - canonical SRS v1.1 pinned to `Document/srs` on `main`
 - ENGSE212 code baseline pinned to commit `66bc9e4a`
 - 18 traceable component test cases
+- source contract snapshot: `../work/evidence/E05-source-contract-snapshot.txt`
+- API route inventory: `../work/evidence/E05-route-inventory.txt`
+- schema/model snapshot: `../work/evidence/E05-schema-contract.txt`
 - raw automated/probe output under `../work/evidence/`
 - reproducible component probe at `../work/probes/component_probe.py`
 - findings W05-F01 through W05-F08 with status, owner and next action

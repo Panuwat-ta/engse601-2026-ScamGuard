@@ -40,7 +40,7 @@ Week 05 ใช้กิจกรรม Code & Logic Reading Clinic เพื่�
 - `work/05-peer-review.md` - peer-review record และ repository event
 - `work/ai-use-declaration.md` - AI Use Declaration
 - `work/probes/component_probe.py` - reproducible component probe
-- `work/evidence/` - raw evidence ที่ใช้รองรับผลทดสอบ
+- `work/evidence/` - raw execution evidence และ source-derived snapshots จาก ENGSE212 `origin/main` ที่ pin commit/path/hash ชัดเจน
 
 ## Submission / revision record
 

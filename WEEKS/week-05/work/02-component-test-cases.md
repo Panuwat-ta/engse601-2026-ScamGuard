@@ -77,6 +77,9 @@ Boundary evidence เพิ่มเติมจาก probe: `(0,39,0)->39 Low`
 ## 8. Evidence mapping
 
 - Baseline/version: `work/evidence/E05-baseline.txt`
+- Source contract snapshot from ENGSE212 `origin/main`: `work/evidence/E05-source-contract-snapshot.txt`
+- API route inventory from ENGSE212 `origin/main`: `work/evidence/E05-route-inventory.txt`
+- Schema/model snapshot from ENGSE212 `origin/main`: `work/evidence/E05-schema-contract.txt`
 - Existing automated unit test: `work/evidence/E05-pytest-component.txt`
 - Deterministic component probe and contract inventory: `work/evidence/E05-component-probe.txt`
 - Reproducible probe source: `work/probes/component_probe.py`
