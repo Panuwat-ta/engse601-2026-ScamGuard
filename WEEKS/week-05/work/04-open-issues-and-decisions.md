@@ -1,33 +1,42 @@
-# W05-04 — Findings, Disposition and Handoff
+# W05-04 - Findings, Disposition and Handoff
 
-## Findings from Code & Logic Reading Clinic
+## 1. Purpose
 
-| ID | Finding | Evidence / trace | Disposition | Owner | Next action |
-|---|---|---|---|---|---|
-| W05-F01 | Visual Analysis main ไม่มี separate `forgery_confidence` / `ai_gen_confidence`; SegFormer max probability ถูกใช้ทั้ง `ai_gen_prob` และ `visual_risk_score` | FR-ANALYSIS-02 AC-1/2/3; CT-01/02/03; E05-component-probe | Accepted implementation gap; does not block W05 evidence | ภานุวัฒน์ | แก้ output contract/AI-Gen detector ใน ENGSE212 แล้ว re-test ก่อน System/UAT |
-| W05-F02 | FR-ANALYSIS-04 AC-7 ตัวอย่าง `risk_score=65, visual_score=85` สร้างจาก Hybrid max+bonus เดียวกันไม่ได้ เพราะ total ต้อง >= visual | FR-ANALYSIS-04 AC-7; CT-10 | Needs requirement clarification; algorithm AC-1/2 remains accepted | ภานุวัฒน์ | Clarify AC-7 wording in canonical SRS change process |
-| W05-F03 | Register response ขาด `status` และ `created_at` ตาม FR-AUTH-01 AC-1 | CT-11; E05-component-probe | Accepted API contract defect | ภานุวัฒน์ | ปรับ response schema/handler และเพิ่ม contract test |
-| W05-F04 | `system_consent=false` ยังสร้าง User + ConsentLog แทน HTTP 400 | FR-AUTH-01 AC-5; CT-12 | Accepted functional defect | ภานุวัฒน์ | เพิ่ม guard/validation ก่อน create user; re-test negative case |
-| W05-F05 | Consent model เก็บหนึ่ง row สอง booleans ไม่มี event fields/`updated_at` ตาม SRS | FR-PDPA-01 AC-2/3/5; CT-14/18 | Accepted data/API contract gap | ภานุวัฒน์ | Reconcile consent schema + migration before integration testing |
-| W05-F06 | ไม่มี `PUT /consent/research` และ `GET /consent/logs` | FR-PDPA-01 AC-3/5; CT-15/17 | Accepted missing implementation | ภานุวัฒน์ | Implement endpoints and component tests |
-| W05-F07 | SRS ระบุ GET `/users/me`; main profile GET อยู่ `/api/v1/auth/me` และ `/api/v1/users/me` เป็น DELETE | FR-PDPA-01 AC-4; CT-16 | Accepted route-contract mismatch | ภานุวัฒน์ | เลือก canonical route แล้ว sync SRS/code ผ่าน controlled change |
-| W05-F08 | W03/W04 ใช้ baseline v1.0 แต่ W05 canonical เป็น v1.1 | IN-02; input register | Closed for W05 | ภานุวัฒน์ | เก็บ W03/W04 เป็น historical evidence; W05 ใช้ v1.1 เท่านั้น |
-## Week 05 disposition
+รวบรวม gap/defect ที่พบจาก Component Test Case Set และกำหนดสถานะกับ next action โดยไม่ใช้คำว่า "accepted defect" เว้นแต่มี stakeholder decision จริง เอกสารนี้จึงแยกสิ่งที่ตรวจพบออกจากการตัดสินใจแก้ไขใน ENGSE212 อย่างชัดเจน
 
-W05 is a V&V artifact, not a requirement that every product defect be fixed before submission. The component test set is complete when each selected requirement has a traceable test basis, actual result where executed, honest `Fail/Not Ready` status where implementation is missing, and a next action/owner.
+## 2. Findings register
 
-Therefore W05-F01–F07 are handed off as real project gaps rather than hidden or converted to Pass. They must be revisited in ENGSE212 and in later ENGSE601 integration/system/NFR activities as applicable.
+| ID | Type | Finding | Evidence / trace | Status | Owner | Next action |
+|---|---|---|---|---|---|---|
+| W05-F01 | Implementation gap | Visual Analysis ไม่มี separate `forgery_confidence` / `ai_gen_confidence`; SegFormer max probability ถูกใช้กับทั้ง AI-Gen/visual output | FR-ANALYSIS-02 AC-1/2/3; CT-01/02/03; E05 visual probe | Open | ภานุวัฒน์ | ปรับ visual/AI-Gen output contract ใน ENGSE212 แล้ว re-test component ก่อน System/UAT |
+| W05-F02 | Requirement ambiguity | FR-ANALYSIS-04 AC-7 ยกตัวอย่าง `risk_score=65, visual_score=85` แต่ Hybrid max+bonus ไม่สามารถสร้าง total < visual ได้ | FR-ANALYSIS-04 AC-7; CT-10 | Needs Clarification | ภานุวัฒน์ | เปิด controlled SRS clarification; ไม่แก้ algorithm โดยเดา intent |
+| W05-F03 | API contract defect | Registration response ขาด `status` และ `created_at` ตาม AC-1 | FR-AUTH-01 AC-1; CT-11; E05 auth probe | Open | ภานุวัฒน์ | ปรับ response schema/handler แล้วเพิ่ม contract test |
+| W05-F04 | Functional defect | `system_consent=false` ยังสร้าง User + ConsentLog แทน HTTP 400 | FR-AUTH-01 AC-5; CT-12; E05 auth probe | Open | ภานุวัฒน์ | เพิ่ม validation ก่อน persistence และ re-test negative case |
+| W05-F05 | Data contract gap | Consent model เป็น one-row/two-booleans และไม่มี `updated_at` ตาม event/log contract | FR-PDPA-01 AC-2/3/5; CT-14/18 | Open | ภานุวัฒน์ | Reconcile schema/migration ก่อน integration testing |
+| W05-F06 | Missing API | ไม่มี `PUT /consent/research` และ `GET /consent/logs` | FR-PDPA-01 AC-3/5; CT-15/17 | Open | ภานุวัฒน์ | Implement endpoints และ component/API tests |
+| W05-F07 | Route contract mismatch | SRS ระบุ `GET /users/me`; code มี `GET /api/v1/auth/me` และ `/api/v1/users/me` เป็น DELETE | FR-PDPA-01 AC-4; CT-16 | Open | ภานุวัฒน์ | เลือก canonical route ผ่าน controlled change แล้ว sync SRS/code/test |
+| W05-F08 | Baseline transition | W03/W04 ใช้ SRS v1.0 ขณะที่ W05 ใช้ canonical v1.1 | IN-02; input register | Closed for W05 | ภานุวัฒน์ | เก็บ W03/W04 เป็น historical evidence และใช้ v1.1 เป็น authority ต่อไป |
 
-## Handoff to later weeks
+## 3. Week 05 disposition
 
-- W06 Integration: consent endpoints, profile route contract, Visual Analysis service contract
-- W07 System/UAT: end-to-end scan/result behavior after visual contract is fixed
-- W08 Test Design Techniques: add partitions/boundaries around consent and visual outputs after contract stabilization
-- W11 NFR: GPU inference time and model-performance evaluation conditions
-- W14 Defect Management: promote unresolved W05-F01–F07 to formal defect records if still open
+Week 05 เป็น V&V artifact ไม่ใช่ milestone ที่บังคับให้ product defect ทุกตัวต้องถูกแก้ก่อนส่ง สิ่งที่ต้องมีคือ test basis ที่ตรวจสอบได้, test case ที่ trace ได้, actual evidence ที่ซื่อสัตย์ และ handoff ที่ชัดเจน
 
-## Submission gate
+ดังนั้น W05-F01 และ W05-F03 ถึง W05-F07 ยังคง `Open`; W05-F02 เป็น `Needs Clarification`; W05-F08 ปิดเฉพาะประเด็นการเลือก baseline ของ Week 05 แล้ว การส่งเอกสารไม่ได้เปลี่ยนสถานะ product finding เหล่านี้เป็น Closed
 
-Author-side Definition of Done is satisfied: canonical source/version pinned, 18 test cases defined, executable evidence stored, results not fabricated, findings dispositioned, AI use disclosed, and final PDF can be generated.
+## 4. Downstream handoff
 
-The team agreement still requires an independent human peer review before merge/tag as `Submitted`; reviewer assigned in `TEAM.md` is เอกพันธ์. Until that sign-off exists, repository status must be `Ready for Review`, not `Submitted`.
+| Target | Findings / concern | Handoff intent |
+|---|---|---|
+| Week 06 Integration Testing | F01, F05, F06, F07 | ตรวจ contract ระหว่าง service/API/client หลัง implementation ถูก reconcile |
+| Week 07 System/UAT | F01, F03, F04, F06, F07 | ยืนยัน user journey หลัง component defects ถูกแก้และ re-tested |
+| Week 11 NFR Testing | FR-ANALYSIS-02 AC-5 และ model metrics | ทดสอบ performance/model quality ด้วย environment และ dataset ที่เหมาะสม |
+| Week 14 Defect Management | F01-F07 ที่ยังค้าง | Promote เป็น formal defect records พร้อม lifecycle/evidence |
+| Requirement change process | F02 | Clarify AC-7 โดยไม่เดา requirement intent |
+
+## 5. Submission and review gate
+
+Author-side Definition of Done สำหรับ Component Test Case Set ครบในด้าน baseline, traceability, evidence, finding disposition และ AI disclosure แล้ว
+
+Repository event ของ v1 เกิดขึ้นจริง: PR #5 merged ที่ `ca354a8` และ tag `w05-submission-v1` ถูกสร้างแล้ว อย่างไรก็ตาม GitHub ไม่มี recorded independent PR review และ `05-peer-review.md` ยังไม่มี reviewer decision/sign-off ดังนั้นเอกสารต้องระบุข้อเท็จจริงสองส่วนพร้อมกัน: v1 ถูกส่งแล้ว แต่ยังไม่มีหลักฐานยืนยันว่า independent peer-review gate ผ่าน
+
+เอกสาร v2 เป็น documentation-quality revision และไม่เขียนทับ submission/tag เดิม จนกว่าจะมี review/merge event ใหม่ที่ตรวจสอบได้

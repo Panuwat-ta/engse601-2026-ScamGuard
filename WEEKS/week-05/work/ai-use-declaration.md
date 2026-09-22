@@ -1,21 +1,50 @@
-# AI Use Declaration
+# W05 - AI Use Declaration
 
-| รายการ | บันทึก |
+## Declaration summary
+
+| Item | Record |
 |---|---|
-| Week / artifact | Week 05 / Component Test Case Set v1 |
-| ใช้ AI หรือไม่ | Yes |
-| เครื่องมือ/รุ่นเท่าที่ทราบ | ChatGPT GPT-5.6 Sol + Remote Desktop Commander |
-| ใช้เพื่อ | อ่าน canonical SRS v1.1, ทำ Code & Logic Reading Clinic, สร้างและรัน component probes, สรุปผล Pass/Fail/Not Ready, จัด findings/handoff และเตรียม submission |
-| Input ที่ให้ AI | `/home/panuwat/project/Document/srs/` บน branch `main`, W03/W04 historical evidence, ENGSE601 Week 05 guide และ source code จาก ENGSE212 `origin/main` commit `66bc9e4a` |
-| การปกป้องข้อมูล | ไม่คัดลอก `.env`, password, token, API key หรือ secret ลง evidence repo; probe ใช้ test-only config และ fake DB ใน memory |
-| ข้อเสนอที่ Accepted | ใช้ SRS v1.1 เป็น authority; 18 component test cases; execution evidence 3 ชุด; findings W05-F01 ถึง W05-F08; เก็บ product defects เป็น Fail/Not Ready แทนการแต่งผล Pass |
-| ข้อเสนอที่ Modified | W03/W04 ถูกใช้เป็น historical handoff เท่านั้น; weighted-score finding เดิมถูกยกเลิกหลัง rebaseline; auth validation ตรวจผ่าน direct handler probe แทน full-app test เพื่อแยก component จาก unrelated model startup |
-| ข้อเสนอที่ Rejected | การตั้ง threshold เอง, การสร้าง model metric ที่ไม่ได้รัน, การถือ missing endpoint เป็น Pass, การปลอม human peer-review sign-off |
-| วิธีตรวจสอบ | เทียบทุก expected result กับ canonical SRS v1.1; extract `origin/main` แบบ isolated; รัน `pytest` และ `work/probes/component_probe.py`; เก็บ raw output ใน `work/evidence/` |
-| Verification owner/date | ภานุวัฒน์ / 2026-09-22 |
+| Week / artifact | Week 05 / Component Test Case Set |
+| AI used | Yes |
+| Tool/model as known | ChatGPT GPT-5.6 Sol + Remote Desktop Commander |
+| Primary author / verifier | ภานุวัฒน์ |
+| Verification date | 2026-09-22 |
 
-คำยืนยัน: ไม่มีการสร้าง test result, screenshot, approval, stakeholder decision หรือ peer-review approval ที่ไม่ได้เกิดขึ้นจริง
+## How AI was used
 
-- Canonical SRS: https://github.com/Panuwat-ta/project/tree/main/Document/srs
-- Source code: https://github.com/Panuwat-ta/project
-- Branch: main
+AI assisted with:
+
+- reading and organizing canonical SRS v1.1 requirements relevant to Week 05
+- Code & Logic Reading Clinic and component-scope selection
+- structuring component test cases and traceability
+- executing/reviewing read-only local probes and test output
+- comparing observed code/API contracts with expected SRS contracts
+- organizing findings, downstream handoff and documentation-quality revision v2
+
+## Inputs and authoritative sources
+
+- Canonical SRS: `/home/panuwat/project/Document/srs/`, branch `main`
+- Public canonical reference: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- ENGSE212 source repository: https://github.com/Panuwat-ta/project
+- Source baseline: branch `main`, commit `66bc9e4a`
+- W03/W04 evidence was used only as historical handoff and did not override SRS v1.1
+
+## Human verification and safeguards
+
+All expected results were checked against canonical SRS v1.1. Actual results were accepted only when supported by stored execution output or direct source/schema/route inspection on the frozen baseline.
+
+The following AI-generated or AI-suggested actions were explicitly rejected:
+
+- inventing thresholds or requirement behavior not present in the canonical SRS
+- generating model Accuracy/F1/mDice or performance results that were not executed
+- converting missing endpoints or missing contracts into Pass results
+- inferring stakeholder approval or peer-review sign-off from a merge event
+- exposing `.env`, token, API key, password or production database content
+
+The component probe uses test-only environment values and an in-memory fake DB. No production secret is stored in the evidence repository.
+
+## Result integrity statement
+
+Week 05 records 18 cases: 7 Pass, 9 Fail, 1 Not Ready and 1 Needs Clarification. These counts come from the documented test/probe/inspection evidence and were not altered for the v2 documentation revision.
+
+No test result, screenshot, stakeholder decision, product metric, approval or reviewer sign-off was fabricated.

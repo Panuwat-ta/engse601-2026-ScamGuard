@@ -1,121 +1,180 @@
 <style>
-body { font-family: sans-serif; font-size: 10.5pt; line-height: 1.35; }
-h1 { font-size: 21pt; margin-bottom: 4px; }
-h2 { font-size: 15pt; margin-top: 18px; border-bottom: 1px solid #bbb; padding-bottom: 3px; }
-h3 { font-size: 12pt; margin-top: 14px; }
-table { width: 100%; border-collapse: collapse; margin: 8px 0 12px; font-size: 8.3pt; table-layout: fixed; }
-th, td { border: 1px solid #aaa; padding: 4px 5px; vertical-align: top; overflow-wrap: anywhere; }
-th { font-weight: 700; }
-code { font-size: 9pt; }
-.small { font-size: 8.5pt; }
+@page { size: A4; margin: 15mm 14mm 16mm 14mm; }
+body { font-family: Arial, "Noto Sans Thai", sans-serif; font-size: 9.7pt; line-height: 1.42; color: #20242a; }
+h1 { font-size: 22pt; margin: 0 0 6px; line-height: 1.15; color: #17253b; }
+h2 { font-size: 14.5pt; margin: 16px 0 7px; padding-bottom: 4px; border-bottom: 1.5px solid #394b64; color: #17253b; }
+h3 { font-size: 11.5pt; margin: 12px 0 5px; color: #26384f; }
+p { margin: 5px 0 8px; }
+table { width: 100%; border-collapse: collapse; margin: 7px 0 11px; font-size: 8.1pt; table-layout: fixed; }
+thead { display: table-header-group; }
+tr { break-inside: avoid; page-break-inside: avoid; }
+th, td { border: 1px solid #b9c1cc; padding: 4px 5px; vertical-align: top; overflow-wrap: break-word; }
+th { background: #eef1f5; font-weight: 700; color: #17253b; }
+code { font-family: "DejaVu Sans Mono", monospace; font-size: 8.4pt; background: #f5f6f7; padding: 0 2px; }
+a { color: #274d7d; text-decoration: none; }
+.cover { padding-top: 34mm; page-break-after: always; }
+.kicker { font-size: 10pt; text-transform: uppercase; letter-spacing: .06em; color: #53657d; margin-bottom: 10px; }
+.subtitle { font-size: 12pt; color: #394b64; margin: 0 0 24px; }
+.meta { width: 86%; font-size: 9.5pt; }
+.meta td { border: 0; border-bottom: 1px solid #d5dae1; padding: 6px 4px; }
+.meta td:first-child { width: 31%; font-weight: 700; color: #394b64; }
+.callout { border-left: 4px solid #546b89; background: #f5f7fa; padding: 8px 10px; margin: 10px 0; }
+.small { font-size: 8.4pt; color: #4d5968; }
+.center { text-align: center; }
+.right { text-align: right; }
+.status-pass { font-weight: 700; }
+.page-break { page-break-before: always; }
 </style>
 
-# ENGSE601 Week 05 - Component Test Case Set v1
+<div class="cover">
+<div class="kicker">ENGSE601 - Software Verification and Validation</div>
 
-**Project:** ScamGuard - Scam Image Detection Application  
-**Activity:** Code & Logic Reading Clinic  
-**Author:** ภานุวัฒน์ ต๋าคำ  
-**Date:** 22 September 2026  
-**Artifact status:** Ready for Review
+# Week 05 - Component Test Case Set
 
-## 1. Test Basis and Scope
+<div class="subtitle">ScamGuard - Component / Unit Testing (Documentation Revision v2 Final)</div>
+<table class="meta">
+<tr><td>Project</td><td>ScamGuard - Scam Image Detection Application</td></tr>
+<tr><td>Activity</td><td>Code & Logic Reading Clinic</td></tr>
+<tr><td>Primary author</td><td>ภานุวัฒน์ ต๋าคำ</td></tr>
+<tr><td>Date</td><td>22 September 2026</td></tr>
+<tr><td>Requirement baseline</td><td>SRS v1.1, branch <code>main</code>, 2026-09-12</td></tr>
+<tr><td>Code baseline</td><td><code>main</code> at <code>66bc9e4a</code></td></tr>
+<tr><td>Document status</td><td>Revision Candidate v2 Final</td></tr>
+<tr><td>Original submission</td><td>v1, tag <code>w05-submission-v1</code>, merge <code>ca354a8</code></td></tr>
+</table>
 
-Canonical Requirement/SRS: `https://github.com/Panuwat-ta/project/tree/main/Document/srs`, branch `main`, SRS v1.1 dated 2026-09-12. Source-code baseline: `https://github.com/Panuwat-ta/project`, branch `main`, commit `66bc9e4a`.
-Scope covers four current requirements/components: FR-ANALYSIS-02 (`onnx_worker.py`), FR-ANALYSIS-04 (`risk_calculator.py`), FR-AUTH-01 (`auth.py` + schema), and FR-PDPA-01 (`ConsentLog` + user/consent routes). W03/W04 are used only as historical handoff when consistent with SRS v1.1.
+<div class="callout"><strong>Revision note.</strong> v2 Final improves structure, traceability, terminology and readability only. It does not rewrite the original v1 submission history and does not change the frozen test basis, raw evidence or the 18 recorded test results.</div>
 
-Out of scope: dataset-level Accuracy/F1/mDice, GPU performance, full System/UAT journey, and unstated retroactive research-data rules.
+<p class="small">Canonical requirement source: <a href="https://github.com/Panuwat-ta/project/tree/main/Document/srs">Panuwat-ta/project - Document/srs</a><br>
+Source-code repository: <a href="https://github.com/Panuwat-ta/project">Panuwat-ta/project</a></p>
+</div>
 
-## 2. Execution Summary
+## 1. Executive Summary
 
-| Result | Count | Meaning |
+Week 05 verifies selected high-risk components of ScamGuard against the current canonical SRS v1.1. The scope covers Visual Analysis, Risk Score Calculation, Registration and Consent Management. Verification uses deterministic unit/component execution, a reproducible handler probe with fake DB, and explicit static contract inspection where an endpoint or output contract is absent.
+
+The result set contains 18 cases: 7 Pass, 9 Fail, 1 Not Ready and 1 Needs Clarification. A failed case is retained as valid V&V evidence; no missing implementation is converted to Pass.
+
+| Result | Count | Interpretation |
 |---|---:|---|
-| Pass | 7 | Executed/inspected result aligns with SRS v1.1 |
-| Fail | 9 | Executed/inspected implementation does not align with SRS v1.1 |
-| Not Ready | 1 | Required component contract is not yet available for an independent test |
-| Needs Clarification | 1 | Requirement example conflicts with its own algorithm semantics |
-| **Total** | **18** | Component test cases in this artifact |
+| Pass | 7 | Verified behavior aligns with the baseline |
+| Fail | 9 | Current implementation does not align with the baseline |
+| Not Ready | 1 | Required component contract is not available for a valid acceptance test |
+| Needs Clarification | 1 | Requirement example conflicts with the same baseline's algorithm semantics |
+| **Total** | **18** | Selected Week 05 component cases |
+## 2. Test Basis, Scope and Strategy
 
-Evidence is stored as plain text under `WEEKS/week-05/work/evidence/`; the reproducible probe is `work/probes/component_probe.py`.
+### 2.1 Frozen test basis
+
+- Canonical SRS: v1.1 dated 2026-09-12, from `Document/srs` on `main`
+- SRS SHA-256: `99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a`
+- Code baseline: `Panuwat-ta/project`, branch `main`, commit `66bc9e4a`
+- W03/W04 are historical v1.0 evidence only and do not override SRS v1.1
+
+### 2.2 Selected scope
+
+| Scope | Requirement | Component | Verification focus |
+|---|---|---|---|
+| C01 | FR-ANALYSIS-02 | `onnx_worker.py` | forgery / AI-Gen / visual output contract |
+| C02 | FR-ANALYSIS-04 | `risk_calculator.py` | Hybrid max+bonus and grade boundaries |
+| C03 | FR-AUTH-01 | auth schema + handler | registration response and mandatory System Consent |
+| C04 | FR-PDPA-01 | consent model + route inventory | consent lifecycle and profile/API contracts |
+
+### 2.3 Verification techniques
+
+- Example-based tests for SRS-provided risk-score examples
+- Boundary checks around Low/Medium/High transitions
+- Negative handler probe for mandatory System Consent
+- Static source/schema/route inspection for explicit output/API contracts
+- Test-only fake DB and environment values; no production secret or database is used
+
+<div class="callout"><strong>Out of scope:</strong> model Accuracy/F1/mDice, GPU performance, full System/UAT journeys, production-service availability and unstated retroactive research-data rules. These concerns are handed to later V&V activities instead of being inferred in Week 05.</div>
 
 ## 3. Component Test Cases
 
 ### 3.1 Visual Analysis - FR-ANALYSIS-02
+| ID | AC | Verification | Expected | Actual evidence | Result |
+|---|---|---|---|---|---|
+| CT-01 | AC-1 | Contract inspection | Separate `forgery_confidence` 0-100 traceable to forgery signal | No `forgery_confidence`; worker exposes `visual_risk_score` from SegFormer max probability | Fail |
+| CT-02 | AC-2 | Contract inspection | Separate `ai_gen_confidence` from an AI-Gen detector | `ai_gen_prob` is the same SegFormer max probability; no separate AI-Gen output | Fail |
+| CT-03 | AC-3 | Readiness check | Visual-score behavior can be tested from canonical independent signals | Required separate signal contracts are not available on main | Not Ready |
 
-| ID | AC | Expected | Actual | Result |
-|---|---|---|---|---|
-| CT-01 | AC-1 | Separate `forgery_confidence` 0-100 traceable to forgery signal | Worker exposes `visual_risk_score`; no `forgery_confidence` key | Fail |
-| CT-02 | AC-2 | Separate `ai_gen_confidence` from AI-Gen detector | `ai_gen_prob` is max SegFormer probability; no separate AI-Gen field | Fail |
-| CT-03 | AC-3 | Visual-score calculation can be tested from canonical signals | Separate signals/contract required by SRS are not available on main | Not Ready |
+FR-ANALYSIS-02 AC-5 (GPU inference <= 10 seconds) is deferred to NFR testing because no valid performance evidence is produced by this component activity.
+
 ### 3.2 Risk Calculation - FR-ANALYSIS-04
 
-| ID | AC | Input | Expected | Actual | Result |
+| ID | AC | Input / technique | Expected | Actual evidence | Result |
 |---|---|---|---|---|---|
-| CT-04 | AC-1 | 50/85/0 | 90, High, primary visual | `90 high visual True` | Pass |
-| CT-05 | AC-2 | 100/100/100 | cap at 100, High | `100 high visual True` | Pass |
-| CT-06 | AC-3 | score basis 10 | Low | `10 low` | Pass |
-| CT-07 | AC-4 | score basis 30 | Low | `30 low` | Pass |
-| CT-08 | AC-5 | score basis 55 | Medium | `55 medium` | Pass |
-| CT-09 | AC-6 | score basis 80 | High | `80 high` | Pass |
-| CT-10 | AC-7 | stated 65 total / 85 visual | High by visual override | Hybrid max uses visual in base; same calculator cannot produce total 65 when visual is 85 | Needs Clarification |
+| CT-04 | AC-1 | `(50,85,0)` example | 90, High, primary=visual | `90 high visual True` | Pass |
+| CT-05 | AC-2 | `(100,100,100)` example | capped 100, High | `100 high visual True` | Pass |
+| CT-06 | AC-3 | `(10,0,0)` | 10, Low | `10 low textual False` | Pass |
+| CT-07 | AC-4 | `(30,0,0)` | 30, Low | `30 low textual False` | Pass |
+| CT-08 | AC-5 | `(55,0,0)` | 55, Medium | `55 medium textual False` | Pass |
+| CT-09 | AC-6 | `(80,0,0)` | 80, High | `80 high textual False` | Pass |
+| CT-10 | AC-7 | consistency analysis of stated 65 total / 85 visual | High by Visual Override | Hybrid max uses visual in base, so total cannot be 65 when visual is 85 | Needs Clarification |
+
+Supporting boundary probe: 39 -> Low, 40 -> Medium, 69 -> Medium, 70 -> High.
 
 ### 3.3 Registration - FR-AUTH-01
-
-| ID | AC | Expected | Actual | Result |
-|---|---|---|---|---|
-| CT-11 | AC-1 | successful response has `id, full_name, email, role, status, created_at` | response keys: `email, full_name, id, message, role` | Fail |
-| CT-12 | AC-5 | System Consent=false -> HTTP 400, create nothing | handler returns `UserResponse` and adds User + ConsentLog(false,false) | Fail |
-| CT-13 | AC-1 subcondition | Research Consent=false must not block registration | handler succeeds and persists research=false | Pass |
+| ID | AC | Verification | Expected | Actual evidence | Result |
+|---|---|---|---|---|---|
+| CT-11 | AC-1 | Handler probe + schema inspection | Response includes `id, full_name, email, role, status, created_at`; no password/hash | Keys are `email, full_name, id, message, role`; `status` and `created_at` absent | Fail |
+| CT-12 | AC-5 | Negative handler probe: System Consent=false | HTTP 400 and no user/consent persistence | Handler returns `UserResponse` and fake DB receives User + ConsentLog(false,false) | Fail |
+| CT-13 | AC-1 subcondition | Handler probe: system=true, research=false | Optional Research Consent must not block registration | Registration succeeds and persists research=false | Pass |
 
 ### 3.4 Consent Management - FR-PDPA-01
-| ID | AC | Expected | Actual | Result |
-|---|---|---|---|---|
-| CT-14 | AC-2 | event/log model supports `consent_type`, `is_granted`, timestamp and 2 records | current model stores one row with two booleans | Fail |
-| CT-15 | AC-3 | `PUT /consent/research` revokes research consent and records update | endpoint not present on main | Fail |
-| CT-16 | AC-4 | GET `/users/me` returns current-user profile | profile GET is `/api/v1/auth/me`; `/api/v1/users/me` is DELETE | Fail |
-| CT-17 | AC-5 | GET `/consent/logs` returns consent history | endpoint not present on main | Fail |
-| CT-18 | AC-3/5 | consent history supports `updated_at` | current ConsentLog has `created_at` only | Fail |
 
-## 4. Evidence
+| ID | AC | Verification | Expected | Actual evidence | Result |
+|---|---|---|---|---|---|
+| CT-14 | AC-2 | Model contract inspection | Event/log model supports `consent_type`, `is_granted` and separate records | Current model stores one row with two booleans | Fail |
+| CT-15 | AC-3 | Route inventory | `PUT /consent/research` updates research consent and records update | Endpoint not present on main | Fail |
+| CT-16 | AC-4 | Route contract inspection | GET `/users/me` returns current-user profile | Profile GET is `/api/v1/auth/me`; `/api/v1/users/me` is DELETE | Fail |
+| CT-17 | AC-5 | Route inventory | GET `/consent/logs` returns consent history | Endpoint not present on main | Fail |
+| CT-18 | AC-3/5 | Model contract inspection | Consent history/update supports `updated_at` | Current `ConsentLog` has `created_at` only | Fail |
 
-### E05-01 Existing automated test
+## 4. Evidence and Reproducibility
 
-`server/tests/utils/test_risk_calculator.py` on the isolated main baseline:
+### 4.1 Evidence types
 
-```text
-.                                                                        [100%]
-1 passed in 0.03s
-```
+This artifact distinguishes executed tests, executed component probes and static contract inspection. Static inspection is used only where the SRS defines an explicit field/endpoint and the implementation contract can be verified directly; it is not presented as an end-to-end runtime test.
 
-### E05-02 Reproducible component probe
+| Evidence | Description | Supports |
+|---|---|---|
+| `E05-baseline.txt` | Code commit, SRS version and SRS SHA-256 | Frozen test basis |
+| `E05-pytest-component.txt` | Existing risk-calculator unit execution: `1 passed in 0.03s` | Risk logic supporting evidence |
+| `E05-component-probe.txt` | Risk examples/boundaries, auth handler behavior, route and visual contract inventory | CT-01 to CT-18 as mapped in work evidence |
+| `component_probe.py` | Reproducible probe source using fake DB and test-only environment | Re-execution / audit |
+### 4.2 Evidence integrity
 
-The probe confirms Hybrid max+bonus examples/boundaries, registration handler behavior, route inventory, and the Visual Analysis output contract. Raw evidence: `work/evidence/E05-component-probe.txt`.
+The test/probe execution used an isolated `origin/main` archive rather than the active product working branch. No `.env`, API key, token, production password or production database content is included in this artifact.
 
-### E05-03 Baseline record
+No claim is made for model Accuracy/F1/mDice, GPU inference time, end-to-end system pass, stakeholder approval or independent peer-review approval because those claims are not supported by Week 05 evidence.
 
-`work/evidence/E05-baseline.txt` records the ENGSE212 main commit and the SHA-256/version of canonical SRS v1.1 used for this artifact.
-## 5. Findings and Handoff
+<h2 style="page-break-before: always;">5. Findings and Handoff</h2>
 
-| Finding | Disposition / next action |
-|---|---|
-| F01 Visual dual-signal contract absent | Accepted implementation gap; fix ENGSE212 visual/AI-Gen output contract, then re-test |
-| F02 AC-7 example is not producible by Hybrid max+bonus | Clarify canonical SRS wording; does not invalidate AC-1/2 algorithm evidence |
-| F03 Register response misses `status`/`created_at` | Fix response schema/handler and add contract test |
-| F04 System Consent=false is accepted | Add validation/guard before persistence and re-test |
-| F05 Consent storage differs from event-log SRS contract | Reconcile schema/migration before integration testing |
-| F06 Research-consent update/log routes missing | Implement endpoints and component tests |
-| F07 `/users/me` route contract mismatch | Select canonical route and sync SRS/code via controlled change |
-| F08 W03/W04 used v1.0 | Closed for W05; SRS v1.1 is current authority |
+| ID | Finding | Status | Next action / handoff |
+|---|---|---|---|
+| F01 | Visual forgery/AI-Gen signals are not separated as required | Open | Fix output contract/detector then re-test before System/UAT |
+| F02 | AC-7 example 65 total / 85 visual is inconsistent with Hybrid max+bonus semantics | Needs Clarification | Clarify SRS through controlled change; do not guess algorithm intent |
+| F03 | Registration response misses `status` and `created_at` | Open | Fix response schema/handler and add contract test |
+| F04 | System Consent=false is accepted and persisted | Open | Add guard before persistence and re-test negative case |
+| F05 | Consent persistence differs from event/log SRS contract | Open | Reconcile schema/migration before integration testing |
+| F06 | Research-consent update/log endpoints are missing | Open | Implement endpoints and component/API tests |
+| F07 | `/users/me` profile route contract differs between SRS and code | Open | Select canonical route then synchronize SRS/code/test |
+| F08 | W03/W04 used SRS v1.0 | Closed for W05 | Preserve as history; use v1.1 as current authority |
 
-These product defects do not invalidate the Week 05 V&V artifact: failed tests are preserved as evidence and handed off to W06/W07/W14 rather than converted to Pass.
+<div class="callout"><strong>Handoff.</strong> F01/F05/F06/F07 feed Week 06 integration risk; F01/F03/F04/F06/F07 feed Week 07 System/UAT after fixes; performance/model-quality concerns feed Week 11; unresolved product findings may become formal defects in Week 14.</div>
 
-## 6. AI Use and Integrity
+## 6. AI Use and Review Integrity
 
-AI was used to organize test cases, run read-only/local verification through Remote Desktop Commander, compare code with SRS, and draft the report. All expected results were checked against SRS v1.1; all actual results come from executed probes/tests or direct source-contract inspection. No test result, stakeholder decision, screenshot, or approval was fabricated.
+AI was used to organize test cases, compare source contracts with the canonical SRS, execute local read-only verification through Remote Desktop Commander, and draft/report findings. Expected results were checked against SRS v1.1; actual results come from stored execution output or explicit source/schema/route inspection.
 
-No `.env`, token, API key, production password, or production database content is included. The component probe uses test-only configuration and an in-memory fake DB.
+No test result, screenshot, stakeholder decision, peer-review approval or product metric was fabricated.
 
-## 7. Review Gate
+### Review status
 
-Author-side Definition of Done is complete: canonical source/version is pinned, 18 test cases are traceable, raw evidence is stored, findings have owner/next action, and AI use is disclosed.
+The original v1 artifact was merged through PR #5 at commit `ca354a8` and tagged `w05-submission-v1`. GitHub showed no recorded independent PR review at verification time, and the reviewer decision fields remain pending in `work/05-peer-review.md`.
 
-Per `TEAM.md`, independent human peer review by **เอกพันธ์** is still required before merge/tag as `Submitted`. Until that sign-off exists, this artifact is **Ready for Review** and must not be represented as peer-reviewed or Submitted.
+Therefore this v2 Final document is a <strong>Revision Candidate</strong>. It may improve the quality of the Week 05 documentation without claiming that the independent peer-review gate has already passed.
+
+<div class="callout"><strong>Evidence package.</strong> Detailed scope, 18 test cases, raw evidence, findings, peer-review record and AI declaration are stored under <code>WEEKS/week-05/work/</code>. Canonical requirement and source repositories are linked on the cover page.</div>
