@@ -19,7 +19,7 @@
 | 02 | Project Quality Route Map v1 | Submitted | `WEEKS/week-02/submission/` | w02-submission-v1 | 19b68f4 | Panuwat / 2026-08-25 | — |
 | 03 | Revised Critical Requirements v1 | Submitted | `WEEKS/week-03/submission/W03_ScamGuard_Revised-Critical-Requirements_v1.pdf` | w03-submission-v1 | f001906 | Panuwat / 2026-08-25 | — |
 | 04 | SRS Review and RTM v1 | Submitted | `WEEKS/week-04/submission/W04_ScamGuard_SRS-Review-and-RTM_v1.pdf` | w04-submission-v1 | 4a2ac5f | Panuwat / 2026-08-26 | — |
-| 05 | Component Test Case Set | Planned | `WEEKS/week-05/` | — | — | — | template รอประกาศ |
+| 05 | Component Test Case Set | Ready for Review | `WEEKS/week-05/submission/W05_ScamGuard_Component-Test-Case-Set_v1.pdf` | — | — | ภานุวัฒน์ / 2026-09-22 | Author-side DoD complete: 18 cases, raw evidence, findings dispositioned, PDF generated; รอ human peer review โดยเอกพันธ์ก่อน Submitted |
 | 06 | Integration Test Design | Planned | `WEEKS/week-06/` | — | — | — | template รอประกาศ |
 | 07 | System/UAT Scenarios | Planned | `WEEKS/week-07/` | — | — | — | template รอประกาศ |
 | 08 | Test Case Suite v1 | Planned | `WEEKS/week-08/` | — | — | — | template รอประกาศ |

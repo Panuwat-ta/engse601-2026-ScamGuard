@@ -3,7 +3,7 @@
 | Input ID | Artifact | File path / URL | Version / date / commit | Owner | Status | Used by | Notes / change impact |
 |---|---|---|---|---|---|---|---|
 | IN-01 | Proposal | `INPUTS/proposal/` | 1.0 (รออนุมัติ) | Team ScamGuard | Draft | W01–W04 | แนบไฟล์ `SE02-แบบเสนอหัวข้อโครงงานวิศวกรรม.pdf` แล้ว |
-| IN-02 | Requirement/SRS | `INPUTS/requirements-srs/` | 1.0 / August 23, 2026 | Team ScamGuard | Current | W01–W04 | Baseline Source of Truth |
+| IN-02 | Requirement/SRS | `INPUTS/requirements-srs/` (mirror) / `https://github.com/Panuwat-ta/project/tree/main/Document/srs` (canonical) | SRS 1.1 / 2026-09-12 / `2b8a1fb0` | Team ScamGuard | Current | W05–W16 (current); W01–W04 historical | ไฟล์หลัก 04/05/06/07A ใน local mirror sync จาก canonical `Document/srs`; canonical GitHub path เป็น authority เมื่อมีความต่าง |
 | IN-03 | HLD/Detail Design | `INPUTS/design/` | 1.0 / 2026-08-24 | Team ScamGuard | Current | W02, W04–W08 | Baseline Design Documents |
 | IN-04 | ENGSE212 repository | `https://github.com/Panuwat-ta/project` | branch: main | Team ScamGuard | Current | W02–W16 | Source code repository |
 | IN-05 | Stakeholder/glossary/risk notes | `PROJECT.md` | 2026-08-24 | ภานุวัฒน์ ต๋าคำ | Current | W01–W04 | Risk and constraints (Critical context) |
@@ -19,4 +19,4 @@
 
 | Date | Input ID | Old → New | Reason | Week/artifact affected | Action/owner |
 |---|---|---|---|---|---|
-| [กรอก] | [กรอก] | [กรอก] | [กรอก] | [กรอก] | [กรอก] |
+| 2026-09-22 | IN-02 | local SRS v1.0 snapshot → local mirror synced from ENGSE212 `Document/srs` SRS v1.1 | อัปเดต `INPUTS/requirements-srs` ให้เป็น version ปัจจุบันและคง canonical GitHub source | W05 onward; re-check W03/W04 handoff เมื่อถูกนำมาใช้ | ภานุวัฒน์ |
