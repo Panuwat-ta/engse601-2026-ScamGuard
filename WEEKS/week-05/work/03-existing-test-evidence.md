@@ -2,12 +2,14 @@
 
 ## Evidence baseline
 
-หลักฐาน acceptance ของ Week 05 ต้องผูกกับ ENGSE212 `main` ตาม IN-04 จึงตรวจจาก `origin/main` commit `66bc9e4a` ใน isolated archive ที่ `/tmp/scamguard-w05-main` โดยไม่ checkout ทับ working tree ของโครงงานจริง
+Requirement authority ของ Week 05 คือ SRS v1.1 จาก `Document/srs` บน ENGSE212 `main` ส่วน code acceptance ตรวจจาก `origin/main` commit `66bc9e4a` ใน isolated archive ที่ `/tmp/scamguard-w05-main` โดยไม่ checkout ทับ working tree ของโครงงานจริง
 
-- URL: https://github.com/Panuwat-ta/project
+- Canonical SRS URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- SRS: `05_Software_Requirement_Specification.md` v1.1, dated 2026-09-12
+- Source-code URL: https://github.com/Panuwat-ta/project
 - Branch: main
-- Commit: `66bc9e4a`
-- Date: 2026-09-22
+- Code commit inspected: `66bc9e4a`
+- Date referenced: 2026-09-22
 
 ## E05-01 — Existing risk-calculator test suite
 
@@ -19,7 +21,7 @@ Result actually executed:
 1 passed in 0.03s
 ```
 
-Interpretation: มี existing unit test ของ Hybrid Worst-Case implementation แต่ test เดิมไม่ได้ตรวจว่า algorithm ตรงกับ weighted formula ใน SRS FR-ANALYSIS-04 AC-1
+Interpretation: มี existing unit test ของ Hybrid max+bonus implementation และ algorithm หลักตรงกับ FR-ANALYSIS-04 v1.1
 
 ## E05-02 — Boundary execution against main implementation
 
@@ -32,17 +34,18 @@ Interpretation: มี existing unit test ของ Hybrid Worst-Case implementa
 (70, 0, 0) -> total=70, grade=high
 ```
 
-## E05-03 — SRS weighted-score mismatch reproduced
+ผลตรงกับ band rule Low 0–39 / Medium 40–69 / High 70–100 ใน SRS v1.1
 
-SRS FR-ANALYSIS-04 AC-1 กำหนด input `text=75, visual=87, source=75` และ expected `risk_score=80` จากสูตร 0.25/0.45/0.30
+## E05-03 — Canonical FR-ANALYSIS-04 examples reproduced
 
-Execution against `origin/main` returned:
+หลังเปลี่ยน test basis จาก snapshot v1.0 มาเป็น canonical SRS v1.1 ได้รันตัวอย่าง AC-1/AC-2 จริง:
 
 ```text
-(75, 87, 75) -> total=97, grade=high, primary=visual, multi=True
+(50, 85, 0) -> total=90, grade=high, primary=visual, multi=True
+(100, 100, 100) -> total=100, grade=high, primary=visual, multi=True
 ```
 
-Disposition: `Existing — mismatch found`. ห้ามนับเป็น requirement pass; เปิด finding W05-F02 เพื่อ reconcile source of truth กับ implementation
+Disposition: `Existing — aligned`. Finding เดิมที่กล่าวว่า code ควรได้ weighted score 80 ถูกยกเลิก เพราะ weighted formula เป็นข้อมูลจาก baseline เก่า ไม่ใช่ SRS v1.1 ปัจจุบัน
 
 ## E05-04 — System Consent validation static execution
 
@@ -52,15 +55,21 @@ Disposition: `Existing — mismatch found`. ห้ามนับเป็น re
 RegisterRequest accepts system_consent=False: True
 ```
 
-Code review ของ `/auth/register` ไม่พบ guard ที่ reject ก่อนสร้าง user/ConsentLog ดังนั้น AC-R5-02 ยังไม่มี implementation evidence ที่ผ่าน
+Code review ของ `/auth/register` ไม่พบ guard ที่ reject ก่อนสร้าง user/ConsentLog ดังนั้น FR-AUTH-01 AC-5 ยังไม่มี implementation evidence ที่ผ่าน
 
 ## E05-05 — Consent endpoint inventory
 
-`git grep` บน `origin/main` พบ consent API logic เฉพาะ registration ใน `server/app/api/v1/auth.py`; ไม่พบ GET/PUT consent-management route ใน `server/app/api/v1`
+`git grep` บน `origin/main` พบ consent write ตอน registration แต่ไม่พบ `PUT /consent/research` และ `GET /consent/logs` ใน `server/app/api/v1`
 
-Disposition: W05-CT-14 ถึง W05-CT-16 = `Not Ready` จนกว่าจะมี canonical endpoint/behavior
+Disposition: W05-CT-14/15 = `Not Ready` จนกว่าจะมี endpoint/model contract ตาม SRS v1.1
 
-## E05-06 — Auth component test execution status
+## E05-06 — Right-to-Access route inventory
+
+SRS v1.1 FR-PDPA-01 AC-4 ระบุ `GET /users/me` แต่ main มี profile read ที่ `GET /api/v1/auth/me`; `users` router มี `DELETE /api/v1/users/me` สำหรับลบบัญชี
+
+Disposition: W05-CT-16 = `Not Ready` และเปิด finding เพื่อ reconcile route/response contract
+
+## E05-07 — Auth component test execution status
 
 พยายามรัน `server/tests/api/test_auth.py` จาก isolated `origin/main` archive แต่ test collection หยุดก่อน execute เพราะ archive ไม่รวม runtime `.env` และ `Settings` ต้องการ `ALLOWED_ORIGINS`, `DATABASE_URL`, `JWT_SECRET_KEY`, `REDIS_URL`, `ONNX_MODEL_PATH`, `XAI_MODEL_PATH`
 

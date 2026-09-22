@@ -4,27 +4,36 @@
 
 | ID | Finding | Trace / evidence | Impact | Status | Owner | Next action |
 |---|---|---|---|---|---|---|
-| W05-F01 | Visual Analysis contract ไม่ตรง SRS: SRS/W03 ต้องมี `forgery_confidence` + `ai_gen_confidence` และสูตร 0.6/0.4 แต่ `onnx_worker.py` main ใช้ max forgery probability เป็นทั้ง `visual_risk_score` และ `ai_gen_probability` | REQ-01, AC-R1-01; `server/app/services/onnx_worker.py` | W05-CT-02 และ threshold tests ยังพิสูจน์ requirement ไม่ได้ | Not Ready | ภานุวัฒน์ | ตัดสิน canonical visual pipeline/contract แล้วปรับ code หรือออก SRS baseline ใหม่พร้อมเหตุผล |
-| W05-F02 | Overall Risk algorithm ไม่ตรง SRS: FR-ANALYSIS-04 ใช้ weighted 0.25/0.45/0.30 แต่ main codeใช้ Hybrid Worst-Case + compounding | FR-ANALYSIS-04 AC-1; E05-03 ได้ 97 แทน expected 80 | คะแนน/grade ที่ผู้ใช้เห็นอาจไม่ตรง requirement; Special Rule AC-6 ไม่สามารถแยกพิสูจน์ตาม semantics เดิม | Not Ready | ภานุวัฒน์ | Reconcile SRS/design/code ก่อนเพิ่ม acceptance test ถาวร |
-| W05-F03 | `system_consent=False` ผ่าน `RegisterRequest` และ route ไม่มี explicit reject | REQ-05 AC-R5-02; E05-04 | ขัดข้อกำหนด System Consent บังคับ | Not Ready | ภานุวัฒน์ | เพิ่ม validation/route guard หรือแก้ requirement ผ่าน baseline process; จากนั้นเพิ่ม negative API test |
-| W05-F04 | Consent storage contract ไม่ตรง SRS: code เก็บ 1 row มีสอง boolean และไม่มี `updated_at`; SRS/W03 อ้าง event/audit semantics | REQ-05 AC-R5-01/03/04 | audit trail grant→revoke ตาม requirement ยังยืนยันไม่ได้ | Not Ready | ภานุวัฒน์ | กำหนด canonical consent schema และ migration/update strategy |
-| W05-F05 | ไม่พบ GET/PUT consent-management endpoint บน main | REQ-05 AC-R5-03/04/05; E05-05 | revoke, read logs และ withdrawal rule ยังทดสอบไม่ได้ | Not Ready | ภานุวัฒน์ | Implement endpoint ตาม baseline หลัง schema decision แล้วเพิ่ม API component tests |
-| W05-F06 | Q-01 threshold + AI-generator scope ยังไม่ถูกตัดสิน | GA-01 / W04 | block W05-CT-03 และ model decision tests | Open | ภานุวัฒน์ | ปิด Q-01 ด้วย decision record ก่อน model acceptance testing |
-| W05-F07 | Q-06 retroactive research-consent handling ยังเปิด | GA-06 / W04 | block W05-CT-17 และ admin dataset flow | Open | ภานุวัฒน์ | ปรึกษาอาจารย์ที่ปรึกษาและบันทึก decision ก่อน implement flow ที่เกี่ยวข้อง |
+| W05-F01 | Visual Analysis contract ยังไม่ตรง SRS v1.1: baseline แยก SegFormer forgery confidence แบบ `Normalize(Confidence×Coverage)` และ AI-Gen detector แต่ main ใช้ max SegFormer probability เป็นทั้ง `visual_risk_score` และ `ai_gen_probability` | FR-ANALYSIS-02 AC-1/2/3; `server/app/services/onnx_worker.py` | W05-CT-01 ถึง 03 ยังใช้เป็น requirement pass ไม่ได้ | Not Ready | ภานุวัฒน์ | กำหนด/implement output contract ให้ตรง canonical SRS หรือแก้ baseline ผ่าน change process แล้ว re-test |
+| W05-F02 | Finding เดิมเรื่อง weighted Overall Risk Score ถูกยกเลิกหลังยืนยัน canonical SRS v1.1; Hybrid max+bonus ใน main ตรง AC-1/2 แต่ AC-7 Visual Override ใช้ตัวอย่าง `risk_score=65, visual=85` ซึ่งเกิดจาก calculator เดียวกันไม่ได้เพราะ total ต้องไม่น้อยกว่า visual | FR-ANALYSIS-04 AC-1/2/7; E05-03 | Algorithm หลักผ่านการ align แต่ AC-7 ควร clarify ว่าเป็น grade-rule unit test แยกหรือ legacy example | Needs Clarification | ภานุวัฒน์ | เก็บ Hybrid max+bonus เป็น baseline; review AC-7 wording โดยไม่เปลี่ยน algorithm จากการเดา |
+| W05-F03 | `system_consent=False` ผ่าน `RegisterRequest` และ route ไม่มี explicit reject | FR-AUTH-01 AC-5; E05-04 | ขัดข้อกำหนด System Consent บังคับ | Not Ready | ภานุวัฒน์ | เพิ่ม validation/route guard แล้วเพิ่ม negative API test |
+| W05-F04 | Consent storage contract ไม่ตรง SRS v1.1: SRS ระบุ consent log event fields (`consent_type`, `is_granted`, timestamps) แต่ main เก็บหนึ่ง row สอง boolean และไม่มี `updated_at` | FR-PDPA-01 AC-2/3/5 | revoke/audit trail ตาม baseline ยังยืนยันไม่ได้ | Not Ready | ภานุวัฒน์ | Reconcile canonical consent schema กับ implementation/migration ก่อน re-test |
+| W05-F05 | ไม่พบ `PUT /consent/research` และ `GET /consent/logs` บน main | FR-PDPA-01 AC-3/5; E05-05 | ถอน Research Consent และอ่าน audit logs ยังทดสอบไม่ได้ | Not Ready | ภานุวัฒน์ | Implement endpoint ตาม baseline หลัง schema decision แล้วเพิ่ม API component tests |
+| W05-F06 | Right-to-Access route contract ไม่ตรง: SRS ระบุ `GET /users/me` แต่ main ใช้ `GET /api/v1/auth/me`; `/api/v1/users/me` เป็น DELETE | FR-PDPA-01 AC-4; E05-06 | Client/API contract และ test path ไม่ตรง baseline | Not Ready | ภานุวัฒน์ | ตัดสิน canonical route แล้วปรับ SRS หรือ code ผ่าน controlled change จากนั้นเพิ่ม contract test |
+| W05-F07 | W03/W04 handoff อ้าง SRS v1.0 แต่ canonical source ปัจจุบันเป็น SRS v1.1; บาง finding/decision เช่น weighted score 0.25/0.45/0.30 ถูกแก้ใน baseline ใหม่แล้ว | IN-02, SRS v1.1, W03/W04 artifacts | ถ้าใช้ handoff เก่าโดยไม่ re-check จะสร้าง test case ผิด baseline | Open | ภานุวัฒน์ | อัปเดต Input Register และใช้ SRS v1.1 เป็น authority สำหรับ W05 เป็นต้น; เก็บ W03/W04 เป็น historical evidence |
 
 ## Week 05 working decision
 
-Week 05 ดำเนินต่อได้เฉพาะ test ที่มี acceptance basis ชัดและไม่พึ่ง open decision ได้แก่ risk-grade boundaries และ registration happy path ส่วน visual-score formula, Q-01 threshold, consent revoke/audit และ Q-06 ต้องคงสถานะ `Not Ready` จนกว่าจะมี decision/implementation ที่ตรวจสอบได้
+Week 05 เดินหน้าต่อด้วย canonical SRS v1.1 โดยรับ Hybrid max+bonus เป็น current requirement และใช้ existing risk-calculator evidence ได้ ส่วน Visual Analysis contract และ consent flows ยังเป็น `Not Ready` ตาม findings ด้านบน
 
-ยังไม่แก้ SRS v1.0 และยังไม่แก้ source code ENGSE212 ใน session นี้ เพราะ findings W05-F01 ถึง W05-F07 ต้องผ่าน owner/review process ก่อน
+W03/W04 ยังคงเป็นหลักฐานการทบทวนย้อนหลัง ไม่แก้ไฟล์ submission เก่าเพื่อซ่อนประวัติ แต่จะไม่ยก wording จาก v1.0 มา override SRS v1.1
+
+Behavior ที่ SRS v1.1 ไม่ได้กำหนด เช่น retroactive deletion ของข้อมูล research หลังถอน consent จะไม่ถูกสร้าง expected result ขึ้นเอง และไม่ถือเป็น Week 05 acceptance criterion
 
 ## Re-check criteria
 
-- W05-F01 ปิดได้เมื่อมี code contract ที่แยก signal ตาม baseline หรือมี approved SRS revision ที่อธิบาย algorithm ใหม่
-- W05-F02 ปิดได้เมื่อ FR-ANALYSIS-04 กับ code ใช้ algorithm เดียวกัน และ W05-CT-04 ผ่านบน main
-- W05-F03 ปิดได้เมื่อ negative test `system_consent=false` ได้ HTTP 400 และไม่มี user/consent row ถูกสร้าง
-- W05-F04/F05 ปิดได้เมื่อ consent schema/API รองรับ revoke + audit trail ตาม baseline และ component tests ผ่าน
-- W05-F06/F07 ปิดได้เมื่อมี decision record จริงจาก owner/advisor ตามที่ Gate A กำหนด
+- W05-F01 ปิดได้เมื่อ main มี visual output contract ที่ trace ได้ถึง FR-ANALYSIS-02 AC-1/2/3 หรือมี baseline revision ที่อนุมัติแล้ว
+- W05-F02 ปิดได้เมื่อ AC-7 ถูกทำให้ testable โดยไม่ขัดกับ Hybrid max+bonus หรือมีคำอธิบายว่าเป็น isolated grading rule
+- W05-F03 ปิดได้เมื่อ `system_consent=false` ได้ HTTP 400 และไม่มี user/consent data ถูกสร้าง
+- W05-F04/F05 ปิดได้เมื่อ consent schema/API รองรับ revoke + audit trail ตาม SRS v1.1 และ component tests ผ่าน
+- W05-F06 ปิดได้เมื่อ profile route/response contract ตรงกันระหว่าง SRS และ main
+- W05-F07 ปิดได้เมื่อ source/version register และ Week 05 trace ใช้ canonical v1.1 ครบ โดยไม่แก้ประวัติ submission เก่า
+
+## Canonical SRS reference
+
+- URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- Branch: main
+- SRS version: 1.1
 
 ## Source-code reference
 

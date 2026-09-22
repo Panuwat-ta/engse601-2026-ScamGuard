@@ -8,11 +8,12 @@
 
 ## Test basis
 
-- SRS Source of Truth: `INPUTS/requirements-srs/05_Software_Requirement_Specification.md` v1.0
-- Week 03: `WEEKS/week-03/work/critical-requirement-review.md`
-- Week 04: `03-rtm-lite.csv`, `04-gate-a-decision.md`, `05-phase-2-entry-pack.md`
-- Primary scope: REQ-01 / FR-ANALYSIS-02 และ REQ-05 / FR-PDPA-01
-- Supporting rule: FR-ANALYSIS-04 risk-grade boundary และ Visual Override
+- Canonical Requirement/SRS: `/home/panuwat/project/Document/srs/`
+- Canonical URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- Branch: `main`
+- Current SRS: `05_Software_Requirement_Specification.md` v1.1 (September 12, 2026); latest commit touching SRS on main: `2b8a1fb0`
+- Week 03 และ Week 04 เป็น historical V&V evidence จาก baseline ก่อนหน้า; ใช้เป็น handoff ได้ แต่หากขัดกับ SRS v1.1 ให้ SRS v1.1 เป็น test basis
+- Primary scope: FR-ANALYSIS-02, FR-ANALYSIS-04, FR-AUTH-01 และ FR-PDPA-01
 
 ## Source-code reference
 

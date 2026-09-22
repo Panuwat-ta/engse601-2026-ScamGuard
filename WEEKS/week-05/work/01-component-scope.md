@@ -2,20 +2,22 @@
 
 ## Scope
 
-Week 05 เริ่มจาก critical slice ที่ Week 04 ระบุไว้ ไม่ขยายไปทดสอบทั้งระบบในรอบเดียว
+Week 05 เริ่มจาก critical slice ที่ Week 04 ส่งต่อมา แต่ re-check test basis กับ SRS canonical ปัจจุบันก่อน ไม่ขยายไปทดสอบทั้งระบบในรอบเดียว
 
 | Scope ID | Requirement / rule | Component under test | Reason |
 |---|---|---|---|
-| C01 | REQ-01 / FR-ANALYSIS-02 | `server/app/services/onnx_worker.py` | เป็นจุดสร้าง `visual_risk_score` จากผล visual model |
-| C02 | FR-ANALYSIS-04 supporting rule | `server/app/utils/risk_calculator.py` | เป็น logic ตัด Low/Medium/High และ Visual Override ที่ AC-R1 อ้างต่อ |
-| C03 | REQ-05 / FR-PDPA-01 + FR-AUTH-01 | `server/app/schemas/auth.py`, `server/app/api/v1/auth.py`, `server/app/models/consent.py` | registration และ consent persistence เป็น component ที่มี code จริงบน main |
+| C01 | FR-ANALYSIS-02 | `server/app/services/onnx_worker.py` | เป็นจุดสร้าง visual model output, heatmap และ `visual_risk_score` |
+| C02 | FR-ANALYSIS-04 | `server/app/utils/risk_calculator.py` | เป็น logic Hybrid max+bonus, grade boundaries และ Visual Override |
+| C03 | FR-AUTH-01 + FR-PDPA-01 | `server/app/schemas/auth.py`, `server/app/api/v1/auth.py`, `server/app/models/consent.py` | registration, consent validation และ consent persistence มี code จริงบน main |
 
-## Inputs frozen for this draft
+## Requirement baseline frozen for this draft
 
-- Requirement baseline: SRS v1.0 / IN-02
-- Design baseline: IN-03 v1.0 ใช้ประกอบ แต่หากขัดกับ SRS ให้ SRS เป็น test basis
-- Week 03 revised wording ใช้เป็น proposed clarification; Q-01 ถึง Q-06 ที่ยังไม่ปิดไม่ถือเป็น decision ใหม่
-- Week 04 Gate A = Conditional; W05 จึงต้องคง blocker และ owner ไว้ให้เห็น
+- Local canonical source: `/home/panuwat/project/Document/srs/`
+- Canonical URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
+- Branch: `main`
+- SRS: `05_Software_Requirement_Specification.md` v1.1, dated 2026-09-12
+- Requirement Candidates/Traceability ที่ใช้ประกอบต้องมาจากโฟลเดอร์ canonical เดียวกัน
+- Week 03/04 เป็นหลักฐานย้อนหลังจาก SRS v1.0; หาก wording หรือ algorithm ขัดกับ SRS v1.1 จะไม่ใช้ wording เก่าเป็น acceptance basis
 
 ## Source-code baseline
 
@@ -28,21 +30,23 @@ Week 05 เริ่มจาก critical slice ที่ Week 04 ระบุ�
 
 ## Code-reading result before test design
 
-1. `onnx_worker.py` บน main สร้าง `visual_risk_score = round(max(forgery_probability) * 100)` และใส่ค่าเดียวกันเป็น `ai_gen_probability`; ยังไม่เห็นสองสัญญาณอิสระ `forgery_confidence` และ `ai_gen_confidence` ตามสูตร SRS/W03 `0.6/0.4` จึงยังใช้ code ปัจจุบันพิสูจน์ AC-R1-01 ตาม revised wording ไม่ได้
-2. `risk_calculator.py` มี logic Low 0–39, Medium 40–69, High 70–100 และ Visual Override เมื่อ `visual_score >= 80`; สามารถออกแบบ boundary unit test ได้ทันที
-3. `RegisterRequest` ยอมรับ `system_consent=False` และ route `/auth/register` ไม่มี guard ที่ reject ค่านี้ก่อนสร้าง user; ขัดกับ SRS ที่คาด HTTP 400 เมื่อไม่ให้ System Consent
-4. `ConsentLog` บน main เป็นหนึ่ง row ที่มี `system_consent` และ `research_consent`; ยังไม่มี `updated_at` และไม่พบ GET/PUT consent-management endpoint ใน `server/app/api/v1`
+1. SRS v1.1 กำหนด SegFormer forgery confidence ด้วย `Normalize(Confidence×Coverage)` และกำหนด AI-Gen Detection เป็นสัญญาณแยก แต่ `onnx_worker.py` บน main ใช้ `max(prob_map)` เป็น `visual_risk_score` และใส่ค่าเดียวกันเป็น `ai_gen_probability`; ยังไม่เห็น separate AI-Gen detector/output contract ตาม FR-ANALYSIS-02 AC-2
+2. `risk_calculator.py` บน main ใช้ Hybrid max+bonus และช่วง Low/Medium/High ซึ่งสอดคล้องกับ FR-ANALYSIS-04 v1.1; mismatch ที่เคยพบจาก SRS v1.0 ไม่ใช่ defect ของ baseline ปัจจุบัน
+3. FR-AUTH-01 AC-5 ต้อง reject `system_consent=false` ด้วย HTTP 400 แต่ `RegisterRequest` ยอมรับ false และ route `/auth/register` ไม่มี guard ที่ reject ก่อนสร้าง user
+4. FR-PDPA-01 AC-2/3/5 อธิบาย consent แบบ event/log (`consent_type`, `is_granted`, `created_at`, `updated_at`) แต่ model บน main เป็นหนึ่ง row ที่มี `system_consent` และ `research_consent` และยังไม่พบ GET/PUT consent-management endpoint
+5. FR-PDPA-01 AC-4 ระบุ `GET /users/me` แต่ main expose profile read ที่ `/api/v1/auth/me`; `/api/v1/users/me` บน main เป็น DELETE account จึงต้อง reconcile route contract
 
 ## Test approach
 
-- Unit/logic tests: deterministic pure logic เช่น risk-grade boundaries และ input clamping
+- Unit/logic tests: deterministic pure logic เช่น Hybrid max+bonus, grade boundaries และ input clamping
 - Component/API tests: FastAPI route + mocked/isolated DB สำหรับ registration/consent behavior
 - Component adapter tests: ONNX worker contract โดยไม่อ้างว่า model accuracy ผ่าน จนกว่าจะมี model/dataset evidence จริง
-- ทุก case ที่พึ่ง Q-01/Q-06 หรือ endpoint ที่ยังไม่มี ให้ใช้ `Not Ready` หรือ `Planned` แทนการสร้างผลผ่าน–ไม่ผ่านขึ้นมาเอง
+- Requirement ที่ไม่มี behavior ระบุใน SRS v1.1 จะไม่สร้าง expected result ขึ้นเอง; ให้บันทึกเป็น gap/open issue แทน
 
 ## Out of scope for Week 05 draft
 
-- Dataset-level Accuracy/Precision/Recall/F1 ของ NFR-05: ส่งต่อ System evaluation
+- Dataset-level Accuracy/Precision/Recall/F1/mDice: ส่งต่อ model/system evaluation
 - System/UAT journey: Week 07
 - Performance percentile/load test: Week 11
-- Stakeholder approval หรือ PDPA legal decision ที่ยังไม่มีหลักฐาน
+- Retroactive research-dataset handling หลังถอน consent เพราะ SRS v1.1 ยังไม่กำหนด behavior นี้
+- Stakeholder approval หรือ legal decision ที่ยังไม่มีหลักฐาน

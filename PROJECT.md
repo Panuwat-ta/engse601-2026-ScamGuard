@@ -51,7 +51,7 @@
 
 ## Current truth
 
-- Requirement/SRS version ที่ใช้อยู่: 1.0 (อ้างอิง 05_Software_Requirement_Specification.md)
+- Requirement/SRS version ที่ใช้อยู่: 1.1 (`Document/srs/05_Software_Requirement_Specification.md`, canonical: https://github.com/Panuwat-ta/project/tree/main/Document/srs)
 - Design version ที่ใช้อยู่: Not Ready
 - Latest build/commit ที่อ้างอิง: Not Ready
-- อัปเดตล่าสุดโดย/วันที่: ภานุวัฒน์ ต๋าคำ / 2026-08-24
+- อัปเดตล่าสุดโดย/วันที่: ภานุวัฒน์ ต๋าคำ / 2026-09-22
