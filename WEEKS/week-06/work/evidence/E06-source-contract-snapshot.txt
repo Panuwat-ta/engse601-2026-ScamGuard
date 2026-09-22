@@ -1,0 +1,324 @@
+Week 06 - Source Contract Snapshot
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+[FILE] server/app/api/v1/scan.py
+SHA-256: a5e2931ecb3c3f3c9c6bfef704ac0ba79d4479a6227b61c3f672c3b0172a5bfc
+  16: @router.post("/", response_model=ScanResponse)
+  17: @limiter.limit(SCAN_CREATE_LIMIT)
+  18: async def create_scan(request: Request, 
+  19:     background_tasks: BackgroundTasks,
+  20:     file: UploadFile = File(...),
+  21:     title: str | None = Form(None),
+  22:     db: AsyncSession = Depends(get_db),
+  23:     current_user: User = Depends(get_current_user)
+  24: ):
+  25:     """
+  26:     อัปโหลดรูปภาพเพื่อวิเคราะห์หา Scam Image แบบ Asynchronous
+  27:     """
+  28:     scan_record, file_bytes, image_hash = await create_scan_task(file, current_user.id, db, title)
+  29:     
+  30:     background_tasks.add_task(process_image_background, scan_record.id, file_bytes, image_hash)
+  31:     
+  32:     return scan_record
+  33: 
+  34: @router.get("/{scan_id}", response_model=ScanResponse)
+  35: @limiter.limit(USER_LIMIT)
+  36: async def get_scan(request: Request, 
+  37:     scan_id: UUID,
+  38:     db: AsyncSession = Depends(get_db),
+  39:     current_user: User = Depends(get_current_user)
+  40: ):
+  41:     """
+  42:     ดึงข้อมูลการวิเคราะห์ย้อนหลัง หรือ Poll สถานะล่าสุด
+  43:     """
+  44:     result = await db.execute(select(Scan).where(Scan.id == scan_id))
+  45:     scan_record = result.scalars().first()
+  46:     
+  47:     if not scan_record:
+  48:         raise HTTPException(status_code=404, detail="Scan not found")
+  49:         
+  50:     if scan_record.user_id != current_user.id and current_user.role != "admin":
+  51:         raise HTTPException(status_code=403, detail="Not authorized to view this scan")
+  52:         
+  53:     risk_result = calculate_risk_score(scan_record.text_score, scan_record.visual_score, scan_record.source_score)
+  54:     scan_record.risk_grade = risk_result["grade"]
+  55:         
+  56:     return scan_record
+
+[FILE] server/app/services/scan_service.py
+SHA-256: fab97c632f3c056b34df835d4c0ecfb2f167ed6205990cbfb3096085000501d0
+  95:             # 6. Check Redis cache
+  96:             cache_key = f"scan_result:{image_hash}"
+  97:             cached_data = None
+  98:             
+  99:             if redis_core.redis_client:
+ 100:                 try:
+ 101:                     cached_str = await redis_core.redis_client.get(cache_key)
+ 102:                     if cached_str:
+ 103:                         cached_data = json.loads(cached_str)
+ 104:                 except Exception as e:
+ 105:                     print(f"Redis cache read error: {e}")
+ 106: 
+ 107:             heatmap_filename = f"{image_hash}_heatmap.jpg"
+ 108:             heatmap_path = os.path.join(heatmap_dir, heatmap_filename)
+ 109: 
+ 110:             scan.status = "processing_visual"
+ 111:             scan.progress = 50
+ 112:             await db.commit()
+ 113: 
+ 114:             if cached_data:
+ 115:                 inference_result = cached_data
+ 116:             else:
+ 117:                 inference_result = await run_in_threadpool(inference_service.predict, png_bytes)
+ 118:                 
+ 119:                 if inference_result.get("heatmap_bytes"):
+ 120:                     with open(heatmap_path, "wb") as f:
+ 121:                         f.write(inference_result["heatmap_bytes"])
+ 122:                     del inference_result["heatmap_bytes"]
+ 123:                     inference_result["has_heatmap"] = True
+ 124: 
+ 125:                 if redis_core.redis_client:
+ 126:                     try:
+ 127:                         await redis_core.redis_client.setex(cache_key, 2592000, json.dumps(inference_result))
+ 128:                     except Exception as e:
+ 129:                         print(f"Redis cache write error: {e}")
+ 130:                         
+ 131:             if os.path.exists(heatmap_path):
+ 132:                 scan.heatmap_image_url = heatmap_path
+
+[FILE] server/app/services/scan_service.py
+SHA-256: fab97c632f3c056b34df835d4c0ecfb2f167ed6205990cbfb3096085000501d0
+ 154:             source_score = settings.DEFAULT_SOURCE_SCORE
+ 155:             visual_score = inference_result.get("visual_risk_score", 0)
+ 156:             ai_gen_probability = inference_result.get("ai_gen_probability", 0.0)
+ 157:             anomaly_region = inference_result.get("anomaly_region", "บริเวณที่น่าสงสัยในภาพ")
+ 158: 
+ 159:             risk_result = calculate_risk_score(text_score, visual_score, source_score)
+ 160: 
+ 161:             # Generate Explainable AI (XAI) explanation using Qwen2.5-1.5B
+ 162:             xai_explanation = await run_in_threadpool(
+ 163:                 inference_service.generate_xai_explanation,
+ 164:                 region=anomaly_region,
+ 165:                 visual_score=visual_score,
+ 166:                 ai_gen_probability=ai_gen_probability,
+ 167:                 scam_keywords=found_keywords
+ 168:             )
+ 169: 
+ 170:             scan.text_score = text_score
+ 171:             scan.visual_score = visual_score
+ 172:             scan.source_score = source_score
+ 173:             scan.total_risk_score = risk_result["total_risk_score"]
+ 174:             scan.ocr_text = ocr_text
+ 175:             scan.scam_keywords_found = found_keywords
+ 176:             scan.ai_gen_probability = ai_gen_probability
+ 177:             scan.xai_explanation = xai_explanation
+ 178:             scan.status = "completed"
+ 179:             scan.progress = 100
+ 180:             scan.completed_at = datetime.now(TH_TIMEZONE)
+ 181:             
+ 182:             await db.commit()
+ 183:             
+ 184:             # Broadcast to admin dashboard
+ 185:             await manager.broadcast({"type": "refresh_dashboard"})
+ 186: 
+ 187:         except Exception as e:
+ 188:             scan.status = "failed"
+ 189:             scan.progress = 0
+ 190:             # Optional: save error message to some field if exists
+
+[FILE] server/app/api/v1/history.py
+SHA-256: 44bab52d192f9e190c0e857e9e6d919404ddbb0f26740b959a496bba33412b72
+  18: @router.get("", response_model=HistoryListResponse)
+  19: @limiter.limit(USER_LIMIT)
+  20: async def get_history(request: Request, 
+  21:     page: int = Query(1, ge=1),
+  22:     limit: int = Query(20, ge=1, le=100),
+  23:     keyword: str = Query(None),
+  24:     risk_level: str = Query(None),
+  25:     db: AsyncSession = Depends(get_db),
+  26:     current_user: User = Depends(get_current_user)
+  27: ):
+  28:     offset = (page - 1) * limit
+  29: 
+  30:     # Base filter for user's scans
+  31:     base_filters = [Scan.user_id == current_user.id]
+  32: 
+  33:     # Keyword search: title, status, scan id
+  34:     if keyword and keyword.strip():
+  35:         kw = f"%{keyword.strip()}%"
+  36:         try:
+  37:             from sqlalchemy import cast, String as SAString
+  38:             base_filters.append(
+  39:                 or_(
+  40:                     Scan.title.ilike(kw),
+  41:                     Scan.status.ilike(kw),
+  42:                     cast(Scan.id, SAString).ilike(kw),
+  43:                 )
+  44:             )
+  45:         except Exception:
+  46:             base_filters.append(
+  47:                 or_(
+  48:                     Scan.title.ilike(kw),
+  49:                     Scan.status.ilike(kw),
+  50:                 )
+  51:             )
+  52:     
+  53:     # Query total
+  54:     total_query = select(func.count()).select_from(Scan).where(*base_filters)
+  55:     total_result = await db.execute(total_query)
+  56:     total = total_result.scalar() or 0
+  57:     
+  58:     # Query items
+  59:     items_query = (
+  60:         select(Scan)
+  61:         .where(*base_filters)
+  62:         .order_by(desc(Scan.created_at))
+  63:         .offset(offset)
+  64:         .limit(limit)
+  65:     )
+  66:     items_result = await db.execute(items_query)
+  67:     scans = items_result.scalars().all()
+  68:     
+  69:     history_items = []
+  70:     for s in scans:
+  71:         # Calculate risk grade
+  72:         risk = calculate_risk_score(s.text_score, s.visual_score, s.source_score)
+  73:         
+  74:         title = s.title if s.title else "ผลการสแกน"
+  75:         
+  76:         history_items.append(HistoryItemResponse(
+  77:             scan_id=s.id,
+  78:             thumbnail_url=f"/uploads/{s.raw_image_url.split('/')[-1]}" if s.raw_image_url else None,
+  79:             risk_score=s.total_risk_score,
+  80:             risk_level=risk["grade"],
+  81:             status=s.status,
+  82:             created_at=s.created_at,
+  83:             title=title
+  84:         ))
+  85:         
+  86:     return HistoryListResponse(
+  87:         items=history_items,
+  88:         total=total,
+  89:         page=page,
+  90:         limit=limit
+  91:     )
+
+[FILE] server/app/api/v1/report.py
+SHA-256: 78e666d07fe3b668032119334e01475c9bd7bcfbb833830ab45b7a6d5b3f1fcc
+  12: @router.post("", response_model=ReportSubmitResponse, status_code=201)
+  13: @limiter.limit(USER_LIMIT)
+  14: async def create_report(
+  15:     request: Request,
+  16:     body: ReportCreateRequest,
+  17:     db: AsyncSession = Depends(get_db),
+  18:     current_user: User = Depends(get_current_user)
+  19: ):
+  20:     """POST /api/v1/reports - ผู้ใช้รายงานภาพหลอกลวง"""
+  21:     report = await report_service.create_report(db, current_user.id, body)
+  22:     return {
+  23:         "id": report.id,
+  24:         "scan_id": report.scan_id,
+  25:         "category": report.category,
+  26:         "status": report.status,
+  27:         "message": "รายงานถูกส่งเรียบร้อยแล้ว ทีมงานจะตรวจสอบโดยเร็วที่สุด",
+  28:         "created_at": report.created_at
+  29:     }
+
+[FILE] server/app/services/report_service.py
+SHA-256: e7e6c469bc424732768a5edb02e89fa3567bd764991875a194d8d4c26a3f8c51
+  11: async def create_report(db: AsyncSession, user_id: int, request: ReportCreateRequest) -> ScamReport:
+  12:     # Check if scan exists and belongs to user
+  13:     stmt = select(Scan).where(Scan.id == request.scan_id, Scan.user_id == user_id)
+  14:     result = await db.execute(stmt)
+  15:     scan = result.scalar_one_or_none()
+  16:     
+  17:     if not scan:
+  18:         raise HTTPException(status_code=403, detail="Scan not found or you don't have permission")
+  19: 
+  20:     # Check if already reported
+  21:     stmt = select(ScamReport).where(ScamReport.scan_id == request.scan_id)
+  22:     result = await db.execute(stmt)
+  23:     existing_report = result.scalar_one_or_none()
+  24:     
+  25:     if existing_report:
+  26:         raise HTTPException(status_code=409, detail="This scan has already been reported")
+  27: 
+  28:     report = ScamReport(
+  29:         user_id=user_id,
+  30:         scan_id=request.scan_id,
+  31:         category=request.category,
+  32:         reason=request.description,
+  33:         platform=request.platform,
+  34:         reference_url=request.reference_url,
+  35:         allow_research_use=request.allow_research_use,
+  36:         status="pending"
+  37:     )
+  38:     
+  39:     db.add(report)
+  40:     await db.commit()
+  41:     await db.refresh(report)
+  42: 
+  43:     await manager.broadcast({"type": "refresh_dashboard"})
+  44:     
+  45:     # We set a description attribute so Pydantic schema can read it
+  46:     report.description = report.reason
+  47:     
+  48:     return report
+
+[FILE] server/app/main.py
+SHA-256: 335d576164f1fe369dfd00595384221caad2c435ac2606229e85d1e32cc652fe
+  59: # Serve uploaded media (raw images + heatmaps) so admin portal can preview them
+  60: uploads_dir = settings.LOCAL_UPLOAD_DIR
+  61: app.mount("/uploads", StaticFiles(directory=uploads_dir, check_dir=False), name="uploads")
+
+[FILE] scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart
+SHA-256: 1fb20e334ee3b1af0c602d4efee3de2df7c9864fe11eeb86c0fb6adc388f42f4
+  64:       final response = await dio.post<Map<String, dynamic>>(
+  65:         ApiEndpoints.scans,
+  66:         data: formData,
+  67:       );
+  68: 
+  69:       final body = _requireBody(response);
+  70:       // Backend returns the full ScanResponse immediately. We just need its ID.
+  71:       final taskId = body['id'] as String? ?? '';
+  72:       return taskId;
+  73:     } on DioException catch (e) {
+  74:       throw _mapDioException(e);
+  75:     }
+  76:   }
+  77: 
+  78:   @override
+  79:   Future<AnalysisTaskModel> getScanStatus(String taskId) async {
+  80:     try {
+  81:       final response = await dio.get<Map<String, dynamic>>(
+  82:         ApiEndpoints.scanById(taskId),
+  83:       );
+  84:       final body = _requireBody(response);
+  85:       return AnalysisTaskModel.fromJson(body);
+  86:     } on DioException catch (e) {
+  87:       throw _mapDioException(e);
+  88:     }
+  89:   }
+  90: 
+  91:   @override
+  92:   Future<void> cancelScan(String taskId) async {
+  93:     try {
+  94:       await dio.delete<void>(ApiEndpoints.scanById(taskId));
+  95:     } on DioException catch (e) {
+  96:       throw _mapDioException(e);
+  97:     }
+  98:   }
+
+Observed contract facts:
+- POST /scan/ has no explicit 202 status_code and FastAPI therefore returns the normal success status for the handler.
+- Mobile cancelScan issues DELETE /scan/{id}, while the scan router source snapshot contains POST/GET only.
+- Redis miss path writes json.dumps(inference_result) after removing heatmap_bytes only when the value is truthy; empty bytes remain and can break JSON serialization.
+- Stored heatmap_image_url is the filesystem heatmap_path, while /uploads is separately mounted by the API.
+- Source dimension uses settings.DEFAULT_SOURCE_SCORE in the baseline.
+- History accepts page/limit/keyword/risk_level and returns HistoryListResponse items; start_date/end_date/risk_grade are absent from this route signature.
+- Report creation uses HTTP 201 and returns key id; duplicate report error detail is "This scan has already been reported".

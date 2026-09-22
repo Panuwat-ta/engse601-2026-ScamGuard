@@ -1,0 +1,91 @@
+Week 06 - Schema Contract Snapshot
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+[FILE] server/app/schemas/scan.py
+SHA-256: 438a51b766c39564f19897b551fb8515a60690608d317fdbe1088af91163c0d1
+  13: class ScanResponse(BaseModel):
+  14:     id: UUID
+  15:     user_id: Optional[int] = None
+  16:     image_hash: str
+  17:     raw_image_url: str
+  18:     heatmap_image_url: Optional[str] = None
+  19:     
+  20:     # Risk Scores
+  21:     text_score: int
+  22:     visual_score: int
+  23:     source_score: int
+  24:     total_risk_score: int
+  25:     risk_grade: Optional[str] = None
+  26:     
+  27:     # Analysis Details
+  28:     exif_data: Optional[Dict[str, Any]] = None
+  29:     ocr_text: Optional[str] = None
+  30:     scam_keywords_found: Optional[List[str]] = None
+  31:     reverse_search_results: Optional[Dict[str, Any]] = None
+  32:     ai_gen_probability: float
+  33:     xai_explanation: Optional[str] = None
+  34:     
+  35:     status: str
+  36:     progress: int = 0
+  37:     created_at: datetime
+  38:     completed_at: Optional[datetime] = None
+  39: 
+  40:     model_config = ConfigDict(from_attributes=True)
+
+[FILE] server/app/schemas/history.py
+SHA-256: dc7d74f374cd12afdaff0741de390fcbb9ea0a52350a64f75c3cf89df5a1b8a3
+   6: class HistoryItemResponse(BaseModel):
+   7:     scan_id: UUID
+   8:     thumbnail_url: Optional[str] = None
+   9:     risk_score: int
+  10:     risk_level: Optional[str] = None
+  11:     status: str
+  12:     created_at: datetime
+  13:     title: Optional[str] = None
+  14:     
+  15:     model_config = ConfigDict(from_attributes=True)
+  16: 
+  17: class HistoryListResponse(BaseModel):
+  18:     items: List[HistoryItemResponse]
+  19:     total: int
+  20:     page: int
+  21:     limit: int
+
+[FILE] server/app/schemas/report.py
+SHA-256: c6ee7a315b8f8dc632c4b64dc8d9836cdbb9ccfa3d8199b09dec947518da320d
+  16: class ReportCreateRequest(BaseModel):
+  17:     scan_id: UUID4
+  18:     category: ReportCategory
+  19:     description: str = Field(..., min_length=10)
+  20:     platform: Optional[str] = None
+  21:     reference_url: Optional[str] = None
+  22:     allow_research_use: bool = False
+  23: 
+  24: class ReportResponse(BaseModel):
+  25:     id: int
+  26:     scan_id: UUID4
+  27:     category: str
+  28:     description: str
+  29:     status: str
+  30:     created_at: datetime
+  31: 
+  32:     model_config = {"from_attributes": True}
+  33: 
+  34: class ReportSubmitResponse(BaseModel):
+  35:     id: int
+  36:     scan_id: UUID4
+  37:     category: str
+  38:     status: str
+  39:     message: str
+  40:     created_at: datetime
+
+Observed schema facts:
+- ScanResponse exposes id/status/progress plus flat score fields and heatmap_image_url.
+- HistoryListResponse uses items, while HistoryItemResponse uses risk_level.
+- ReportSubmitResponse uses id rather than report_id.
+- ReportCreateRequest enforces description min_length=10 and the canonical category Literal set.

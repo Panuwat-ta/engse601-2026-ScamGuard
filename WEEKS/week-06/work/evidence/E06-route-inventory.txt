@@ -1,0 +1,29 @@
+Week 06 - API and Consumer Route Inventory
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+[server/app/api/v1/scan.py]
+16: @router.post("/", response_model=ScanResponse)
+34: @router.get("/{scan_id}", response_model=ScanResponse)
+
+[server/app/api/v1/history.py]
+18: @router.get("", response_model=HistoryListResponse)
+93: @router.get("/{scan_id}", response_model=HistoryItemResponse)
+119: @router.delete("/{scan_id}")
+157: @router.delete("", status_code=status.HTTP_204_NO_CONTENT)
+
+[server/app/api/v1/report.py]
+12: @router.post("", response_model=ReportSubmitResponse, status_code=201)
+31: @router.get("/categories", response_model=CategoryListResponse)
+38: @router.get("/my", response_model=ReportListResponse)
+
+[Mobile consumer calls]
+scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart:64: final response = await dio.post<Map<String, dynamic>>(
+scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart:65: ApiEndpoints.scans,
+scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart:81: final response = await dio.get<Map<String, dynamic>>(
+scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart:82: ApiEndpoints.scanById(taskId),
+scam_image_mobile/lib/features/scan/data/datasources/scan_remote_datasource.dart:94: await dio.delete<void>(ApiEndpoints.scanById(taskId));

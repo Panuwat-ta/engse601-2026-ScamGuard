@@ -12,6 +12,9 @@ Verification coverage:
 - ENGSE212 source baseline pinned to commit `66bc9e4a`
 - 6 interface groups and 18 traceable integration cases
 - final result summary: 6 Pass / 11 Fail / 1 Not Ready
+- source contract snapshot: `../work/evidence/E06-source-contract-snapshot.txt`
+- API/consumer route inventory: `../work/evidence/E06-route-inventory.txt`
+- schema contract snapshot: `../work/evidence/E06-schema-contract.txt`
 - reproducible probe: `../work/probes/integration_probe_test.py`
 - raw execution output: `../work/evidence/E06-integration-probe.txt`
 - result register: `../work/evidence/E06-result-register.txt`

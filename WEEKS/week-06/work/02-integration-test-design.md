@@ -88,3 +88,14 @@ Pytest harness summary: `11 failed, 6 passed in 0.88s`; case W06-IT-11 ถูก
 - ไม่อ่าน `.env`, production token, API key, password หรือ production database data
 - Source Verification positive case ไม่ถูก mock แล้วนับ Pass เพราะ production adapter ยังไม่มี
 - Failure จาก product mismatch เก็บเป็น Fail; failure ที่เกิดจาก missing production interface ใช้ Not Ready
+
+## 11. Evidence chain
+
+- Source contract snapshot: `work/evidence/E06-source-contract-snapshot.txt`
+- API/consumer route inventory: `work/evidence/E06-route-inventory.txt`
+- Schema contract snapshot: `work/evidence/E06-schema-contract.txt`
+- Executable integration probe: `work/probes/integration_probe_test.py`
+- Raw pytest output: `work/evidence/E06-integration-probe.txt`
+- Per-case result register: `work/evidence/E06-result-register.txt`
+
+Source-derived files above ถูกสร้างจาก `/home/panuwat/project` โดย freeze ที่ ENGSE212 `origin/main` commit `66bc9e4a`; local `develop`/uncommitted changes ไม่ถูกใช้เป็น test basis

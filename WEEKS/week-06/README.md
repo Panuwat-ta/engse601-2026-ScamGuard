@@ -47,6 +47,9 @@ Week 06 ใช้กิจกรรม Interface/API Risk Mapping เพื่�
 - `work/ai-use-declaration.md`
 - `work/probes/integration_probe_test.py`
 - `work/evidence/E06-baseline.txt`
+- `work/evidence/E06-source-contract-snapshot.txt`
+- `work/evidence/E06-route-inventory.txt`
+- `work/evidence/E06-schema-contract.txt`
 - `work/evidence/E06-integration-probe.txt`
 - `work/evidence/E06-result-register.txt`
 - `work/evidence/E06-pdf-check.txt`
