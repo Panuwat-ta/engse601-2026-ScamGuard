@@ -1,0 +1,16 @@
+ENGSE601 Week 06 branch:
+week06
+e1b42f4379eafa1b4a8c80cfb895b9f542234151
+ENGSE212 code baseline:
+66bc9e4af3747808ef45273d31b50dbc59ad91ab
+66bc9e4a 2026-09-16 Enhance documentation and update architecture for ScamGuard (#62)
+Canonical SRS:
+99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a  /home/panuwat/project/Document/srs/05_Software_Requirement_Specification.md
+**Version:** 1.1 (audit §A fixes, 2026-09-12)  
+**Date:** September 12, 2026
+SRS latest commit touching Document/srs:
+2b8a1fb095cea3e0fea28892f52d52a182840519 2026-09-16 Update traceability matrix, use case diagram, and test cases documentation
+Execution environment:
+Python 3.10.21
+Baseline archive: /tmp/scamguard-w06-main
+Execution date: 2026-09-22
