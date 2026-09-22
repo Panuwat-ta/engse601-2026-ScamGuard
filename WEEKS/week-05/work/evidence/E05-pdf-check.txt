@@ -1,8 +1,10 @@
-Pages:           4
-Page size:       595.92 x 841.92 pts (A4)
-File size:       189131 bytes
-bbox_pages 4
-page_1_max_x=482.50 page_width=595.92 right_margin=113.42
-page_2_max_x=474.25 page_width=595.92 right_margin=121.67
-page_3_max_x=481.44 page_width=595.92 right_margin=114.48
-page_4_max_x=483.47 page_width=595.92 right_margin=112.45
+PDF: submission/W05_ScamGuard_Component-Test-Case-Set_v2.pdf
+Layout basis: Week 04 evidence-package style
+Pages: 5
+Page size: 595.92 x 841.92 pts (A4)
+File size: 272717 bytes
+Rendered with pdftoppm at 110 DPI and visually inspected
+Text counts by page: [587, 3932, 4872, 4436, 2333]
+Blank pages: none
+No visible clipping or table overflow found in rendered pages
+Original submitted v1 is retained separately for submission history

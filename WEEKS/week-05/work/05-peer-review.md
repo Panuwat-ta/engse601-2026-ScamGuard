@@ -4,7 +4,7 @@
 
 - Artifact: Week 05 Component Test Case Set
 - Original submission: v1
-- Documentation revision candidate: v2 Final
+- Documentation revision candidate: v2
 - Primary Author: ภานุวัฒน์
 - Assigned Peer Reviewer: เอกพันธ์
 - Canonical SRS: https://github.com/Panuwat-ta/project/tree/main/Document/srs
@@ -22,7 +22,7 @@
 - [x] Open findings have owner and next action
 - [x] AI Use Declaration completed
 - [x] v1 repository submission event recorded
-- [x] v2 Final revision does not overwrite v1 historical evidence
+- [x] v2 revision does not overwrite v1 historical evidence
 
 ## 3. Peer-review checklist
 
@@ -56,8 +56,8 @@ Pending fields are intentionally left unresolved. A merge event alone is not tre
 
 This section records repository facts only. It does not claim that the team working agreement's independent peer-review requirement was satisfied.
 
-## 6. v2 Final revision gate
+## 6. v2 revision gate
 
-The v2 Final document is a presentation/traceability improvement over v1. Test basis, raw evidence, 18 case results and open product findings remain unchanged unless a new re-test is executed and stored separately.
+The v2 document is a Week-04-style presentation/traceability improvement over v1. Test basis, raw evidence, 18 case results and open product findings remain unchanged unless a new re-test is executed and stored separately.
 
-Before v2 Final is represented as a new submitted/peer-reviewed artifact, record an actual reviewer decision above and create a new merge/tag event if the team chooses to publish the revision.
+Before v2 is represented as a new submitted/peer-reviewed artifact, record an actual reviewer decision above and create a new merge/tag event if the team chooses to publish the revision.

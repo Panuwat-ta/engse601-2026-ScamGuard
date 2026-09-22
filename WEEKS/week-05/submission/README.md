@@ -17,15 +17,15 @@ Repository record:
 
 The v1 artifact remains the historical submission evidence and is not overwritten by later documentation improvements.
 
-## Documentation revision (v2 Final)
+## Documentation revision (v2)
 
 Status: Revision Candidate
 
 Artifact:
 
-- `W05_ScamGuard_Component-Test-Case-Set_v2-final.pdf`
+- `W05_ScamGuard_Component-Test-Case-Set_v2.pdf`
 
-v2 Final improves report structure, terminology, traceability, evidence classification and page layout. It keeps the same frozen SRS/code baseline, raw evidence and 18 result statuses as v1.
+v2 follows the Week 04 evidence-package layout and improves report structure, terminology, traceability, evidence classification and page layout. It keeps the same frozen SRS/code baseline, raw evidence and 18 result statuses as v1.
 
 ## Verification coverage
 
@@ -40,4 +40,4 @@ The Week 05 evidence set contains:
 - AI Use Declaration
 - peer-review record with unresolved fields left pending rather than inferred
 
-Independent peer-review sign-off is still not present in the repository. Therefore v2 Final must not be described as peer-reviewed or newly submitted until a real review/merge/tag event is recorded.
+Independent peer-review sign-off is still not present in the repository. Therefore v2 must not be described as peer-reviewed or newly submitted until a real review/merge/tag event is recorded.
