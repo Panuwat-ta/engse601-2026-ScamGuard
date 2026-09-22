@@ -1,33 +1,33 @@
-# Requirements and SRS — Historical Snapshot
+# Requirements and SRS — Current Local Mirror
 
-**Snapshot version:** 1.0  
-**Snapshot date:** August 23, 2026  
-**Status:** Superseded for current development; retained as W01–W04 evidence
+**Current SRS version:** 1.1  
+**SRS date:** September 12, 2026  
+**Canonical branch:** `main`  
+**Canonical source:** https://github.com/Panuwat-ta/project/tree/main/Document/srs
 
-## Canonical current source
+โฟลเดอร์นี้เก็บสำเนาใช้งานของ Requirement/SRS ปัจจุบันสำหรับ ENGSE601 โดยไฟล์หลักด้าน Requirement ต้องตรงกับ canonical source ใน ENGSE212 `Document/srs` บน branch `main`.
 
-Requirement/SRS ที่ใช้จริงปัจจุบันอยู่ใน ENGSE212 repository:
+## Current synchronized documents
 
-- URL: https://github.com/Panuwat-ta/project/tree/main/Document/srs
-- Branch: `main`
-- Current SRS: `05_Software_Requirement_Specification.md` v1.1 (September 12, 2026)
-- Current registered baseline/commit: ดู `../input-register.md` (IN-02)
+ไฟล์ต่อไปนี้ถูก sync จาก `/home/panuwat/project/Document/srs/` เมื่อ 2026-09-22:
 
-ไฟล์ใน directory นี้ห้ามใช้เป็น current Source of Truth สำหรับ W05 เป็นต้น หากข้อมูลใน snapshot v1.0 ขัดกับ canonical source ให้ยึดเอกสารใน `Document/srs` บน `main`.
+- `04_Requirement_Candidates.md` — Requirement Candidates ปัจจุบัน
+- `05_Software_Requirement_Specification.md` — SRS v1.1 ปัจจุบัน
+- `06_Requirement_Traceability.md` — Requirement Traceability ปัจจุบัน
+- `07_Appendix_A_Full_Traceability_Matrix.md` — Full Traceability Matrix ปัจจุบัน
 
-## Historical document index
+## Supplementary retained documents
 
-- `01_Project_Overview.md` — project overview snapshot
-- `02_Project_Scope.md` — project scope snapshot
-- `03_Software_Architecture.md` — architecture snapshot
-- `04_Requirement_Candidates.md` — Requirement Candidates snapshot
-- `05_Software_Requirement_Specification.md` — SRS v1.0 snapshot
-- `06_Requirement_Traceability.md` — traceability snapshot
-- `07_Appendix_A_Full_Traceability_Matrix.md` — full RTM snapshot
-- `07_Appendix_B_Key_Design_Decisions.md` — design-decision snapshot
+ไฟล์ต่อไปนี้ไม่มีไฟล์ชื่อเดียวกันใน canonical `Document/srs` ปัจจุบัน จึงเก็บไว้เป็นข้อมูลประกอบเดิมและไม่ให้ override เอกสาร current ด้านบน:
+
+- `01_Project_Overview.md`
+- `02_Project_Scope.md`
+- `03_Software_Architecture.md`
+- `07_Appendix_B_Key_Design_Decisions.md`
 
 ## Usage rule
 
-- W01–W04: ใช้ไฟล์ชุดนี้เพื่ออ่านหลักฐานตาม baseline ในเวลาที่งานเหล่านั้นถูกจัดทำ
-- W05 เป็นต้น: ใช้ canonical GitHub path ข้างต้นเป็น Requirement/SRS authority
-- ห้ามแก้ snapshot เก่าให้ดูเหมือนเป็น v1.1 เพราะจะทำลาย historical trace; การเปลี่ยน baseline ให้บันทึกใน `../input-register.md`
+- W05 เป็นต้นไป ให้ใช้ไฟล์ current synchronized documents ในโฟลเดอร์นี้ หรือ canonical GitHub path เป็น Requirement/SRS authority
+- ถ้า local mirror ขัดกับ canonical source ให้ยึด canonical source และ sync local mirror ใหม่
+- ห้ามแก้ Requirement/SRS current เฉพาะใน ENGSE601 แล้วปล่อยให้ต่างจาก ENGSE212; การแก้ baseline ต้องทำที่ canonical source ก่อน แล้วจึง sync กลับมาที่นี่
+- W01–W04 ยังคงอ้าง baseline ที่ใช้ในเวลาจัดทำตาม artifact/submission เดิม เพื่อรักษา historical traceability
