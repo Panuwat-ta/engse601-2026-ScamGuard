@@ -1,50 +1,87 @@
-# W05-03 — Execution Evidence
+# W05-03 - Verification and Execution Evidence
 
-## Baseline
+## 1. Evidence policy
 
-- Requirement authority: `https://github.com/Panuwat-ta/project/tree/main/Document/srs`
+เอกสารนี้แยกหลักฐานเป็น 3 ประเภทเพื่อป้องกันการตีความเกินจริง:
+
+- `Executed test`: คำสั่ง test ถูก execute จริงและมี raw output
+- `Executed probe`: probe เฉพาะ component ถูก execute จริงด้วย test-only configuration/fake DB
+- `Static contract inspection`: ตรวจ field, route หรือ source contract ที่มี/ไม่มีจริง โดยไม่อ้างว่าเป็น runtime end-to-end test
+
+ไม่มีการใช้ production secret, production database หรือค่าผลทดสอบที่สร้างขึ้นเอง
+
+## 2. Frozen baseline
+
+- Requirement authority: https://github.com/Panuwat-ta/project/tree/main/Document/srs
 - SRS: v1.1, 2026-09-12
-- Code authority: `https://github.com/Panuwat-ta/project`, branch `main`
-- Code baseline: `66bc9e4a` (2026-09-16)
-- Baseline record: `work/evidence/E05-baseline.txt`
+- SRS SHA-256: `99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a`
+- Source authority: https://github.com/Panuwat-ta/project
+- Source branch / commit: `main` / `66bc9e4a`
+- Baseline raw record: `work/evidence/E05-baseline.txt`
 
-การทดสอบใช้ isolated archive ของ `origin/main` ที่ `/tmp/scamguard-w05-main-final` เพื่อไม่ checkout ทับ working tree `/home/panuwat/project` ซึ่งมีงาน branch อื่นอยู่
+เพื่อไม่กระทบ working branch อื่น การทดสอบถูก execute กับ isolated archive ของ `origin/main` ที่ `/tmp/scamguard-w05-main-final`
 
-## E05-01 — Existing unit-test execution
+## 3. E05-01 - Existing automated unit test
 
-รัน test ที่มีอยู่จริงใน baseline:
+Type: `Executed test`
+
+Target:
 
 ```text
 server/tests/utils/test_risk_calculator.py
+```
+
+Raw result:
+
+```text
+.                                                                        [100%]
 1 passed in 0.03s
 ```
 
-Raw output: `work/evidence/E05-pytest-component.txt`
+Evidence file: `work/evidence/E05-pytest-component.txt`
 
-## E05-02 — Reproducible component probe
+## 4. E05-02 - Reproducible component probe
 
-สร้าง probe แบบ read-only ที่ `work/probes/component_probe.py` และรันกับ extracted `origin/main` baseline. Probe ใช้ fake DB ใน memory และ test-only config; ไม่เชื่อม production database/Redis และไม่อ่าน secret เพื่อสร้างผลทดสอบ
+Type: `Executed probe` + `Static contract inspection`
+
+Probe source: `work/probes/component_probe.py`
 Raw output: `work/evidence/E05-component-probe.txt`
 
-Observed results:
+Probe ใช้ fake DB ใน memory และ test-only environment values เพื่อเรียก component logic โดยไม่เชื่อม external services จริง ผลสำคัญที่ตรวจได้มีดังนี้:
 
-- Risk AC-1 example `50/85/0` -> `90 high visual True` — aligned
-- Risk AC-2 example `100/100/100` -> `100 high visual True` — aligned
-- Grade samples 10/30/55/80 -> Low/Low/Medium/High — aligned
-- Boundary samples 39/40/69/70 -> Low/Medium/Medium/High — aligned
-- Register with System=true, Research=false returns `UserResponse` and persists one `ConsentLog(True, False)`
-- Register with System=false still returns `UserResponse` and persists one `ConsentLog(False, False)` — mismatch with FR-AUTH-01 AC-5
-- Registration response keys are `email, full_name, id, message, role`; `status` and `created_at` required by AC-1 are absent
-- No `PUT /consent/research` and no `GET /consent/logs` route found on baseline main
-- Profile GET exists under `/api/v1/auth/me`; `/api/v1/users/me` is DELETE, while SRS AC-4 states GET `/users/me`
-- ONNX worker assigns max SegFormer probability to both `ai_gen_prob` and `visual_risk_score`; separate `forgery_confidence` / `ai_gen_confidence` contract is absent
+- Hybrid max+bonus: `(50,85,0) -> 90 High`, `(100,100,100) -> 100 High`
+- Grade samples: 10/30/55/80 -> Low/Low/Medium/High
+- Boundary samples: 39/40/69/70 -> Low/Medium/Medium/High
+- Registration system=true, research=false สำเร็จและ persist research=false
+- Registration system=false ยังคืน `UserResponse` และเพิ่ม `User` + `ConsentLog(False, False)`
+- Registration response keys ขาด `status` และ `created_at`
+- ไม่พบ `PUT /consent/research` และ `GET /consent/logs`
+- พบ profile GET ที่ `/api/v1/auth/me`; users `/me` เป็น DELETE
+- Visual worker ใช้ SegFormer max probability เป็นทั้ง `ai_gen_prob` และฐานของ `visual_risk_score`; ไม่พบ separate `forgery_confidence` / `ai_gen_confidence`
 
-## E05-03 — What was not claimed
+## 5. Evidence-to-test mapping
 
-- No model Accuracy/mDice/F1 result is claimed in W05; dataset-level evaluation is outside Component/Unit scope.
-- No GPU inference <=10s result is claimed; performance evidence belongs to later NFR testing.
-- No pass result is claimed for missing consent endpoints or visual dual-signal behavior.
-- No stakeholder decision or human peer-review approval is fabricated.
-## E05-04 — Submission PDF verification
+| Evidence | Test cases supported | Evidence type |
+|---|---|---|
+| `E05-pytest-component.txt` | CT-04 ถึง CT-09 (supporting unit evidence) | Executed test |
+| `E05-component-probe.txt` risk section | CT-04 ถึง CT-10 | Executed probe / requirement analysis |
+| `E05-component-probe.txt` auth section | CT-11 ถึง CT-13 | Executed handler probe |
+| `E05-component-probe.txt` consent section | CT-14 ถึง CT-18 | Static route/model contract inspection |
+| `E05-component-probe.txt` visual section | CT-01 ถึง CT-03 | Static source/output contract inspection |
 
-`work/evidence/E05-pdf-check.txt` records A4/4-page metadata and per-page bbox margins. No text box reaches the page edge in the automated bbox check.
+## 6. Reproducibility notes
+
+การ rerun ควรใช้ code commit เดิม `66bc9e4a` หรือบันทึก commit ใหม่ให้ชัดก่อนเปรียบเทียบผล เพราะการแก้ implementation หลัง Week 05 อาจทำให้ผลเปลี่ยนได้ การ rerun บน code ใหม่ถือเป็น re-test ไม่ใช่การแก้ย้อนหลังผลเดิม
+
+## 7. Claims intentionally excluded
+
+Week 05 ไม่อ้างผลต่อไปนี้ เนื่องจากไม่มี execution evidence ที่เหมาะสมใน scope นี้:
+
+- model Accuracy, Precision, Recall, F1 หรือ mDice
+- GPU inference <= 10 seconds
+- end-to-end mobile/backend/system pass
+- production Redis/Database availability
+- stakeholder decision หรือ legal approval
+- independent peer-review approval
+
+การไม่อ้างผลเหล่านี้เป็นส่วนหนึ่งของ evidence integrity และช่วยให้ Week 06/07/11 สามารถรับ handoff ไปทดสอบในระดับที่เหมาะสมได้โดยไม่ปะปนกับ component evidence
