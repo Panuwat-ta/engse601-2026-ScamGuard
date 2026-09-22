@@ -1,6 +1,6 @@
 # Week 05 Submission
 
-สถานะ: Ready for Review
+สถานะ: Submitted
 
 Submission artifact:
 
@@ -17,4 +17,4 @@ Verification completed:
 - AI Use Declaration completed
 - PDF generated as A4, 4 pages; bbox check found no page-edge overflow
 
-Remaining team gate: human peer review by เอกพันธ์. Do not mark `Submitted`, merge to main, or create `w05-submission-v1` until that review/sign-off exists.
+Submission record: PR #5 merged into `main` at `ca354a8`; tag `w05-submission-v1` was created for that merge commit. Independent peer-review sign-off is still not present in the repository, so no claim of completed peer review is made.

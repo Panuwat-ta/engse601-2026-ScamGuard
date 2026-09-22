@@ -1,6 +1,6 @@
 # Week 05 — Component / Unit Testing
 
-สถานะ: Ready for Review
+สถานะ: Submitted
 
 ## เป้าหมาย
 
@@ -42,4 +42,4 @@
 
 - `submission/W05_ScamGuard_Component-Test-Case-Set_v1.pdf`
 
-Author-side Definition of Done is complete. Per `TEAM.md`, the remaining gate before `Submitted` is independent human peer review by เอกพันธ์; no peer-review sign-off is claimed until that review actually occurs.
+Submission closure: PR #5 was merged into `main` at commit `ca354a8` and tag `w05-submission-v1` points to that merge commit. GitHub reports no recorded PR review, and `work/05-peer-review.md` still has pending reviewer fields; therefore the artifact is Submitted but is not represented as independently peer-reviewed.

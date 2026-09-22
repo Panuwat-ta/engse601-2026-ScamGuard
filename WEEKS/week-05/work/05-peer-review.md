@@ -28,3 +28,13 @@ Reviewer should verify test basis, expected results, evidence paths, counts (18 
 - Decision: [pending: Ready / Ready with open issues / Revise]
 - Findings/comments: [pending]
 - Reviewer sign-off: [pending]
+
+## Submission event record
+
+- PR #5 state: MERGED
+- Merge commit: `ca354a8`
+- Merged at: 2026-09-22 16:18 ICT
+- GitHub recorded reviews at verification time: none
+- Submission tag: `w05-submission-v1`
+
+This records the actual repository event only. The pending reviewer/date/decision/sign-off fields above remain pending and are not inferred from the merge.
