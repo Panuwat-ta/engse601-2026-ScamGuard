@@ -129,18 +129,3 @@ submission/     PDF หรือ artifact สำหรับรอบส่ง
 
 หากแก้หลังส่ง ให้เพิ่ม version และ tag ใหม่ เช่น `v2`; ห้ามย้าย tag เดิมหรือเขียนทับประวัติโดยไม่มี revision record
 
-## Data protection และ AI use
-
-- ห้ามเก็บ credential, token, password ดิบ, production secret หรือข้อมูลผู้ใช้ที่ไม่จำเป็น
-- ห้ามนำรูปภาพหรือข้อมูลส่วนบุคคลของผู้ใช้ที่ไม่มี consent ไปใช้กับเครื่องมือ AI
-- งานที่ใช้ AI ต้องมี `ai-use-declaration.md` และต้องตรวจข้อเสนอเทียบกับ artifact จริง
-- AI ช่วยจัดโครงสร้าง วิเคราะห์ หรือสร้าง draft ได้ แต่ไม่สามารถทำ peer review, approval, stakeholder decision หรือ UAT response แทนคนจริง
-
-## รายการที่ยังต้องดำเนินการโดยมนุษย์
-
-- Independent peer review ของ Week 05 revision, Week 06 และ Week 07
-- Pinned re-test ของ Week 05–06 บน build/commit/environment ที่อนุมัติ
-- System Test จริงของ Week 07 พร้อม manual execution evidence
-- เลือก UAT option, เตรียม consent/recruitment และดำเนิน UAT จริง
-- ผู้เข้าร่วมที่ valid 100 คนสำหรับ metric NFR-06
-- Dev/QA/PM sign-off และการส่งงานผ่านช่องทางรายวิชา
