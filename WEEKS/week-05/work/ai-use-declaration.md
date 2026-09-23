@@ -27,11 +27,14 @@ AI assisted with:
 - Public canonical reference: https://github.com/Panuwat-ta/project/tree/main/Document/srs
 - ENGSE212 source repository: https://github.com/Panuwat-ta/project
 - Source baseline: branch `main`, commit `66bc9e4a`
+- Project testing input: https://github.com/Panuwat-ta/project/tree/develop/tests_all, branch `develop`, commit `162e0249abb9e9940f014ba6d5182d38213bc771`
 - W03/W04 evidence was used only as historical handoff and did not override SRS v1.1
 
 ## Human verification and safeguards
 
 All expected results were checked against canonical SRS v1.1. Actual results were accepted only when supported by stored execution output or direct source/schema/route inspection on the frozen baseline. Source/schema/route facts are now persisted as `E05-source-contract-snapshot.txt`, `E05-route-inventory.txt` and `E05-schema-contract.txt`, generated from `/home/panuwat/project` via `origin/main` commit `66bc9e4a` with path/line/hash provenance.
+
+The later `develop/tests_all` plan and reports were inspected read-only and recorded in `E05-tests-all-basis.txt`. Their results were not merged into the Week 05 count because they use a different baseline and the relevant historical reports do not identify Commit/Build/Env.
 
 The following AI-generated or AI-suggested actions were explicitly rejected:
 

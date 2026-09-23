@@ -1,10 +1,31 @@
-PDF: submission/W05_ScamGuard_Component-Test-Case-Set_v2.pdf
-Layout basis: Week 04 evidence-package style
-Pages: 5
-Page size: 595.92 x 841.92 pts (A4)
-File size: 272717 bytes
-Rendered with pdftoppm at 110 DPI and visually inspected
-Text counts by page: [587, 3932, 4872, 4436, 2333]
-Blank pages: none
-No visible clipping or table overflow found in rendered pages
-Original submitted v1 is retained separately for submission history
+Week 05 PDF verification
+file: W05_ScamGuard_Component-Test-Case-Set_v2.pdf
+sha256: e5082717decb0f7627b2f6bcf96bb5e6897ca5a56d3d0abf3fcf5672f5364b7f
+pages: 18
+page_size: 594.96 x 841.92 pts (A4)
+file_size: 707505 bytes
+encrypted: no
+tagged: yes
+
+Content checks:
+- result summary present: 7 Pass / 9 Fail / 1 Not Ready / 1 Needs Clarification
+- frozen execution baseline present: main commit 66bc9e4a
+- project testing cross-check present: develop/tests_all commit 162e0249
+- historical-report metadata limitation and re-test rule present
+- pending independent peer review present
+
+Structure and geometry checks:
+- text-bearing pages: 18/18
+- blank pages: none
+- page width/height consistent across all pages
+- observed text x range stays within approximately 42.7 to 553.5 pts
+- observed text bottom stays at or above approximately 786.0 pts on 841.92-pt pages
+- fonts are embedded/subsetted with Unicode maps
+
+Render QA:
+- rendered all 18 pages to PNG at 105 DPI with pdftoppm
+- inspected all pages in three six-page contact sheets
+- no missing glyph boxes, clipping, overlapping text, broken table borders or blank pages observed
+
+Verification date: 2026-09-23
+Result: PASS for artifact layout/structure only; original submitted v1 remains unchanged.

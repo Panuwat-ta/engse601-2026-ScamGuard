@@ -8,13 +8,15 @@
 | Requirement authority | `Document/srs/05_Software_Requirement_Specification.md` v1.1, 2026-09-12 |
 | Requirement URL | https://github.com/Panuwat-ta/project/tree/main/Document/srs |
 | Requirement hash | `99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a` |
-| Frozen source baseline | https://github.com/Panuwat-ta/project, branch `main`, commit `66bc9e4a` |
-| Source date referenced | 2026-09-22 |
+| Historical source baseline | https://github.com/Panuwat-ta/project, branch `main`, commit `66bc9e4a` (Week 05-06 risk evidence) |
+| Project testing authority | https://github.com/Panuwat-ta/project/tree/develop/tests_all |
+| Test-design branch/commit | `develop` / `162e0249abb9e9940f014ba6d5182d38213bc771` |
+| Source date referenced | 2026-09-23 |
 | Primary Author | ภานุวัฒน์ |
 | Assigned Peer Reviewer | เอกพันธ์ |
 | Artifact status | Ready for Review; no System/UAT execution result claimed |
 
-The local ENGSE212 working tree was observed on `develop`; it was read only and is not used as the `main` acceptance baseline. Week 07 reuses the frozen `main` source snapshots already captured in Week 05-06 so that the baseline remains reproducible without issuing Git commands in the ENGSE212 repository.
+Week 07 separates authorities: requirement IDs/Acceptance Criteria come from SRS v1.1 on `main`, while the project's Master Test Plan, manual/E2E cases, RTM and execution reports come from the pinned `develop/tests_all` baseline. Frozen `main` evidence from Week 05-06 remains historical risk input only. `/home/panuwat/project` was inspected read-only without Git commands.
 
 ## 2. System boundary
 
@@ -39,16 +41,20 @@ Out of scope for a Week 07 Pass claim until separate evidence exists:
 - security penetration testing
 - stakeholder approval or independent peer-review sign-off
 
-## 3. Critical user journeys
+## 3. Project E2E journeys used by Week 07
 
-| Journey | User goal | Requirement trace | Main risk | W05/W06 handoff |
-|---|---|---|---|---|
-| J01 First use and access | consent, register, login, logout | FR-AUTH-01-04, FR-PDPA-01 | invalid consent or token behavior | W05-F03/F04/F05 |
-| J02 Submit image | select, optionally crop, validate and upload | FR-SCAN-01/02 | unsupported/oversize images accepted or wrong HTTP contract | W06-F01 |
-| J03 Receive trustworthy result | poll, analyze, calculate and explain | FR-SCAN-03, FR-ANALYSIS-01-04 | incomplete source/visual evidence presented as complete | W05-F01/F02, W06-F03/F05/F06 |
-| J04 Understand heatmap | view, toggle, adjust opacity, zoom/pan | FR-XAI-01, NFR-06 | heatmap missing, inaccessible or misunderstood | W06-F04/F07 |
-| J05 Manage evidence | view/filter/delete history and report scam | FR-HISTORY-01/02 | response/filter/report contract mismatch | W06-F08/F09 |
-| J06 Exercise privacy rights | manage consent, inspect/delete data/account | FR-PDPA-01 | consent logs or deletion unavailable | W05-F04/F05 |
+| Project TC | Journey | Priority | Main Week 07 risk |
+|---|---|---:|---|
+| TC-E2E-SCAN-01 | Full User Scam Detection Journey | P0 | integrated upload, AI, heatmap and history behavior |
+| TC-E2E-CACHE-02 | High-Speed Cache Hit Workflow | P0 | Redis/media consistency and latency |
+| TC-E2E-REPORT-03 | User Incident Reporting to Admin Review | P1 | report/audit contract across user and admin |
+| TC-E2E-MODEL-04 | AI Model Deployment to Live Inference | P1 | deploy/rollback and live worker behavior |
+| TC-E2E-BAN-05 | Malicious Actor Ban and Session Revocation | P1 | 403 handling and session revocation |
+| TC-E2E-OFFLINE-06 | Offline Storage and Reconnection Sync | P2 | local cache/recovery and requirement-trace gap |
+| TC-E2E-FULL-07 | Full Lifecycle Register to Audit Verification | P1 | register-to-audit data continuity |
+| TC-E2E-AUTH-08 | Mid Journey Access Expiry With Refresh Resume | P1 | token refresh without losing journey state |
+| TC-E2E-REG-09 | Post Deploy Scan Regression Stability | P1 | result-contract stability after model deployment |
+| TC-E2E-HIST-10 | History Delete Then Detail Not Found | P2 | DB/media deletion consistency and audit retention |
 
 ## 4. Entry criteria for real execution
 
@@ -62,7 +68,8 @@ All items below require objective evidence before execution status can move from
 - production-adapter disposition for source verification
 - fixed or explicitly accepted known gaps from Week 05-06
 - logging/timing capture that does not expose secrets or personal data
-- UAT recruitment, consent/privacy notice, facilitator script and 100 real participants
+- selected UAT option, recruitment, consent/privacy notice and facilitator script
+- 100 valid participants only when claiming the NFR-06 population metric
 - rollback and incident contact for any shared environment
 
 ## 5. Exit criteria

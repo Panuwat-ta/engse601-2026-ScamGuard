@@ -26,6 +26,16 @@ Week 03/04 เป็น historical evidence จาก baseline v1.0 เท่า
 
 การ execute ใช้ isolated archive ของ `origin/main` เพื่อไม่แก้หรือ checkout ทับ working branch อื่นใน `/home/panuwat/project`
 
+## 3.1 Project testing baseline cross-check
+
+- Testing URL: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+- Branch / commit inspected: `develop` / `162e0249abb9e9940f014ba6d5182d38213bc771`
+- Date referenced: 2026-09-23
+- Relevant project test-plan section: `Document/tests_doc/test_plan/README.md` section 3.1 Unit & Logic Testing
+- Relevant later execution report: `tests_all/tests_report/automate_tests/server/risk-score-unification-2026-09-19.md`
+
+`develop/tests_all` confirms that backend/AI Unit & Logic Testing includes risk formula, validation, preprocessing and helpers, and that mobile unit testing covers serialization/BLoC/utilities. The later risk-score report records 7/7 passing on its own execution context. It is retained as supporting re-test evidence only because it does not identify the same Week 05 commit/build/environment and therefore cannot rewrite the frozen Week 05 result register.
+
 ## 4. Selected component scope
 
 | Scope ID | Requirement | Component under test | Verification focus | Reason for selection |

@@ -1,35 +1,35 @@
-Week 07 - Scenario Design and Execution Register
-Date: 2026-09-22
+Week 07 - Project-Aligned Scenario Design and Execution Register
+Date: 2026-09-23
+Project testing baseline: develop commit 162e0249abb9e9940f014ba6d5182d38213bc771
 
 SYSTEM TEST
-W07-ST-01  Not Executed  Registration/system-consent journey requires integrated environment.
-W07-ST-02  Not Executed  Login/token/refresh/logout requires controlled clock and deployed auth.
-W07-ST-03  Not Executed  Gallery/crop/skip requires approved Android build/device evidence.
-W07-ST-04  Not Executed  Upload/polling requires integrated API/build; known 200/202 gap carried forward.
-W07-ST-05  Not Executed  Invalid file/size/resolution requires controlled test files and API.
-W07-ST-06  Not Executed  Cache repeat-scan requires Redis/media/timing evidence.
-W07-ST-07  Not Executed  Full analysis requires ground truth, models and source adapter disposition.
-W07-ST-08  Not Executed  Heatmap controls require usable original/heatmap media on device.
-W07-ST-09  Not Executed  History/filter/delete requires DB/media lifecycle evidence.
-W07-ST-10  Not Executed  Report journey requires user/admin queue and duplicate evidence.
-W07-ST-11  Not Executed  PDPA journey requires consent/log/data/account implementation evidence.
-W07-ST-12  Not Executed  Authorization/error recovery requires two users and controlled failure injection.
+W07-ST-01  TC-E2E-SCAN-01     Not Executed  No pinned-build manual execution row.
+W07-ST-02  TC-E2E-CACHE-02    Not Executed  No cache/timing execution record.
+W07-ST-03  TC-E2E-REPORT-03   Not Executed  No user-admin report/audit run.
+W07-ST-04  TC-E2E-MODEL-04    Not Executed  No pinned model deploy/rollback run.
+W07-ST-05  TC-E2E-BAN-05      Not Executed  Source defect note exists, but no manual E2E execution row.
+W07-ST-06  TC-E2E-OFFLINE-06  Not Executed  No device run; canonical requirement trace remains unresolved.
+W07-ST-07  TC-E2E-FULL-07     Not Executed  Historical automated partial flow is not equivalent to current manual system run.
+W07-ST-08  TC-E2E-AUTH-08     Not Executed  No controlled token-expiry system run.
+W07-ST-09  TC-E2E-REG-09      Not Executed  No before/after pinned model regression run.
+W07-ST-10  TC-E2E-HIST-10     Not Executed  No DB/media/history deletion run.
 
 UAT
-W07-UAT-01  Not Ready  No approved build/recruitment/participant evidence.
-W07-UAT-02  Not Ready  No approved test-image pack or participant evidence.
-W07-UAT-03  Not Ready  No facilitated interpretation session or responses.
+W07-UAT-01  Not Ready  UAT option/build/recruitment not approved.
+W07-UAT-02  Not Ready  Approved test-image pack and participants absent.
+W07-UAT-03  Not Ready  No facilitated interpretation session/responses.
 W07-UAT-04  Not Ready  No heatmap comprehension responses.
 W07-UAT-05  Not Ready  No history/report participant execution.
 W07-UAT-06  Not Ready  No satisfaction/debrief responses.
 
 SUMMARY
-System Test design complete: 12
-System Test Not Executed: 12
+Project E2E scenarios mapped: 10
+System Test design complete: 10
+System Test Not Executed: 10
 UAT design complete: 6
 UAT Not Ready: 6
 Pass: 0
 Fail: 0
-Total: 18
+Total: 16
 
-No System Test/UAT result, peer review, stakeholder approval or submission event is inferred from this register.
+No System Test/UAT result, peer review, release sign-off, stakeholder approval or submission event is inferred from this register.

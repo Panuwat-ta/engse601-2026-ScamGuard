@@ -1,6 +1,6 @@
 # Week 07 - System Testing and UAT
 
-สถานะ: Ready for Review (author-side design complete; execution pending)
+สถานะ: Ready for Review (project-aligned design complete; execution pending)
 
 ## วัตถุประสงค์
 
@@ -10,7 +10,7 @@ Week 07 แปลง requirement, acceptance criteria และ findings จา�
 - ความพร้อมของ environment/test data/ผู้ทดสอบ
 - ผล execution ที่เกิดขึ้นจริง
 
-เอกสารชุดนี้ไม่อ้างว่า System Test หรือ UAT ผ่านแล้ว เพราะยังไม่มี deployed baseline, test-data package, execution log, ผู้ทดสอบ UAT 100 คน หรือผล peer review จริง
+เอกสารชุดนี้ไม่อ้างว่า System Test หรือ UAT ผ่านแล้ว เพราะ `develop/tests_all/tests_report/manual_tests/execution_log.md` ยังไม่มีผลรันจริง, ไม่มี approved deployed build และยังไม่มีผล peer review จริง ส่วนการวัด NFR-06 แบบผู้ใช้จริงยังขาด 100 valid participants
 
 ## Test basis
 
@@ -18,19 +18,21 @@ Week 07 แปลง requirement, acceptance criteria และ findings จา�
 - SRS: `05_Software_Requirement_Specification.md` v1.1 ลงวันที่ 2026-09-12
 - SRS SHA-256: `99bb8d5050fa54195b02869f1815e954fdd43ad0997e732b35426c70947cd40a`
 - Frozen source baseline: https://github.com/Panuwat-ta/project, branch `main`, commit `66bc9e4a`
-- Source facts: frozen snapshots and executed probes from Week 05-06
-- Date referenced: 2026-09-22
+- Project test plan/cases/reports: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+- Test-design baseline: branch `develop`, commit `162e0249abb9e9940f014ba6d5182d38213bc771`
+- Source facts: frozen Week 05-06 evidence is retained as historical risk input; current project test assets are taken from the pinned `develop` baseline
+- Date referenced: 2026-09-23
 - Course output currently announced in this repository: `System/UAT Scenarios`; official Week 07 template/file naming remains pending
 
 ## Scenario summary
 
 | Type | Design complete | Not Executed | Not Ready | Pass/Fail claimed |
 |---|---:|---:|---:|---:|
-| System Test | 12 | 12 | 0 | 0 |
+| System Test | 10 | 10 | 0 | 0 |
 | UAT | 6 | 0 | 6 | 0 |
-| Total | 18 | 12 | 6 | 0 |
+| Total | 16 | 10 | 6 | 0 |
 
-`Not Executed` หมายถึง scenario และ expected result พร้อม แต่ยังไม่ได้รันบน integrated build จริง ส่วน `Not Ready` ใช้กับ UAT ที่ยังขาด approved build, recruitment/consent และผู้ทดสอบจริงตาม sample size ใน SRS
+System Test ทั้ง 10 รายการ map ตรงกับ `TC-E2E-SCAN-01` ถึง `TC-E2E-HIST-10` ใน project test suite. `Not Executed` หมายถึง scenario และ expected result พร้อม แต่ยังไม่มี manual run record บน pinned build. UAT ทั้ง 6 รายการยัง `Not Ready`; ทีมต้องเลือก UAT option และเตรียมผู้ใช้/consent ส่วน NFR-06 metric ต้องใช้ 100 valid participants ตาม SRS
 
 ## Work artifacts
 
@@ -43,6 +45,7 @@ Week 07 แปลง requirement, acceptance criteria และ findings จา�
 - `work/probes/system_readiness_probe.py`
 - `work/evidence/E07-baseline.txt`
 - `work/evidence/E07-readiness-basis.txt`
+- `work/evidence/E07-tests-all-basis.txt`
 - `work/evidence/E07-system-readiness-probe.txt`
 - `work/evidence/E07-result-register.txt`
 - `work/evidence/E07-pdf-check.txt`

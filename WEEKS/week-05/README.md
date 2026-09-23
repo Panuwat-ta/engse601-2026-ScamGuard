@@ -16,6 +16,8 @@ Week 05 ใช้กิจกรรม Code & Logic Reading Clinic เพื่�
 - SRS: `05_Software_Requirement_Specification.md` v1.1 ลงวันที่ 2026-09-12
 - Source code: https://github.com/Panuwat-ta/project
 - Code baseline: branch `main`, commit `66bc9e4a`
+- Project test assets: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+- Test-document baseline: branch `develop`, commit `162e0249abb9e9940f014ba6d5182d38213bc771`
 - Date referenced: 2026-09-22
 - Primary scope: FR-ANALYSIS-02, FR-ANALYSIS-04, FR-AUTH-01, FR-PDPA-01
 
@@ -31,6 +33,8 @@ Week 05 ใช้กิจกรรม Code & Logic Reading Clinic เพื่�
 
 ผลทั้งหมดอ้างอิงหลักฐานจริงเท่านั้น: test/probe ที่ execute แล้ว, route/schema/source contract ที่ตรวจจริง และสถานะ `Not Ready`/`Needs Clarification` เมื่อยังไม่สามารถสร้างผล acceptance ที่ถูกต้องได้
 
+เอกสารใน `develop/tests_all` ถูกตรวจเพิ่มเมื่อ 2026-09-23 เพื่อเชื่อมกับชุดทดสอบจริงของโครงการ แต่ไม่ใช้เปลี่ยนผล 18 cases ย้อนหลัง เพราะผล Week 05 รันบน source baseline `main` commit `66bc9e4a` ส่วนรายงานบน `develop` เป็นคนละ baseline และบางรายงานเดิมไม่มี commit/build/env กำกับ
+
 ## Work artifacts
 
 - `work/01-component-scope.md` - scope, baseline และ test strategy
@@ -41,6 +45,7 @@ Week 05 ใช้กิจกรรม Code & Logic Reading Clinic เพื่�
 - `work/ai-use-declaration.md` - AI Use Declaration
 - `work/probes/component_probe.py` - reproducible component probe
 - `work/evidence/` - raw execution evidence และ source-derived snapshots จาก ENGSE212 `origin/main` ที่ pin commit/path/hash ชัดเจน
+- `work/evidence/E05-tests-all-basis.txt` - cross-baseline record จาก `develop/tests_all`, รวม test-plan mapping และข้อจำกัดของ historical reports
 
 ## Submission / revision record
 

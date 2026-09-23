@@ -13,6 +13,7 @@
 | W06-F07 | Heatmap ถูก persist เป็น filesystem path ใน API field แทน canonical `/uploads/{filename}` | W06-IT-13/14; FR-XAI-01 | Open | ภานุวัฒน์ | normalize media reference ที่ server contract และเพิ่ม cross-client test |
 | W06-F08 | History API schema/filter contract ไม่ตรง SRS: `items/risk_level`, ไม่มี `start_date/end_date/risk_grade` | W06-IT-15/16; FR-HISTORY-01 | Open | ภานุวัฒน์ | reconcile response/query schema แล้วเพิ่ม API integration regression tests |
 | W06-F09 | Report API contract ไม่ตรง SRS บาง field/message: `id` vs `report_id`, duplicate detail ต่างข้อความ | W06-IT-17/18; FR-HISTORY-02 | Open | ภานุวัฒน์ | sync SRS/code response contract ผ่าน controlled change แล้ว re-test |
+| W06-F10 | Project historical API/E2E reports lack pinned commit/build/env and cannot establish equivalence with the Week 06 baseline | IN-06; E06-tests-all-basis | Open verification gap | ภานุวัฒน์ | execute the mapped integration cases on a named `develop` commit/build and store raw JUnit/result metadata |
 
 ## 2. Entry criteria used for execution
 
@@ -43,6 +44,7 @@
 - Week 11 NFR: latency, real Redis/PostgreSQL, GPU inference และ model-quality metrics ต้องใช้ dedicated environment
 - Week 14 Defect Management: promote W06-F01-F09 ที่ยัง unresolved เป็น formal defect records พร้อม severity/status/history
 - ENGSE212 implementation: แก้ contract ที่ reproduce ได้จาก W06 แล้ว re-run test IDs เดิมเพื่อเก็บ regression evidence
+- `develop/tests_all`: reuse project API/E2E suites where contracts match, but record Requirement/TC mapping and Commit/Build/Env for the new run
 
 ## 5. Review gate
 

@@ -1,0 +1,27 @@
+Week 05 - Project Test Assets Cross-Baseline Record
+Source URL: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+Branch: develop
+Commit read from local ref: 162e0249abb9e9940f014ba6d5182d38213bc771
+Date referenced: 2026-09-23
+Access mode: read-only; no Git command was issued in /home/panuwat/project
+
+Authority separation:
+- Requirements and Acceptance Criteria: main/Document/srs, SRS v1.1
+- Project testing documents/evidence: develop/Document/tests_doc and develop/tests_all
+- Week 05 executed result baseline remains main commit 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+
+Relevant facts:
+1. Document/tests_doc/test_plan/README.md section 3.1 assigns risk formula, Pydantic validation, image preprocessing and helpers to Unit & Logic Testing.
+2. tests_all/tests_report/automate_tests/server/risk-score-unification-2026-09-19.md records 7 passed, 0 failed for its historical run.
+3. That historical report does not record Commit/Build/Env metadata, so it is supporting evidence for a later re-test, not proof that Week 05 frozen-baseline findings are closed.
+4. tests_all/tests_report/manual_tests/execution_log.md contains template rows only and explicitly states that no real manual execution exists.
+
+SHA-256:
+- Document/tests_doc/test_plan/README.md: 8bb43a9e074cd3a1191041a9da2ab88e6e71e2b15edaeac79b1631be3153c64b
+- tests_all/README.md: 107b950242767b77e9ff055e15b5beb7d26ee066fa7b87f83897c5524de014fd
+- tests_all/tests_report/automate_tests/server/risk-score-unification-2026-09-19.md: 4eea301e9f4d2d175d71d11abf637489cee4f3bd666b1d3bdb938cf046d0d900
+- tests_all/tests_report/manual_tests/execution_log.md: dabb8fbf817f282698fee6a62e981583e3ed71c69d7d24394af014709c4c30ba
+
+Result treatment:
+- No Week 05 result status or count is changed by this record.
+- A new pinned develop re-test is required before any product finding is marked fixed/closed.

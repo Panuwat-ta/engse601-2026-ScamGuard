@@ -10,6 +10,16 @@
 - SRS commit: `2b8a1fb0`
 - Verification date: 2026-09-22
 
+### Project testing source cross-check
+
+- URL: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+- Branch / commit: `develop` / `162e0249abb9e9940f014ba6d5182d38213bc771`
+- Date referenced: 2026-09-23
+- Master plan mapping: `Document/tests_doc/test_plan/README.md` section 3.2 identifies `tests_all/automate_tests/tests/api/` as the API Integration layer
+- Existing design: 18 automated test functions under `tests_all/automate_tests/tests/`, including API and one E2E flow
+
+Existing historical reports show earlier API/E2E passes, but those records explicitly state that Requirement/TC mapping and Commit/Build/Env were not recorded. They are used to identify reusable suites and re-test targets, not to overwrite results from the pinned Week 06 harness.
+
 ## 2. Interface map
 
 | ID | Producer / caller | Consumer / dependency | Contract under test | Requirement trace | Execution outcome |

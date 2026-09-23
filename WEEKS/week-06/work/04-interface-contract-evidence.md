@@ -7,6 +7,7 @@
 - `Executed integration probe`: pytest/ASGI/service orchestration ที่ execute จริง
 - `Executed contract probe`: source/signature contract ถูกตรวจด้วย test harness และ assertion
 - `Static design source`: code/SRS reading ที่ใช้สร้าง expected result หรืออธิบาย blocker
+- `Cross-baseline supporting evidence`: project integration suites/reports from `develop/tests_all`; useful for mapping and re-test planning but not counted as the Week 06 run
 
 ## 2. Evidence register
 
@@ -27,6 +28,7 @@
 | E06-10 | canonical SRS FR-XAI-01 + `main.py` | expected `/uploads/{filename}`; server has `/uploads` static mount | IT-13/14 |
 | E06-11 | canonical SRS FR-HISTORY-01 + `history.py`/schema | SRS `scans/risk_grade/start_date/end_date`; code `items/risk_level/keyword/risk_level` | IT-15/16 |
 | E06-12 | canonical SRS FR-HISTORY-02 + report schema/service | HTTP 201/409 work, but `report_id`/duplicate message contract drifts | IT-17/18 |
+| E06-X01 | `work/evidence/E06-tests-all-basis.txt` | maps the project master plan, 18 automated test functions, historical API/E2E reports and their missing metadata | all interfaces / later re-test |
 
 ## 3. Source evidence chain
 
@@ -42,6 +44,8 @@ Canonical SRS v1.1
 ```
 
 ทุก source snapshot ระบุ URL `https://github.com/Panuwat-ta/project`, branch `main`, pinned commit, วันที่อ้างอิง, source path, line number และ SHA-256 ที่เกี่ยวข้อง โดยไม่เก็บ `.env`, secret หรือ production data
+
+Project testing documents are separately pinned to `develop` commit `162e0249abb9e9940f014ba6d5182d38213bc771`. This second baseline is not mixed into the frozen `main` execution chain. It proves that reusable API/E2E suites and historical reports exist, while also preserving their stated limitation: the older reports do not identify the commit/build/environment needed for result equivalence.
 
 ## 4. Execution command
 

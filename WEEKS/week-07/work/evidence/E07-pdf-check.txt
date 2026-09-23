@@ -1,30 +1,33 @@
 Week 07 PDF verification
 file: W07_ScamGuard_System-UAT-Scenarios_v1.pdf
-sha256: 2dac2c457fd28a1d6eb7fe14d616ee71dc7fad9795a32e28f90da641a8cf2d9d
-pages: 9
-page_size: 595.276 x 841.89 pts (A4)
-file_size: 52819 bytes
+sha256: dde0b3eec28f3dc203b9ccd15dcd2bedb48f97aad980e9dc778bb0005afeb91b
+pages: 15
+page_size: 594.96 x 841.92 pts (A4)
+file_size: 585344 bytes
 encrypted: no
+tagged: yes
 
-Text extraction checks:
-- title present: W07 - System Testing and UAT
-- system sections present: ST-01 through ST-12
-- UAT sections present: UAT-01 through UAT-06
-- final status present: Ready for Review; Not Submitted, Accepted or Passed
-- text-bearing pages: 9/9
+Content checks:
+- project testing baseline present: develop/tests_all commit 162e0249
+- 10 project E2E/System scenarios present
+- 6 UAT scenarios present
+- final status present: 10 System Not Executed + 6 UAT Not Ready; 0 Pass/Fail claimed
+- manual execution absent and current JUnit tests=0 disclosures present
+- NFR-06 100-valid-participant distinction present
+- pending peer review and release sign-off present
+
+Structure and geometry checks:
+- text-bearing pages: 15/15
 - blank pages: none
-
-Geometry checks with pdfplumber:
-- all pages: width 595.3, height 841.9 points
-- minimum text x >= 40.0 points except centered cover content
-- maximum text x <= 558.0 points
-- maximum text bottom <= 826.4 points including footer
+- page width/height consistent across all pages
+- observed text x range stays within approximately 42.7 to 553.2 pts
+- observed text bottom stays at or above approximately 785.1 pts on 841.92-pt pages
+- fonts are embedded/subsetted with Unicode maps
 
 Render QA:
-- rendered all 9 pages to PNG at 115 DPI with pdftoppm
-- inspected 3x3 contact sheet plus full-size cover, UAT questionnaire, findings and final review pages
-- first render exposed missing Latin glyphs; font embedding was corrected and the PDF regenerated
-- final render has no missing glyph boxes, blank pages, clipping, overlapping text or table overflow
+- rendered all 15 pages to PNG at 105 DPI with pdftoppm
+- inspected all pages in three contact sheets
+- no missing glyph boxes, clipping, overlapping text, broken table borders or blank pages observed
 
-Verification date: 2026-09-22
+Verification date: 2026-09-23
 Result: PASS for artifact layout/structure only; this is not a System Test/UAT execution result.

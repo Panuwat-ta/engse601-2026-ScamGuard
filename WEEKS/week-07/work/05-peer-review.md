@@ -6,15 +6,16 @@
 - Primary Author: ภานุวัฒน์
 - Assigned Peer Reviewer: เอกพันธ์
 - Canonical SRS: https://github.com/Panuwat-ta/project/tree/main/Document/srs
-- Frozen source baseline: https://github.com/Panuwat-ta/project, branch `main`, commit `66bc9e4a`
-- Design summary: 18 scenarios = 12 System Test Not Executed + 6 UAT Not Ready
+- Historical source baseline: https://github.com/Panuwat-ta/project, branch `main`, commit `66bc9e4a`
+- Project testing baseline: https://github.com/Panuwat-ta/project/tree/develop/tests_all, commit `162e0249abb9e9940f014ba6d5182d38213bc771`
+- Design summary: 16 scenarios = 10 System Test Not Executed + 6 UAT Not Ready
 
 ## 2. Author pre-review checklist
 
 - [x] requirement authority/version/hash pinned
-- [x] source branch/commit and inherited evidence pinned
+- [x] SRS, historical source and project testing branches/commits are separated and pinned
 - [x] System Test and UAT scopes are distinguished
-- [x] 18 scenarios trace to requirements and evidence needs
+- [x] 10 System scenarios map to the project E2E baseline and 6 UAT scenarios map to evidence needs
 - [x] no source inspection is reported as end-to-end execution
 - [x] no participant, satisfaction, comprehension or approval result is fabricated
 - [x] entry/exit criteria and privacy protocol defined
@@ -27,13 +28,15 @@
 Reviewer should verify:
 
 1. expected results match canonical SRS v1.1
-2. all 18 statuses reconcile with no unsupported Pass/Fail
+2. all 16 statuses reconcile with no unsupported Pass/Fail
 3. Week 05-06 facts are clearly distinguished from Week 07 execution evidence
 4. UAT sample size, heatmap questions and thresholds match NFR-06
 5. participant privacy, consent and data-handling controls are usable
 6. scenario evidence paths are sufficient for a later independent audit
-7. official Week 07 course template gap is disclosed
-8. PDF and repository paths resolve and contain no secret/personal test data
+7. historical automated pass reports, zero-test JUnit and empty manual log are classified correctly
+8. legacy requirement aliases and the offline trace gap are disclosed
+9. official Week 07 course template gap is disclosed
+10. PDF and repository paths resolve and contain no secret/personal test data
 
 ## 4. Human peer-review decision
 

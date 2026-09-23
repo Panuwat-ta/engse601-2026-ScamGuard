@@ -17,9 +17,11 @@ Validate that intended users can complete the main ScamGuard journey, understand
 
 No UAT metric is reported in this package because no participant session has occurred.
 
+The Master Test Plan offers two UAT choices that require a human decision: internal beta for the main journey, or external UAT with real users and PDPA controls. Selecting internal beta may support a release acceptance decision, but it does not satisfy the NFR-06 population metric. Any claim against NFR-06 still requires 100 valid participants.
+
 ## 3. Participant and privacy protocol
 
-- Target: general Android users representing ST01; 100 valid participants
+- Target for NFR-06 measurement: general Android users representing ST01; 100 valid participants
 - Exclude project team responses from the independent user metric or report them separately
 - Provide purpose, voluntary participation, data use, retention and withdrawal notice before the session
 - Do not collect real financial slips, faces or personal images; use approved synthetic/licensed test images
@@ -72,4 +74,4 @@ Additional non-leading items:
 
 ## 7. Human execution gate
 
-UAT can begin only after the approved build, test-data package, facilitator script, privacy/consent text, recruitment list and issue-escalation process are reviewed by humans. Peer review of this plan does not substitute for participant consent or stakeholder acceptance.
+UAT can begin only after the team selects internal beta or external UAT and the approved build, test-data package, facilitator script, privacy/consent text, recruitment list and issue-escalation process are reviewed by humans. Peer review of this plan does not substitute for participant consent or stakeholder acceptance; an internal beta result must not be reported as the 100-participant NFR-06 metric.

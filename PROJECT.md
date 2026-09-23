@@ -21,7 +21,7 @@
 
 | รายการ | URL / Reference | หมายเหตุ |
 |---|---|---|
-| ENGSE212 project repository | https://github.com/Panuwat-ta/project | main |
+| ENGSE212 project repository | https://github.com/Panuwat-ta/project | Canonical SRS: `main/Document/srs`; testing assets/evidence: `develop/tests_all` |
 | Issue/Project board | [กรอก] | ถ้ามี |
 | Prototype/Demo | [กรอก] | ถ้ามี |
 | Course materials / LMS | [กรอก] | ห้ามใส่ credential |
@@ -52,6 +52,7 @@
 ## Current truth
 
 - Requirement/SRS version ที่ใช้อยู่: 1.1 (`Document/srs/05_Software_Requirement_Specification.md`, canonical: https://github.com/Panuwat-ta/project/tree/main/Document/srs)
+- Test documentation/evidence baseline ที่ใช้อยู่: `develop/tests_all` commit `162e0249abb9e9940f014ba6d5182d38213bc771` (อ้างอิง 2026-09-23; อ่านแบบ read-only)
 - Design version ที่ใช้อยู่: Not Ready
-- Latest build/commit ที่อ้างอิง: Not Ready
-- อัปเดตล่าสุดโดย/วันที่: ภานุวัฒน์ ต๋าคำ / 2026-09-22
+- Latest build/commit ที่อ้างอิง: ยังไม่มี approved deployed build สำหรับ System Test/UAT; historical source baselines ต้องระบุแยกในแต่ละสัปดาห์
+- อัปเดตล่าสุดโดย/วันที่: ภานุวัฒน์ ต๋าคำ / 2026-09-23

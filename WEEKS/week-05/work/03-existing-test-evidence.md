@@ -8,6 +8,7 @@
 - `Executed test`: คำสั่ง test ถูก execute จริงและมี raw output
 - `Executed probe`: probe เฉพาะ component ถูก execute จริงด้วย test-only configuration/fake DB
 - `Static contract inspection`: ตรวจ field, route หรือ source contract ที่มี/ไม่มีจริง โดยไม่อ้างว่าเป็น runtime end-to-end test
+- `Cross-baseline supporting evidence`: test plan/report จาก `develop/tests_all` ที่ช่วยชี้ re-test target แต่ไม่เปลี่ยนผล frozen baseline โดยไม่มีการรันซ้ำบน baseline ใหม่
 
 ไม่มีการใช้ production secret, production database หรือค่าผลทดสอบที่สร้างขึ้นเอง
 
@@ -22,6 +23,7 @@
 - Source contract snapshot: `work/evidence/E05-source-contract-snapshot.txt`
 - API route inventory: `work/evidence/E05-route-inventory.txt`
 - Schema/model contract snapshot: `work/evidence/E05-schema-contract.txt`
+- Project testing cross-check: `work/evidence/E05-tests-all-basis.txt`
 
 Source-derived evidence ทั้ง 3 ไฟล์สร้างจาก `/home/panuwat/project` ด้วย `git show origin/main:<path>` ที่ commit `66bc9e4a` โดยไม่ใช้ local working-tree changes และไม่อ่าน `.env` หรือ production data
 
@@ -85,10 +87,13 @@ Probe ใช้ fake DB ใน memory และ test-only environment values เ
 | `E05-component-probe.txt` auth section | CT-11 ถึง CT-13 | Executed handler probe |
 | `E05-component-probe.txt` consent section | CT-14 ถึง CT-18 | Static route/model contract inspection |
 | `E05-component-probe.txt` visual section | CT-01 ถึง CT-03 | Static source/output contract inspection |
+| `E05-tests-all-basis.txt` | CT-04 ถึง CT-09 และ downstream re-test | Cross-baseline supporting evidence; not counted in Week 05 results |
 
 ## 7. Reproducibility notes
 
 การ rerun ควรใช้ code commit เดิม `66bc9e4a` หรือบันทึก commit ใหม่ให้ชัดก่อนเปรียบเทียบผล เพราะการแก้ implementation หลัง Week 05 อาจทำให้ผลเปลี่ยนได้ การ rerun บน code ใหม่ถือเป็น re-test ไม่ใช่การแก้ย้อนหลังผลเดิม
+
+`develop/tests_all` มี historical report ที่ระบุ risk-score suite 7/7 ผ่านเมื่อ 2026-09-19 แต่ไม่มี Commit/Build/Env metadata ในรายงานนั้น จึงใช้ได้เพียงระบุว่า project มี re-test evidence ภายหลัง ไม่ใช่หลักฐานว่าข้อค้นพบทุกข้อของ Week 05 ปิดแล้ว
 
 ## 8. Claims intentionally excluded
 
