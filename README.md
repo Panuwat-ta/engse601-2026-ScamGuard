@@ -1,97 +1,138 @@
-# ENGSE601 — Team V&V Evidence Repository
+# ScamGuard — ENGSE601 V&V Evidence Repository
 
-> Template สำหรับแต่ละกลุ่ม ใช้เก็บข้อมูลตั้งต้น งานระหว่างทำ และหลักฐานส่งของ ENGSE601 ที่เชื่อมกับโครงงาน ENGSE212
+Repository นี้ใช้จัดเก็บงาน Verification & Validation (V&V) ของโครงงาน **Scam Image Detection Application (ScamGuard)** ในรายวิชา ENGSE601 โดยเชื่อม requirement, source code, test design, raw evidence, findings และไฟล์ส่งงานกลับไปยังโครงงาน ENGSE212 อย่างตรวจสอบย้อนกลับได้
 
-## 1. เริ่มต้นตรงนี้
+> หลักสำคัญ: repository นี้บันทึกเฉพาะสิ่งที่ตรวจหรือดำเนินการจริง ไม่สร้าง test result, peer review, approval, stakeholder decision หรือ UAT response ขึ้นเอง
 
-ก่อนเริ่ม Week 01 ให้ทีมทำตามลำดับนี้
+## ภาพรวมโครงงาน
 
-1. สร้าง repository ของทีมจาก template นี้ และตั้งชื่อแนะนำเป็น `engse601-<year>-<team-name>`
-2. กำหนด repository เป็น **Private** หากมีข้อมูลโครงงาน บุคคล หรือหน่วยงานที่ไม่ควรเปิดเผย
-3. เพิ่มสมาชิกทุกคนและอาจารย์ตามสิทธิ์ที่กำหนด
-4. กรอก [PROJECT.md](PROJECT.md) และ [TEAM.md](TEAM.md)
-5. นำ Proposal, Requirement/SRS และเอกสารออกแบบที่มีอยู่มา **วางหรือเชื่อมโยง** ตาม [INPUTS/README.md](INPUTS/README.md)
-6. กรอก [INPUTS/input-register.md](INPUTS/input-register.md) ให้เห็นชื่อเอกสาร version, owner และ source of truth
-7. อ่าน [CONTRIBUTING.md](CONTRIBUTING.md) เพื่อใช้ branch, commit, review และ tag ให้เป็นวิธีเดียวกันทั้งทีม
-8. ตรวจรายการพร้อมเริ่มใน [STATUS.md](STATUS.md) แล้วจึงเปิด `WEEKS/week-01/README.md`
+| รายการ | แหล่งอ้างอิง |
+|---|---|
+| ENGSE601 evidence repository | `Panuwat-ta/engse601-2026-ScamGuard` |
+| ENGSE212 project repository | [Panuwat-ta/project](https://github.com/Panuwat-ta/project) |
+| Canonical Requirement/SRS | [`main/Document/srs`](https://github.com/Panuwat-ta/project/tree/main/Document/srs) — SRS v1.1 |
+| Project test plan/cases/reports | [`develop/Document/tests_doc`](https://github.com/Panuwat-ta/project/tree/develop/Document/tests_doc) และ [`develop/tests_all`](https://github.com/Panuwat-ta/project/tree/develop/tests_all) |
+| Test-document baseline | `develop` commit `162e0249abb9e9940f014ba6d5182d38213bc771` |
+| Historical source baseline สำหรับ Week 05–06 | `main` commit `66bc9e4af3747808ef45273d31b50dbc59ad91ab` |
+| สถานะล่าสุด | ดู [STATUS.md](STATUS.md) |
 
-## 2. หลักการใช้ repository
+Requirement authority และ testing authority ถูกแยกจากกันอย่างตั้งใจ: SRS ใช้จาก `main/Document/srs` ส่วน test plan, test cases และ reports ของโครงการใช้จาก `develop`. หลักฐานแต่ละสัปดาห์ต้องระบุ branch/commit ของตนเอง และห้ามนำผลจากคนละ baseline มาแทนกัน
+
+## สถานะ Week 01–07
+
+| Week | Output | สถานะหลักฐาน | Tag / snapshot |
+|---:|---|---|---|
+| 01 | Quality Risk Cards v1 | Submitted | `w01-submission-v1` |
+| 02 | Project Quality Route Map v1 | Submitted | `w02-submission-v1` |
+| 03 | Revised Critical Requirements v1 | Submitted | `w03-submission-v1` |
+| 04 | SRS Review and RTM v1 | Submitted | `w04-submission-v1` |
+| 05 | Component Test Case Set | v1 Submitted; v2 documentation revision | `w05-submission-v1` |
+| 06 | Integration Test Design v1 | Merged/tagged; independent review และ pinned re-test ยัง pending | `w06-submission-v1` |
+| 07 | System/UAT Scenarios v1 | Merged/tagged; execution และ human gates ยัง pending | `w07-submission-v1` |
+
+Tag ของ Week 06–07 ใช้ตรึง snapshot ที่ merge เข้า `main` แล้วเท่านั้น การมี tag ไม่ได้แปลว่า peer review, course submission, approval หรือการทดสอบที่ยังไม่เกิดขึ้นเสร็จสมบูรณ์แล้ว
+
+### ผลที่ยืนยันได้ในปัจจุบัน
+
+| Week | ผล / สถานะ | ข้อจำกัด |
+|---:|---|---|
+| 05 | 18 cases: 7 Pass, 9 Fail, 1 Not Ready, 1 Needs Clarification | ผลอยู่บน historical `main` commit `66bc9e4a`; เอกสาร `develop/tests_all` ใช้ cross-check เท่านั้น |
+| 06 | 18 cases: 6 Pass, 11 Fail, 1 Not Ready | ผลจาก integration harness บน frozen baseline; historical reports บน `develop` ไม่ใช่ pinned re-run |
+| 07 | 10 System Test = Not Executed; 6 UAT = Not Ready | Manual execution log ยังไม่มีผลรันจริง, JUnit ปัจจุบันมี 0 tests และยังไม่มี approved System/UAT build |
+
+รายละเอียด case, raw output, source snapshots, SHA-256 และ findings อยู่ใน `WEEKS/week-XX/work/` ของแต่ละสัปดาห์
+
+## เริ่มตรวจงานจากจุดไหน
+
+1. อ่าน [PROJECT.md](PROJECT.md) เพื่อดู scope, stakeholder, constraints และ current truth
+2. อ่าน [INPUTS/input-register.md](INPUTS/input-register.md) เพื่อดู version และ source of truth ของ input
+3. อ่าน [STATUS.md](STATUS.md) เพื่อดู submission ledger และ revision history
+4. เปิด `WEEKS/week-XX/README.md` ของสัปดาห์ที่ต้องการตรวจ
+5. ตรวจ design/record ใน `work/`, raw evidence ใน `work/evidence/` และไฟล์ส่งใน `submission/`
+6. ตรวจ tag และ commit ที่ระบุ โดยไม่ตีความ tag แทน human sign-off
+
+## Evidence flow
 
 ```text
-READ        เอกสารสอน/Worksheet จาก Course Repo หรือ LMS
-   ↓
-INPUT       Proposal + Requirement/SRS + artifact จริงจาก ENGSE212
-   ↓
-WORK        กรอก template และบันทึกการทบทวนใน WEEKS/week-XX/work/
-   ↓
-CHECK       Peer review + Definition of Done + ตรวจการใช้ AI
-   ↓
-SUBMIT      Export PDF ไปที่ WEEKS/week-XX/submission/
-   ↓
-TRACE       Commit + tag + บันทึก URL/commit hash ใน STATUS.md
-   ↓
-HANDOFF     ใช้ output เป็น input ของสัปดาห์ถัดไปและงาน ENGSE212
+Canonical SRS + project test assets + pinned source baseline
+                         ↓
+              scope / risk / test design
+                         ↓
+           probe or real execution evidence
+                         ↓
+             result register + findings
+                         ↓
+        peer review + Definition of Done
+                         ↓
+              PDF + commit + tag
+                         ↓
+            STATUS.md + human handoff
 ```
 
-เอกสารใน `INPUTS/` คือข้อมูลต้นทาง ไม่ควรแก้ทับโดยไม่เปลี่ยน version ส่วนไฟล์ใน `work/` แก้ได้ระหว่างทำ และไฟล์ใน `submission/` คือสำเนาที่ทีมประกาศว่าใช้ส่งในรอบนั้น
+หากยังไม่มี execution, environment, reviewer หรือ participant จริง ให้ใช้ `Not Executed` หรือ `Not Ready` พร้อม blocker และ next action ห้ามใส่ผลสมมติให้เอกสารดูสมบูรณ์
 
-## 3. สถานะหลักฐานที่ต้องใช้ตรงกัน
+## ความหมายของสถานะหลักฐาน
 
-| Status | ใช้เมื่อ | สิ่งที่ต้องอ้างอิง |
+| Status | ใช้เมื่อ | สิ่งที่ต้องมี |
 |---|---|---|
 | `Existing` | หลักฐานมีอยู่จริงและเปิดตรวจได้ | path/URL, version/build, วันที่หรือ commit |
-| `Planned` | วางแผนจะสร้าง แต่ยังไม่เกิด | owner, next action, ช่วงเวลาที่คาดไว้ |
-| `Not Ready` | ยังทำไม่ได้เพราะมี decision/input/blocker ขาด | blocker, decision owner, next action |
-| `Not Executed` | ออกแบบการทดสอบแล้วแต่ยังไม่ได้รัน | test/case ที่วางแผนไว้; **ห้ามใส่ผลสมมติ** |
+| `Planned` | วางแผนจะสร้าง แต่ยังไม่เกิด | owner, next action และช่วงเวลาที่คาดไว้ |
+| `Not Ready` | ยังทำไม่ได้เพราะ input, decision, environment หรือคนยังไม่พร้อม | blocker, decision owner และ next action |
+| `Not Executed` | ออกแบบ test แล้วแต่ยังไม่ได้รัน | case/scenario, expected result และหลักฐานที่ต้องเก็บเมื่อรัน |
+| `Pass` / `Fail` | มีการตรวจหรือรันจริงบน baseline ที่ระบุ | raw output/log, expected-vs-actual และ trace ไปยัง requirement |
 
-ห้ามสร้าง test result, log, screenshot, approval, stakeholder decision หรือหลักฐานที่ทีมไม่ได้ดำเนินการจริง หากใช้ AI ต้องเปิดเผยและตรวจข้อเสนอเทียบกับ artifact ของทีมเสมอ
-
-## 4. แผนหลักฐาน Week 01–04
-
-| Week | ใช้อะไรเป็น Input | ทำอะไร | ไฟล์ส่งมาตรฐาน | นำไปใช้ต่อ |
-|---|---|---|---|---|
-| 01 | Proposal, Requirement/SRS, stakeholder context | Quality Risk Cards 3–5 รายการ | `W01_<TeamName>_Quality-Risk-Cards_v1.pdf` | เลือก critical risk/feature ใน Week 02 |
-| 02 | W01 + สถานะ SDLC ของ ENGSE212 | Project Quality Route Map 1 critical slice | `W02_<TeamName>_Project-Quality-Route-Map_v1.pdf` | ตั้ง V&V questions/evidence/gates และเลือก requirement สำหรับ Week 03 |
-| 03 | SRS จริง + W01/W02 | ตรวจ testability, ปรับ 3–5 requirements, เขียน Acceptance Criteria | `W03_<TeamName>_Revised-Critical-Requirements_v1.pdf` | เป็น input ของ Review Log และ RTM Lite |
-| 04 | W03-OUT + SRS/version + risk/design notes | Requirement Review, RTM v1, Gate A | `W04_<TeamName>_SRS-Review-and-RTM_v1.pdf` | Phase 2 Entry Pack สำหรับ Component/Integration/System/UAT |
-
-รายละเอียด ขั้นตอน แบบกรอก และ Definition of Done อยู่ใน README ของแต่ละสัปดาห์
-
-> หมายเหตุเรื่อง path: เอกสารสอน Week 01–02 ระบุ `01-foundation/` และ `02-quality-route-map/` เป็นทางเลือกชั่วคราวสำหรับทีมที่ยังไม่มีโครงสร้าง เมื่อใช้ template นี้ให้ถือ `WEEKS/week-01/submission/` และ `WEEKS/week-02/submission/` เป็นตำแหน่งมาตรฐาน เพื่อไม่ให้เกิดไฟล์ซ้ำสองที่
-
-## 5. วิธีส่งงานรายสัปดาห์
-
-1. ทีมทำงานใน branch เช่น `week-03/requirement-review`
-2. กรอก template ใน `work/` และอัปเดต reference ไปยัง input จริง
-3. ให้สมาชิกที่ไม่ใช่ผู้เขียนหลักทำ peer review และบันทึกผล
-4. ตรวจ Definition of Done ใน README ของสัปดาห์
-5. Export ไฟล์ส่งเป็น PDF ด้วยชื่อมาตรฐาน แล้ววางใน `submission/`
-6. Commit ด้วยรูปแบบ `submit(W03): revised critical requirements v1`
-7. Merge เข้า `main` เมื่อทีมตรวจครบ
-8. สร้าง tag เช่น `w03-submission-v1`
-9. กรอก tag, commit hash และ URL ใน [STATUS.md](STATUS.md)
-10. ส่ง URL ของ repository พร้อม tag/commit hash ผ่านช่องทางที่อาจารย์กำหนด
-
-หากแก้หลังส่ง ให้เพิ่ม version และ tag เช่น `v2` ห้ามแทนที่ประวัติโดยไม่อธิบายเหตุผลใน `STATUS.md`
-
-## 6. โครงสร้างสำคัญ
+## โครงสร้าง repository
 
 ```text
 .
-├── PROJECT.md                 ข้อมูลและสถานะโครงงาน ENGSE212
-├── TEAM.md                    สมาชิก บทบาท และผู้รับผิดชอบ
-├── STATUS.md                  สถานะและหลักฐานการส่งรายสัปดาห์
-├── CONTRIBUTING.md            วิธีทำงานร่วมกันด้วย Git
-├── INPUTS/                    Proposal/SRS/design และทะเบียน input
-├── TEMPLATES/                 แบบบันทึกกลางที่ใช้ซ้ำได้
+├── PROJECT.md                  ข้อมูลโครงงานและ current truth
+├── TEAM.md                     สมาชิก บทบาท และ working agreement
+├── STATUS.md                   Submission ledger และ revision history
+├── CONTRIBUTING.md             วิธีทำงานร่วมกันด้วย Git
+├── INPUTS/                     ทะเบียน Proposal/SRS/Design และ source of truth
+├── TEMPLATES/                  แบบบันทึกกลางที่ใช้ซ้ำได้
 └── WEEKS/
-    ├── week-01/ ... week-04/  คำสั่ง งานระหว่างทำ และจุดวางไฟล์ส่ง
-    └── week-05/ ... week-17/  README เตรียมล่วงหน้าตามแผนรายวิชา
+    ├── week-01/ ... week-04/   Foundation, requirements review และ RTM
+    ├── week-05/                Component / Unit Testing
+    ├── week-06/                Integration / API Testing
+    ├── week-07/                System Testing และ UAT scenarios
+    └── week-08/ ... week-17/   งานตามแผนรายวิชาที่ยังดำเนินต่อ
 ```
 
-## 7. Source of truth
+ในแต่ละสัปดาห์:
 
-- สถานะและ source of truth ของ Proposal/SRS/Design: `INPUTS/input-register.md`
-- สถานะการส่ง ENGSE601: `STATUS.md`
-- โค้ด/build จริงของ ENGSE212: ใส่ URL และ commit/build reference ใน `PROJECT.md`; ไม่จำเป็นต้องคัดลอก source code มาที่ repo นี้
-- หากข้อมูลไม่ตรงกัน ให้ยึด artifact version ที่ระบุใน input register และบันทึกการเปลี่ยนแปลงก่อนใช้งานต่อ
+```text
+README.md       ขอบเขต, baseline และสถานะของสัปดาห์
+work/           เอกสารทำงาน, test design, findings และ AI declaration
+work/evidence/  Raw evidence และ source-derived snapshots
+work/probes/    Script ที่จำเป็นต่อการ reproduce (ถ้ามี)
+submission/     PDF หรือ artifact สำหรับรอบส่ง
+```
+
+## วิธีส่งงานและออก tag
+
+1. ทำงานบน branch ของสัปดาห์และระบุ baseline ให้ครบ
+2. ตรวจ Definition of Done และให้ผู้ที่ไม่ใช่ผู้เขียนหลักทำ peer review
+3. Export PDF ไปที่ `WEEKS/week-XX/submission/`
+4. Merge เข้า `main` เมื่อเงื่อนไขของทีมผ่าน
+5. สร้าง annotated tag รูปแบบ `wXX-submission-vN`
+6. บันทึก tag, commit hash, วันที่ส่ง และหลักฐานการ review ใน [STATUS.md](STATUS.md)
+7. ส่ง URL/tag ผ่านช่องทางที่อาจารย์กำหนด
+
+หากแก้หลังส่ง ให้เพิ่ม version และ tag ใหม่ เช่น `v2`; ห้ามย้าย tag เดิมหรือเขียนทับประวัติโดยไม่มี revision record
+
+## Data protection และ AI use
+
+- ห้ามเก็บ credential, token, password ดิบ, production secret หรือข้อมูลผู้ใช้ที่ไม่จำเป็น
+- ห้ามนำรูปภาพหรือข้อมูลส่วนบุคคลของผู้ใช้ที่ไม่มี consent ไปใช้กับเครื่องมือ AI
+- งานที่ใช้ AI ต้องมี `ai-use-declaration.md` และต้องตรวจข้อเสนอเทียบกับ artifact จริง
+- AI ช่วยจัดโครงสร้าง วิเคราะห์ หรือสร้าง draft ได้ แต่ไม่สามารถทำ peer review, approval, stakeholder decision หรือ UAT response แทนคนจริง
+
+## รายการที่ยังต้องดำเนินการโดยมนุษย์
+
+- Independent peer review ของ Week 05 revision, Week 06 และ Week 07
+- Pinned re-test ของ Week 05–06 บน build/commit/environment ที่อนุมัติ
+- System Test จริงของ Week 07 พร้อม manual execution evidence
+- เลือก UAT option, เตรียม consent/recruitment และดำเนิน UAT จริง
+- ผู้เข้าร่วมที่ valid 100 คนสำหรับ metric NFR-06
+- Dev/QA/PM sign-off และการส่งงานผ่านช่องทางรายวิชา
