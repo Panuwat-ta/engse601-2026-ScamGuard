@@ -4,6 +4,20 @@ Repository นี้ใช้จัดเก็บงาน Verification & Valid
 
 > หลักสำคัญ: repository นี้บันทึกเฉพาะสิ่งที่ตรวจหรือดำเนินการจริง ไม่สร้าง test result, peer review, approval, stakeholder decision หรือ UAT response ขึ้นเอง
 
+## งานของ repository นี้
+
+งานหลักคือสร้างชุดหลักฐาน V&V ที่เชื่อมโครงงาน ScamGuard ตั้งแต่ requirement ไปจนถึงการทดสอบและการตัดสินใจ โดยมีขอบเขตดังนี้
+
+- วิเคราะห์ความเสี่ยงด้านคุณภาพและเลือกส่วนสำคัญของระบบที่ต้องตรวจ
+- ตรวจ Requirement/SRS ให้ชัดเจน ครบถ้วน สอดคล้อง และทดสอบได้
+- สร้าง Acceptance Criteria และ Requirement Traceability Matrix (RTM)
+- ออกแบบและตรวจ Component, Integration/API, System และ UAT scenarios
+- เก็บ raw evidence, source snapshot, route/schema contract, test output และ finding ที่ตรวจย้อนหลังได้
+- จัดทำ PDF ส่งงาน, AI Use Declaration, commit และ tag ของแต่ละสัปดาห์
+- แยกสิ่งที่ทำเสร็จจริงออกจากสิ่งที่ยัง `Not Ready` หรือ `Not Executed` เพื่อไม่ให้เกิดผลทดสอบหรือ approval ที่ไม่มีหลักฐาน
+
+งานใน repository นี้เป็นงานเอกสารและหลักฐานของ ENGSE601 ส่วน source code, SRS และ project test assets ตัวจริงอยู่ใน ENGSE212 repository และถูกอ่านโดยตรึง branch/commit ที่ใช้อ้างอิง
+
 ## ภาพรวมโครงงาน
 
 | รายการ | แหล่งอ้างอิง |
@@ -18,27 +32,21 @@ Repository นี้ใช้จัดเก็บงาน Verification & Valid
 
 Requirement authority และ testing authority ถูกแยกจากกันอย่างตั้งใจ: SRS ใช้จาก `main/Document/srs` ส่วน test plan, test cases และ reports ของโครงการใช้จาก `develop`. หลักฐานแต่ละสัปดาห์ต้องระบุ branch/commit ของตนเอง และห้ามนำผลจากคนละ baseline มาแทนกัน
 
-## สถานะ Week 01–07
+## งานที่ทำเสร็จแล้ว
 
-| Week | Output | สถานะหลักฐาน | Tag / snapshot |
-|---:|---|---|---|
-| 01 | Quality Risk Cards v1 | Submitted | `w01-submission-v1` |
-| 02 | Project Quality Route Map v1 | Submitted | `w02-submission-v1` |
-| 03 | Revised Critical Requirements v1 | Submitted | `w03-submission-v1` |
-| 04 | SRS Review and RTM v1 | Submitted | `w04-submission-v1` |
-| 05 | Component Test Case Set | v1 Submitted; v2 documentation revision | `w05-submission-v1` |
-| 06 | Integration Test Design v1 | Merged/tagged; independent review และ pinned re-test ยัง pending | `w06-submission-v1` |
-| 07 | System/UAT Scenarios v1 | Merged/tagged; execution และ human gates ยัง pending | `w07-submission-v1` |
+| Week | งานที่ดำเนินการและผลลัพธ์ | สถานะ / หลักฐาน |
+|---:|---|---|
+| [01](WEEKS/week-01/README.md) | วิเคราะห์ requirement, stakeholder และความเสี่ยง แล้วจัดทำ **Quality Risk Cards** สำหรับใช้เลือก critical risks ของ ScamGuard | ส่ง v1 และตรึงด้วย `w01-submission-v1` |
+| [02](WEEKS/week-02/README.md) | นำ critical risk มาสร้าง **Project Quality Route Map** เชื่อม Requirements → Design → Implement → Test → Decision พร้อม V&V questions, gates และ feedback loop | ส่ง v1 และตรึงด้วย `w02-submission-v1` |
+| [03](WEEKS/week-03/README.md) | ตรวจ critical requirements ด้านความชัดเจน ความครบ ความสอดคล้อง ความเป็นไปได้และ testability พร้อมปรับ wording และเขียน **Acceptance Criteria** | ส่ง v1 และตรึงด้วย `w03-submission-v1` |
+| [04](WEEKS/week-04/README.md) | จัดทำ **SRS Review Log, RTM v1, Gate A decision และ Phase 2 Entry Pack** เพื่อส่งต่อไปยังการทดสอบระดับ Component/Integration/System/UAT | ส่ง v1 และตรึงด้วย `w04-submission-v1` |
+| [05](WEEKS/week-05/README.md) | ออกแบบและตรวจ **Component Test Case Set 18 cases**; ผลจริงคือ 7 Pass, 9 Fail, 1 Not Ready และ 1 Needs Clarification พร้อม source/route/schema snapshots และ reproducible probe | v1 ส่งแล้วด้วย `w05-submission-v1`; v2 ปรับเอกสารและ cross-check `develop/tests_all` โดยไม่เปลี่ยนผลเดิม |
+| [06](WEEKS/week-06/README.md) | ทำ **Interface/API Risk Mapping** และ Integration Test Design 18 cases ครอบคลุม Mobile, API, Redis, inference, heatmap, history และ report; ผลจริงคือ 6 Pass, 11 Fail และ 1 Not Ready | PDF/evidence merge แล้วและตรึงด้วย `w06-submission-v1`; independent review และ pinned re-test ยัง pending |
+| [07](WEEKS/week-07/README.md) | map project E2E cases จริงเป็น **10 System Test scenarios** และออกแบบ **6 UAT scenarios** พร้อม readiness probe, result register, privacy/consent protocol และ PDF | Package merge แล้วและตรึงด้วย `w07-submission-v1`; 10 System Test ยัง Not Executed และ 6 UAT ยัง Not Ready |
+
+ดังนั้น งานออกแบบ เอกสาร หลักฐาน และ package ของ Week 01–07 ถูกจัดทำและเก็บใน repository แล้ว แต่คำว่า “เสร็จ” ไม่ได้ใช้แทนกิจกรรมภายนอกที่ยังไม่เกิดขึ้นจริง โดยเฉพาะ independent peer review, pinned re-test, System Test/UAT execution, stakeholder approval และการส่งผ่านช่องทางรายวิชา
 
 Tag ของ Week 06–07 ใช้ตรึง snapshot ที่ merge เข้า `main` แล้วเท่านั้น การมี tag ไม่ได้แปลว่า peer review, course submission, approval หรือการทดสอบที่ยังไม่เกิดขึ้นเสร็จสมบูรณ์แล้ว
-
-### ผลที่ยืนยันได้ในปัจจุบัน
-
-| Week | ผล / สถานะ | ข้อจำกัด |
-|---:|---|---|
-| 05 | 18 cases: 7 Pass, 9 Fail, 1 Not Ready, 1 Needs Clarification | ผลอยู่บน historical `main` commit `66bc9e4a`; เอกสาร `develop/tests_all` ใช้ cross-check เท่านั้น |
-| 06 | 18 cases: 6 Pass, 11 Fail, 1 Not Ready | ผลจาก integration harness บน frozen baseline; historical reports บน `develop` ไม่ใช่ pinned re-run |
-| 07 | 10 System Test = Not Executed; 6 UAT = Not Ready | Manual execution log ยังไม่มีผลรันจริง, JUnit ปัจจุบันมี 0 tests และยังไม่มี approved System/UAT build |
 
 รายละเอียด case, raw output, source snapshots, SHA-256 และ findings อยู่ใน `WEEKS/week-XX/work/` ของแต่ละสัปดาห์
 
