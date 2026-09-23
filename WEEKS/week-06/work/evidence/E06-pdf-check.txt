@@ -1,14 +1,31 @@
 Week 06 PDF verification
 file: W06_ScamGuard_Integration-Test-Design_v1.pdf
-pages: 7
-page_size: 595.92 x 841.92 pts (A4)
-file_size: 146600 bytes
-bbox_pages: 7
-page_1: left=69.47 right_margin=69.89 top=189.93 bottom_margin=403.94
-page_2: left=39.75 right_margin=49.23 top=58.88 bottom_margin=76.64
-page_3: left=39.75 right_margin=48.77 top=46.11 bottom_margin=509.39
-page_4: left=39.75 right_margin=48.94 top=58.88 bottom_margin=61.64
-page_5: left=39.75 right_margin=47.68 top=38.77 bottom_margin=731.22
-page_6: left=39.75 right_margin=49.53 top=58.88 bottom_margin=61.02
-page_7: left=39.75 right_margin=92.31 top=43.20 bottom_margin=595.06
-render_review: all 7 pages rendered and visually inspected; no blank pages, clipping, or overlapping text observed
+sha256: 477d95645e29855b91a7c5e19ad8a926f83e50a85a375860c4d4b0e0f15d7ba3
+pages: 18
+page_size: 594.96 x 841.92 pts (A4)
+file_size: 666239 bytes
+encrypted: no
+tagged: yes
+
+Content checks:
+- result summary present: 6 Pass / 11 Fail / 1 Not Ready
+- frozen execution baseline present: main commit 66bc9e4a
+- project integration-suite cross-check present: develop/tests_all commit 162e0249
+- current JUnit tests=0 and historical-report metadata limitations are disclosed
+- pending independent peer review present
+
+Structure and geometry checks:
+- text-bearing pages: 18/18
+- blank pages: none
+- page width/height consistent across all pages
+- observed text x range stays within approximately 42.7 to 553.4 pts
+- observed text bottom stays at or above approximately 776.3 pts on 841.92-pt pages
+- fonts are embedded/subsetted with Unicode maps
+
+Render QA:
+- rendered all 18 pages to PNG at 105 DPI with pdftoppm
+- inspected all pages in three six-page contact sheets
+- no missing glyph boxes, clipping, overlapping text, broken table borders or blank pages observed
+
+Verification date: 2026-09-23
+Result: PASS for artifact layout/structure only; this does not change the integration result register.

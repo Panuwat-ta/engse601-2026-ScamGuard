@@ -1,0 +1,35 @@
+Week 07 - Project-Aligned Scenario Design and Execution Register
+Date: 2026-09-23
+Project testing baseline: develop commit 162e0249abb9e9940f014ba6d5182d38213bc771
+
+SYSTEM TEST
+W07-ST-01  TC-E2E-SCAN-01     Not Executed  No pinned-build manual execution row.
+W07-ST-02  TC-E2E-CACHE-02    Not Executed  No cache/timing execution record.
+W07-ST-03  TC-E2E-REPORT-03   Not Executed  No user-admin report/audit run.
+W07-ST-04  TC-E2E-MODEL-04    Not Executed  No pinned model deploy/rollback run.
+W07-ST-05  TC-E2E-BAN-05      Not Executed  Source defect note exists, but no manual E2E execution row.
+W07-ST-06  TC-E2E-OFFLINE-06  Not Executed  No device run; canonical requirement trace remains unresolved.
+W07-ST-07  TC-E2E-FULL-07     Not Executed  Historical automated partial flow is not equivalent to current manual system run.
+W07-ST-08  TC-E2E-AUTH-08     Not Executed  No controlled token-expiry system run.
+W07-ST-09  TC-E2E-REG-09      Not Executed  No before/after pinned model regression run.
+W07-ST-10  TC-E2E-HIST-10     Not Executed  No DB/media/history deletion run.
+
+UAT
+W07-UAT-01  Not Ready  UAT option/build/recruitment not approved.
+W07-UAT-02  Not Ready  Approved test-image pack and participants absent.
+W07-UAT-03  Not Ready  No facilitated interpretation session/responses.
+W07-UAT-04  Not Ready  No heatmap comprehension responses.
+W07-UAT-05  Not Ready  No history/report participant execution.
+W07-UAT-06  Not Ready  No satisfaction/debrief responses.
+
+SUMMARY
+Project E2E scenarios mapped: 10
+System Test design complete: 10
+System Test Not Executed: 10
+UAT design complete: 6
+UAT Not Ready: 6
+Pass: 0
+Fail: 0
+Total: 16
+
+No System Test/UAT result, peer review, release sign-off, stakeholder approval or submission event is inferred from this register.

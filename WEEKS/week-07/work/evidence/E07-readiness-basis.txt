@@ -1,0 +1,29 @@
+Week 07 - Historical Readiness Risks from Week 05-06
+Historical source repository URL: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date first referenced: 2026-09-22
+
+Direct evidence reused:
+- WEEKS/week-05/work/evidence/E05-source-contract-snapshot.txt
+- WEEKS/week-05/work/evidence/E05-route-inventory.txt
+- WEEKS/week-05/work/evidence/E05-schema-contract.txt
+- WEEKS/week-06/work/evidence/E06-source-contract-snapshot.txt
+- WEEKS/week-06/work/evidence/E06-route-inventory.txt
+- WEEKS/week-06/work/evidence/E06-schema-contract.txt
+- WEEKS/week-06/work/evidence/E06-integration-probe.txt
+- WEEKS/week-06/work/evidence/E06-result-register.txt
+
+Historical risks on the frozen baseline:
+1. Scan upload returned a contract different from canonical HTTP 202.
+2. Mobile/backend cancel behavior was not aligned.
+3. Cache/heatmap lifecycle had serialization and missing-media risks.
+4. Visual output lacked separate forgery and AI-generated confidence fields.
+5. Production source-verification adapter/fallback did not match the canonical contract.
+6. Heatmap/history/report/consent contracts required reconciliation.
+
+Use in Week 07:
+- These facts prioritize the project E2E scenarios and entry criteria.
+- They are not counted as Week 07 System Test execution.
+- Later develop reports suggest fixes/regression work occurred, but they do not establish equivalence without pinned commit/build/env and a mapped rerun.
+- The current project test design/evidence baseline is recorded separately in E07-tests-all-basis.txt.

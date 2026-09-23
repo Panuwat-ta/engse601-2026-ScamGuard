@@ -1,0 +1,36 @@
+Week 07 - Project Test Plan, Cases and Execution-Evidence Record
+Source URL: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+Branch: develop
+Commit read from local ref: 162e0249abb9e9940f014ba6d5182d38213bc771
+Date referenced: 2026-09-23
+Access mode: read-only; no Git command was issued in /home/panuwat/project
+
+Project design facts:
+1. Document/tests_doc/test_plan/README.md section 3.3 identifies tests_all/manual_tests/test_cases_e2e.md as the System/E2E design source.
+2. The E2E baseline matrix contains 10 scenarios: SCAN-01, CACHE-02, REPORT-03, MODEL-04, BAN-05, OFFLINE-06, FULL-07, AUTH-08, REG-09 and HIST-10.
+3. Master Test Plan section 3.5 provides two UAT options: internal beta or external real-user UAT. The team has not recorded a selection.
+4. Canonical SRS NFR-06 requires 100 valid participants for the satisfaction/heatmap population metric; an internal beta cannot be reported as that metric.
+5. Project E2E/manual files use legacy requirement aliases. Week 07 maps to canonical SRS v1.1 and preserves unresolved trace gaps rather than inventing IDs.
+
+Execution-evidence facts:
+1. tests_all/tests_report/manual_tests/execution_log.md contains template rows only and explicitly says no real manual execution exists.
+2. tests_all/automate_tests/reports/junit.xml reports tests=0, failures=0, errors=0; zero tests is not a passing System Test run.
+3. tests_all/tests_report/automate_tests/server/automate_test_ci.md records a historical 16/16 pass including one automated E2E journey.
+4. That historical report explicitly says Requirement/TC mapping and Commit/Build/Env were not recorded; it is supporting evidence only.
+5. tests_all/release_signoff.md has blank Dev/QA/PM decision fields; no release approval is claimed.
+
+SHA-256:
+- Document/tests_doc/test_plan/README.md: 8bb43a9e074cd3a1191041a9da2ab88e6e71e2b15edaeac79b1631be3153c64b
+- tests_all/README.md: 107b950242767b77e9ff055e15b5beb7d26ee066fa7b87f83897c5524de014fd
+- tests_all/manual_tests/test_cases_e2e.md: 227c281117196dfb4ea4cdfc62e7891e4ba9eb53fdf68930f624f2df12a5b515
+- tests_all/rtm.md: 9a55a6067b5d68c56bee7f5432d6b9a1e8a6e18f93001f9c2bb5a68db79b48ad
+- tests_all/tests_report/manual_tests/execution_log.md: dabb8fbf817f282698fee6a62e981583e3ed71c69d7d24394af014709c4c30ba
+- tests_all/automate_tests/reports/junit.xml: 95527df8fe72f85dca515838dd330fca90237d1328935d52086a7d1705ed4179
+- tests_all/tests_report/automate_tests/server/automate_test_ci.md: 3b7b0bc28f3aa572df9f2d256b616b6830e1f304be3f9bebbec9e42c2cac80db
+- tests_all/release_signoff.md: 2777faf195d564726fae866e8924627461457ba39792a374db6589565e94e6fb
+
+Result treatment:
+- System Test: 10 Not Executed
+- UAT: 6 Not Ready
+- Current Pass/Fail claimed: 0
+- Historical automated reports do not change these Week 07 statuses.

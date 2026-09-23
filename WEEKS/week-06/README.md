@@ -14,6 +14,8 @@ Week 06 ใช้กิจกรรม Interface/API Risk Mapping เพื่�
 - SRS latest commit in `Document/srs`: `2b8a1fb0`
 - Source code: https://github.com/Panuwat-ta/project
 - Code baseline: branch `main`, commit `66bc9e4a`
+- Project test assets: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+- Test-document baseline: branch `develop`, commit `162e0249abb9e9940f014ba6d5182d38213bc771`
 - Week 05 handoff: `WEEKS/week-05/work/04-open-issues-and-decisions.md`
 - Course activity: Workshop 3 - Interface/API Risk Mapping
 
@@ -37,6 +39,8 @@ Week 06 ใช้กิจกรรม Interface/API Risk Mapping เพื่�
 
 `Fail` เป็นผล V&V ที่เกิดจาก contract/behavior ไม่ตรง baseline และไม่ถูกแปลงเป็น Pass เพื่อให้เอกสารดูสมบูรณ์ ส่วน `Not Ready` ใช้เฉพาะกรณีที่ production interface ที่ requirement ต้องการยังไม่มีให้ทดสอบจริง
 
+ผล 6 Pass / 11 Fail / 1 Not Ready เป็นผลของ harness บน frozen `main` commit `66bc9e4a` เท่านั้น การตรวจ `develop/tests_all` เมื่อ 2026-09-23 พบทั้ง automated API/E2E design และ historical pass reports แต่รายงานเดิมไม่มี commit/build/env ครบ จึงใช้เป็น supporting evidence และ re-test target ไม่ใช่เหตุผลเปลี่ยนผล Week 06 ย้อนหลัง
+
 ## Work artifacts
 
 - `work/01-interface-scope-and-risk-map.md`
@@ -47,9 +51,13 @@ Week 06 ใช้กิจกรรม Interface/API Risk Mapping เพื่�
 - `work/ai-use-declaration.md`
 - `work/probes/integration_probe_test.py`
 - `work/evidence/E06-baseline.txt`
+- `work/evidence/E06-source-contract-snapshot.txt`
+- `work/evidence/E06-route-inventory.txt`
+- `work/evidence/E06-schema-contract.txt`
 - `work/evidence/E06-integration-probe.txt`
 - `work/evidence/E06-result-register.txt`
 - `work/evidence/E06-pdf-check.txt`
+- `work/evidence/E06-tests-all-basis.txt`
 
 ## Submission artifact
 

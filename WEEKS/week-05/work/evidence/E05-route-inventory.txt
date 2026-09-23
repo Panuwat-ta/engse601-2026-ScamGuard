@@ -1,0 +1,26 @@
+Week 05 - API Route Inventory
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+Route decorators captured from origin/main:
+server/app/api/v1/auth.py:19: @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+server/app/api/v1/auth.py:71: @router.post("/login", response_model=TokenResponse)
+server/app/api/v1/auth.py:92: @router.post("/refresh", response_model=TokenResponse)
+server/app/api/v1/auth.py:121: @router.get("/me", response_model=UserResponse)
+server/app/api/v1/auth.py:133: @router.post("/logout")
+server/app/api/v1/users.py:13: @router.delete("/me", response_model=DeleteAccountResponse)
+
+Consent-related route search across server/app/api/v1:
+NO @router.* route containing "consent" found in origin/main API v1 files.
+
+Relevant source-text consent mentions (non-route lines included for transparency):
+server/app/api/v1/auth.py:11: from app.models.consent import ConsentLog
+server/app/api/v1/auth.py:39: # 3. Create consent logs
+server/app/api/v1/auth.py:40: consent = ConsentLog(
+server/app/api/v1/auth.py:42: system_consent=body.system_consent,
+server/app/api/v1/auth.py:43: research_consent=body.research_consent,
+server/app/api/v1/auth.py:45: db.add(consent)

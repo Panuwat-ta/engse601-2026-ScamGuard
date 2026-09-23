@@ -3,15 +3,20 @@
 ## 1. Evidence classification
 
 - `Baseline record`: version/commit/hash ที่ใช้ freeze test basis
+- `Source snapshot`: source excerpt/route/schema ที่ดึงจาก `/home/panuwat/project` ด้วย `git show origin/main:<path>` พร้อม commit/path/hash
 - `Executed integration probe`: pytest/ASGI/service orchestration ที่ execute จริง
 - `Executed contract probe`: source/signature contract ถูกตรวจด้วย test harness และ assertion
 - `Static design source`: code/SRS reading ที่ใช้สร้าง expected result หรืออธิบาย blocker
+- `Cross-baseline supporting evidence`: project integration suites/reports from `develop/tests_all`; useful for mapping and re-test planning but not counted as the Week 06 run
 
 ## 2. Evidence register
 
 | Evidence ID | Source | Observed fact / result | Used by |
 |---|---|---|---|
 | E06-01 | `work/evidence/E06-baseline.txt` | ENGSE212 main `66bc9e4a`; SRS v1.1 hash `99bb8d...d40a`; Python 3.10.21 | all cases |
+| E06-S01 | `work/evidence/E06-source-contract-snapshot.txt` | exact origin/main excerpts + SHA-256 for scan/cache/source/heatmap/history/report/mobile contracts | IT-01, IT-04..07, IT-12..18 |
+| E06-S02 | `work/evidence/E06-route-inventory.txt` | backend route decorators + mobile consumer calls captured from origin/main | IT-01..04, IT-15..18 |
+| E06-S03 | `work/evidence/E06-schema-contract.txt` | exact Scan/History/Report schema fields from origin/main | IT-02, IT-13..18 |
 | E06-02 | `work/probes/integration_probe_test.py` | reproducible ASGI/service integration harness with explicit test doubles | IT-01..10, IT-12..18 |
 | E06-03 | `work/evidence/E06-integration-probe.txt` | final pytest execution: 11 failed / 6 passed; exit code 1 due expected product contract failures | IT-01..10, IT-12..18 |
 | E06-04 | `work/evidence/E06-result-register.txt` | per-case result/observed contract summary including IT-11 Not Ready | all cases |
@@ -23,8 +28,26 @@
 | E06-10 | canonical SRS FR-XAI-01 + `main.py` | expected `/uploads/{filename}`; server has `/uploads` static mount | IT-13/14 |
 | E06-11 | canonical SRS FR-HISTORY-01 + `history.py`/schema | SRS `scans/risk_grade/start_date/end_date`; code `items/risk_level/keyword/risk_level` | IT-15/16 |
 | E06-12 | canonical SRS FR-HISTORY-02 + report schema/service | HTTP 201/409 work, but `report_id`/duplicate message contract drifts | IT-17/18 |
+| E06-X01 | `work/evidence/E06-tests-all-basis.txt` | maps the project master plan, 18 automated test functions, historical API/E2E reports and their missing metadata | all interfaces / later re-test |
 
-## 3. Execution command
+## 3. Source evidence chain
+
+Source-derived evidence ใช้ข้อมูลจริงจาก `/home/panuwat/project` แต่ freeze ที่ ENGSE212 `origin/main` commit `66bc9e4a` เพื่อไม่ให้ local `develop` หรือ uncommitted changes เปลี่ยนผลย้อนหลัง
+
+```text
+Canonical SRS v1.1
+  -> ENGSE212 origin/main source snapshot / route inventory / schema snapshot
+  -> integration_probe_test.py
+  -> E06-integration-probe.txt
+  -> E06-result-register.txt
+  -> Week 06 PDF
+```
+
+ทุก source snapshot ระบุ URL `https://github.com/Panuwat-ta/project`, branch `main`, pinned commit, วันที่อ้างอิง, source path, line number และ SHA-256 ที่เกี่ยวข้อง โดยไม่เก็บ `.env`, secret หรือ production data
+
+Project testing documents are separately pinned to `develop` commit `162e0249abb9e9940f014ba6d5182d38213bc771`. This second baseline is not mixed into the frozen `main` execution chain. It proves that reusable API/E2E suites and historical reports exist, while also preserving their stated limitation: the older reports do not identify the commit/build/environment needed for result equivalence.
+
+## 4. Execution command
 
 ```text
 cd /tmp/scamguard-w06-main/server
@@ -36,7 +59,7 @@ W06_BASELINE_ROOT=/tmp/scamguard-w06-main \
 
 Test-only environment variables for DB/Redis/model paths were set to non-production dummy values. The harness does not connect to those external services; dependencies are replaced at the seam under test.
 
-## 4. Final execution result
+## 5. Final execution result
 
 ```text
 11 failed, 6 passed in 0.88s
@@ -45,7 +68,7 @@ pytest_exit_code=1
 
 The non-zero exit code represents deliberately asserted canonical contracts that the current implementation violates; it is not hidden as an infrastructure failure. W06-IT-11 is separately `Not Ready` because the production Google Vision adapter does not exist.
 
-## 5. Claims not made
+## 6. Claims not made
 
 Week 06 does not claim:
 

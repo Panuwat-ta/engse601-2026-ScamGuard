@@ -1,0 +1,61 @@
+Week 05 - Schema Contract Snapshot
+Source repository: https://github.com/Panuwat-ta/project
+Branch: main
+Pinned commit: 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+Date referenced: 2026-09-22
+Capture method: git show origin/main:<path> from /home/panuwat/project; local working-tree changes were not used.
+Security: no .env, token, password, production database content, or user data is captured.
+
+[FILE] server/app/schemas/auth.py
+SHA-256: bd6a66317cfaccb3bd0c239062ad416e6ae20d18bc08a859fe4023e12e9c71c9
+   3: class RegisterRequest(BaseModel):
+   4:     email: EmailStr
+   5:     password: str = Field(..., min_length=8, max_length=128)
+   6:     full_name: str
+   7:     system_consent: bool = True
+   8:     research_consent: bool = False
+   9: 
+  10: class LoginRequest(BaseModel):
+  11:     username: str  # email
+  12:     password: str
+  13: 
+  14: class TokenResponse(BaseModel):
+  15:     access_token: str
+  16:     refresh_token: str | None = None
+  17:     token_type: str = "bearer"
+  18:     user: dict
+  19: 
+  20: class RefreshTokenRequest(BaseModel):
+  21:     refresh_token: str
+  22: 
+  23: class UserResponse(BaseModel):
+  24:     id: int
+  25:     email: str
+  26:     full_name: str
+  27:     role: str
+  28:     message: str = "User registered successfully"
+  29: 
+  30: class DeleteAccountRequest(BaseModel):
+  31:     password: str  # ยืนยันตัวตนซ้ำก่อนลบบัญชี
+  32: 
+  33: class DeleteAccountResponse(BaseModel):
+  34:     message: str = "Account deleted successfully"
+
+[FILE] server/app/models/consent.py
+SHA-256: ecb5b682939bad0ea4459b21a0066f3597e0bfe1e4ab47bf34eb12f48c004414
+   5: class ConsentLog(Base):
+   6:     __tablename__ = "consent_logs"
+   7:     
+   8:     id = Column(Integer, primary_key=True)
+   9:     # เก็บ log ไว้เป็นหลักฐาน PDPA แม้ลบ user: ตัด link (SET NULL) แทน CASCADE
+  10:     user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True, index=True)
+  11:     system_consent = Column(Boolean, nullable=False, default=True)
+  12:     research_consent = Column(Boolean, nullable=False, default=False)
+  13:     ip_address = Column(String(45))
+  14:     user_agent = Column(Text)
+  15:     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+Observed schema facts:
+- RegisterRequest allows system_consent and research_consent booleans, defaulting to true/false.
+- UserResponse exposes id/email/full_name/role/message; status and created_at are absent.
+- ConsentLog stores one row with system_consent + research_consent booleans and created_at; consent_type, is_granted, and updated_at are absent.

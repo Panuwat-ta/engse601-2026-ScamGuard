@@ -2,11 +2,13 @@
 
 ## 1. Evidence policy
 
-เอกสารนี้แยกหลักฐานเป็น 3 ประเภทเพื่อป้องกันการตีความเกินจริง:
+เอกสารนี้แยกหลักฐานเป็น 4 ประเภทเพื่อป้องกันการตีความเกินจริง:
 
+- `Source snapshot`: ข้อเท็จจริงที่ดึงจาก `/home/panuwat/project` โดย pin `origin/main` และบันทึก path/line/SHA-256 ของ source ที่เกี่ยวข้อง
 - `Executed test`: คำสั่ง test ถูก execute จริงและมี raw output
 - `Executed probe`: probe เฉพาะ component ถูก execute จริงด้วย test-only configuration/fake DB
 - `Static contract inspection`: ตรวจ field, route หรือ source contract ที่มี/ไม่มีจริง โดยไม่อ้างว่าเป็น runtime end-to-end test
+- `Cross-baseline supporting evidence`: test plan/report จาก `develop/tests_all` ที่ช่วยชี้ re-test target แต่ไม่เปลี่ยนผล frozen baseline โดยไม่มีการรันซ้ำบน baseline ใหม่
 
 ไม่มีการใช้ production secret, production database หรือค่าผลทดสอบที่สร้างขึ้นเอง
 
@@ -18,10 +20,24 @@
 - Source authority: https://github.com/Panuwat-ta/project
 - Source branch / commit: `main` / `66bc9e4a`
 - Baseline raw record: `work/evidence/E05-baseline.txt`
+- Source contract snapshot: `work/evidence/E05-source-contract-snapshot.txt`
+- API route inventory: `work/evidence/E05-route-inventory.txt`
+- Schema/model contract snapshot: `work/evidence/E05-schema-contract.txt`
+- Project testing cross-check: `work/evidence/E05-tests-all-basis.txt`
+
+Source-derived evidence ทั้ง 3 ไฟล์สร้างจาก `/home/panuwat/project` ด้วย `git show origin/main:<path>` ที่ commit `66bc9e4a` โดยไม่ใช้ local working-tree changes และไม่อ่าน `.env` หรือ production data
 
 เพื่อไม่กระทบ working branch อื่น การทดสอบถูก execute กับ isolated archive ของ `origin/main` ที่ `/tmp/scamguard-w05-main-final`
 
-## 3. E05-01 - Existing automated unit test
+## 3. E05-S01 ถึง E05-S03 - Source-derived contract evidence
+
+- `E05-source-contract-snapshot.txt`: เก็บ source excerpt พร้อม line number และ SHA-256 จาก `risk_calculator.py`, `auth.py`, `onnx_worker.py`
+- `E05-route-inventory.txt`: เก็บ route decorators จริงของ `auth.py`/`users.py` และผลค้นหา consent route บน API v1
+- `E05-schema-contract.txt`: เก็บ field contract จริงจาก `schemas/auth.py` และ `models/consent.py`
+
+ไฟล์เหล่านี้เป็นหลักฐาน source provenance สำหรับอธิบายว่า probe/assertion อ่าน behavior จาก implementation ใด ไม่ได้แทน runtime execution evidence
+
+## 4. E05-01 - Existing automated unit test
 
 Type: `Executed test`
 
@@ -40,7 +56,7 @@ Raw result:
 
 Evidence file: `work/evidence/E05-pytest-component.txt`
 
-## 4. E05-02 - Reproducible component probe
+## 5. E05-02 - Reproducible component probe
 
 Type: `Executed probe` + `Static contract inspection`
 
@@ -59,21 +75,27 @@ Probe ใช้ fake DB ใน memory และ test-only environment values เ
 - พบ profile GET ที่ `/api/v1/auth/me`; users `/me` เป็น DELETE
 - Visual worker ใช้ SegFormer max probability เป็นทั้ง `ai_gen_prob` และฐานของ `visual_risk_score`; ไม่พบ separate `forgery_confidence` / `ai_gen_confidence`
 
-## 5. Evidence-to-test mapping
+## 6. Evidence-to-test mapping
 
 | Evidence | Test cases supported | Evidence type |
 |---|---|---|
+| `E05-source-contract-snapshot.txt` | CT-01 ถึง CT-13 | Source snapshot |
+| `E05-route-inventory.txt` | CT-15 ถึง CT-17 | Source/API route inventory |
+| `E05-schema-contract.txt` | CT-11, CT-14, CT-18 | Source schema/model snapshot |
 | `E05-pytest-component.txt` | CT-04 ถึง CT-09 (supporting unit evidence) | Executed test |
 | `E05-component-probe.txt` risk section | CT-04 ถึง CT-10 | Executed probe / requirement analysis |
 | `E05-component-probe.txt` auth section | CT-11 ถึง CT-13 | Executed handler probe |
 | `E05-component-probe.txt` consent section | CT-14 ถึง CT-18 | Static route/model contract inspection |
 | `E05-component-probe.txt` visual section | CT-01 ถึง CT-03 | Static source/output contract inspection |
+| `E05-tests-all-basis.txt` | CT-04 ถึง CT-09 และ downstream re-test | Cross-baseline supporting evidence; not counted in Week 05 results |
 
-## 6. Reproducibility notes
+## 7. Reproducibility notes
 
 การ rerun ควรใช้ code commit เดิม `66bc9e4a` หรือบันทึก commit ใหม่ให้ชัดก่อนเปรียบเทียบผล เพราะการแก้ implementation หลัง Week 05 อาจทำให้ผลเปลี่ยนได้ การ rerun บน code ใหม่ถือเป็น re-test ไม่ใช่การแก้ย้อนหลังผลเดิม
 
-## 7. Claims intentionally excluded
+`develop/tests_all` มี historical report ที่ระบุ risk-score suite 7/7 ผ่านเมื่อ 2026-09-19 แต่ไม่มี Commit/Build/Env metadata ในรายงานนั้น จึงใช้ได้เพียงระบุว่า project มี re-test evidence ภายหลัง ไม่ใช่หลักฐานว่าข้อค้นพบทุกข้อของ Week 05 ปิดแล้ว
+
+## 8. Claims intentionally excluded
 
 Week 05 ไม่อ้างผลต่อไปนี้ เนื่องจากไม่มี execution evidence ที่เหมาะสมใน scope นี้:
 

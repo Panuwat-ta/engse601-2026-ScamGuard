@@ -1,0 +1,33 @@
+Week 07 PDF verification
+file: W07_ScamGuard_System-UAT-Scenarios_v1.pdf
+sha256: dde0b3eec28f3dc203b9ccd15dcd2bedb48f97aad980e9dc778bb0005afeb91b
+pages: 15
+page_size: 594.96 x 841.92 pts (A4)
+file_size: 585344 bytes
+encrypted: no
+tagged: yes
+
+Content checks:
+- project testing baseline present: develop/tests_all commit 162e0249
+- 10 project E2E/System scenarios present
+- 6 UAT scenarios present
+- final status present: 10 System Not Executed + 6 UAT Not Ready; 0 Pass/Fail claimed
+- manual execution absent and current JUnit tests=0 disclosures present
+- NFR-06 100-valid-participant distinction present
+- pending peer review and release sign-off present
+
+Structure and geometry checks:
+- text-bearing pages: 15/15
+- blank pages: none
+- page width/height consistent across all pages
+- observed text x range stays within approximately 42.7 to 553.2 pts
+- observed text bottom stays at or above approximately 785.1 pts on 841.92-pt pages
+- fonts are embedded/subsetted with Unicode maps
+
+Render QA:
+- rendered all 15 pages to PNG at 105 DPI with pdftoppm
+- inspected all pages in three contact sheets
+- no missing glyph boxes, clipping, overlapping text, broken table borders or blank pages observed
+
+Verification date: 2026-09-23
+Result: PASS for artifact layout/structure only; this is not a System Test/UAT execution result.

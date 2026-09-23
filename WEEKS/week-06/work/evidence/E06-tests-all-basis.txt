@@ -1,0 +1,30 @@
+Week 06 - Project Integration Test Assets Cross-Baseline Record
+Source URL: https://github.com/Panuwat-ta/project/tree/develop/tests_all
+Branch: develop
+Commit read from local ref: 162e0249abb9e9940f014ba6d5182d38213bc771
+Date referenced: 2026-09-23
+Access mode: read-only; no Git command was issued in /home/panuwat/project
+
+Authority separation:
+- Requirements and Acceptance Criteria: main/Document/srs, SRS v1.1
+- Project integration-test design/reports: develop/Document/tests_doc and develop/tests_all
+- Week 06 executed result baseline remains main commit 66bc9e4af3747808ef45273d31b50dbc59ad91ab
+
+Relevant facts:
+1. Master Test Plan section 3.2 maps API Integration to tests_all/automate_tests/tests/api/ and AI Pipeline Integration to the ONNX worker/heatmap pipeline.
+2. The current tests_all automated suite contains 18 test functions across API, E2E and mobile bridge files.
+3. Historical api_suite_verification.md records 15/15 passed and automate_test_ci.md records 16/16 passed including one E2E flow.
+4. Both historical reports explicitly state that Requirement/TC mapping and Commit/Build/Env were not recorded, so they cannot prove equivalence with the Week 06 frozen baseline.
+5. The current generated JUnit file reports tests=0 at timestamp 2026-09-21T20:07:42+07:00 and is not a passing integration run.
+6. Manual execution_log.md contains template rows only and explicitly says there is no real manual execution.
+
+SHA-256:
+- Document/tests_doc/test_plan/README.md: 8bb43a9e074cd3a1191041a9da2ab88e6e71e2b15edaeac79b1631be3153c64b
+- tests_all/automate_tests/reports/junit.xml: 95527df8fe72f85dca515838dd330fca90237d1328935d52086a7d1705ed4179
+- tests_all/tests_report/automate_tests/server/api_suite_verification.md: d6506e611ba258d8355256ecd3e632947f699c0efb915ec752e79b87e57adc9b
+- tests_all/tests_report/automate_tests/server/automate_test_ci.md: 3b7b0bc28f3aa572df9f2d256b616b6830e1f304be3f9bebbec9e42c2cac80db
+- tests_all/tests_report/manual_tests/execution_log.md: dabb8fbf817f282698fee6a62e981583e3ed71c69d7d24394af014709c4c30ba
+
+Result treatment:
+- Week 06 remains 6 Pass, 11 Fail, 1 Not Ready on its frozen baseline.
+- Re-execute the mapped cases on a pinned develop commit/build before changing any result or closing a finding.
