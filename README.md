@@ -44,20 +44,9 @@ Requirement authority และ testing authority ถูกแยกจากก
 | [06](WEEKS/week-06/README.md) | ทำ **Interface/API Risk Mapping** และ Integration Test Design 18 cases ครอบคลุม Mobile, API, Redis, inference, heatmap, history และ report; ผลจริงคือ 6 Pass, 11 Fail และ 1 Not Ready | PDF/evidence merge แล้วและตรึงด้วย `w06-submission-v1`; independent review และ pinned re-test ยัง pending |
 | [07](WEEKS/week-07/README.md) | map project E2E cases จริงเป็น **10 System Test scenarios** และออกแบบ **6 UAT scenarios** พร้อม readiness probe, result register, privacy/consent protocol และ PDF | Package merge แล้วและตรึงด้วย `w07-submission-v1`; 10 System Test ยัง Not Executed และ 6 UAT ยัง Not Ready |
 
-ดังนั้น งานออกแบบ เอกสาร หลักฐาน และ package ของ Week 01–07 ถูกจัดทำและเก็บใน repository แล้ว แต่คำว่า “เสร็จ” ไม่ได้ใช้แทนกิจกรรมภายนอกที่ยังไม่เกิดขึ้นจริง โดยเฉพาะ independent peer review, pinned re-test, System Test/UAT execution, stakeholder approval และการส่งผ่านช่องทางรายวิชา
-
-Tag ของ Week 06–07 ใช้ตรึง snapshot ที่ merge เข้า `main` แล้วเท่านั้น การมี tag ไม่ได้แปลว่า peer review, course submission, approval หรือการทดสอบที่ยังไม่เกิดขึ้นเสร็จสมบูรณ์แล้ว
 
 รายละเอียด case, raw output, source snapshots, SHA-256 และ findings อยู่ใน `WEEKS/week-XX/work/` ของแต่ละสัปดาห์
 
-## เริ่มตรวจงานจากจุดไหน
-
-1. อ่าน [PROJECT.md](PROJECT.md) เพื่อดู scope, stakeholder, constraints และ current truth
-2. อ่าน [INPUTS/input-register.md](INPUTS/input-register.md) เพื่อดู version และ source of truth ของ input
-3. อ่าน [STATUS.md](STATUS.md) เพื่อดู submission ledger และ revision history
-4. เปิด `WEEKS/week-XX/README.md` ของสัปดาห์ที่ต้องการตรวจ
-5. ตรวจ design/record ใน `work/`, raw evidence ใน `work/evidence/` และไฟล์ส่งใน `submission/`
-6. ตรวจ tag และ commit ที่ระบุ โดยไม่ตีความ tag แทน human sign-off
 
 ## Evidence flow
 
