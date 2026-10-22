@@ -1,0 +1,16 @@
+# Project auth pytest · run 2026-10-22T23:58:57+07:00
+# Baseline: /home/panuwat/project @ c3bc72235d6890c962e967360443aedbeecef617 (branch Refactor-mobile)
+# Command: cd /home/panuwat/project/server && ./venv/bin/python -m pytest tests/api/test_auth.py -q
+
+..                                                                       [100%]
+=============================== warnings summary ===============================
+venv/lib64/python3.10/site-packages/surya/settings.py:10
+  /home/panuwat/project/server/venv/lib64/python3.10/site-packages/surya/settings.py:10: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+    class Settings(BaseSettings):
+
+venv/lib64/python3.10/site-packages/huggingface_hub/file_download.py:949
+  /home/panuwat/project/server/venv/lib64/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+2 passed, 2 warnings in 0.08s

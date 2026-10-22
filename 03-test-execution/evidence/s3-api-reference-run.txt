@@ -1,0 +1,26 @@
+# S3-B1 reference suite (v2 TCs) · run 2026-10-23T02:57:49+07:00
+# Baseline: /home/panuwat/project @ c3bc72235d6890c962e967360443aedbeecef617 (branch Refactor-mobile)
+# Command: cd /home/panuwat/project/server && ./venv/bin/python /home/panuwat/work/engse601-2026-ScamGuard/03-test-execution/tests/test_s3_reference_suite.py
+
+/home/panuwat/project/server/venv/lib64/python3.10/site-packages/huggingface_hub/file_download.py:949: FutureWarning: `resume_download` is deprecated and will be removed in version 1.0.0. Downloads always resume when possible. If you want to force a new download, use `force_download=True`.
+  warnings.warn(
+XAI model file not found at /tmp/s3-missing.gguf
+Loaded detection model vikp/surya_det3 on device cuda with dtype torch.float16
+Loaded recognition model vikp/surya_rec2 on device cuda with dtype torch.float16
+Loaded official Surya OCR models successfully
+S3-B1 API reference suite · ScamGuard · FR-AUTH-01 / FR-PDPA-01
+Baseline: /home/panuwat/project/server · commit c3bc7223
+Transport: httpx ASGITransport (in-process), isolated in-memory session
+----------------------------------------------------------------------------------------------------
+TC-01  Fail  HTTP 422 · body={"detail":[{"type":"string_too_short","loc":["body","password"],"msg":"String should have at least 8 characters","input":"Test123","ctx":{"min_length":8}}]} · users 0->0 · consents 0->0
+TC-02  Pass  HTTP 201 · users=1 · consents=1 · hashed=$2b$12$TTn/a0YIVmz… · system=True
+TC-03  Fail  HTTP 422 · body={"detail":[{"type":"string_too_short","loc":["body","password"],"msg":"String should have at least 8 characters","input":"","ctx":{"min_length":8}}]} · users 0->0 · consents 0->0
+TC-04  Pass  HTTP 400 · body={"detail":"Email already registered"} · users 1->1 · consents 1->1
+TC-05  Fail  register HTTP 201 · login HTTP 200 · PUT /consent/research HTTP 404 · body={"detail":"Not Found"} · GET /consent/logs HTTP 404 · body={"detail":"Not Found"} · users 0->1 · consents 0->1
+TC-06  Fail  HTTP 201 · body={"id":1,"email":"new.user04@example.com","full_name":"Probe 06","role":"user","message":"User registered successfully"} · users 0->1 · consents 0->1
+TC-07  Fail  HTTP 201 · body={"id":1,"email":"new.user08@example.com","full_name":"Probe 07","role":"user","message":"User registered successfully"} · users 0->1 · consents 0->1
+TC-08  Pass  HTTP 201 · research=False
+TC-09  Pass  HTTP 201 · research=True
+TC-10  Fail  register HTTP 201 · login HTTP 200 · GET /consent/logs HTTP 404 · body={"detail":"Not Found"}
+----------------------------------------------------------------------------------------------------
+Summary: 4 Pass, 6 Fail, 10 total
